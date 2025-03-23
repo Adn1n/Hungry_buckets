@@ -1,9 +1,6 @@
-import time
 import pygame
-from game import game
+from game import Game
 
-
-
-pygame.init()
-game = game()
-game.run()
+if __name__ == "__main__":
+    game = Game()
+    game.run()

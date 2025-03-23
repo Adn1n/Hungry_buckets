@@ -1,0 +1,21 @@
+# Dimensions de la fenêtre
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
+# Joueur
+PLAYER_WIDTH = 50
+PLAYER_HEIGHT = 70
+PLAYER_COLOR = (3, 255, 255)
+PLAYER_VELOCITY = 5
+PLAYER_JUMP_VELOCITY = 15
+
+# Couleurs
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+TEXT_COLOR = (255, 0, 0)
+
+# FPS
+FPS = 60
+
+# Police
+FONT_SIZE = 30
