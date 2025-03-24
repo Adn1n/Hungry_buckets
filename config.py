@@ -1,12 +1,16 @@
 # Dimensions de la fenêtre
-SCREEN_WIDTH = 800
+import pygame
+
+SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
+
+
 
 # Joueur
 PLAYER_WIDTH = 50
 PLAYER_HEIGHT = 70
 PLAYER_COLOR = (3, 255, 255)
-PLAYER_VELOCITY = 5
+PLAYER_VELOCITY = 30
 PLAYER_JUMP_VELOCITY = 15
 
 # Couleurs
@@ -19,3 +23,5 @@ FPS = 60
 
 # Police
 FONT_SIZE = 30
+
+

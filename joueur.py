@@ -4,8 +4,7 @@ from config import *
 
 class Player :
 
-    def __init__(self, longueur,largeur):
-
+    def __init__(self):
 
         self.gravity = 0
         self.velocity = PLAYER_VELOCITY
@@ -13,7 +12,7 @@ class Player :
         self.is_jumping = False
         self.jump_velocity = PLAYER_JUMP_VELOCITY
 
-        self.joueur = pygame.Rect((longueur - PLAYER_WIDTH) // 2, (largeur - PLAYER_HEIGHT), PLAYER_WIDTH, PLAYER_WIDTH)
+        self.joueur = pygame.Rect((SCREEN_WIDTH - PLAYER_WIDTH) // 2, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
         self.sol_player = self.joueur.y
 
 
@@ -41,3 +40,16 @@ class Player :
                 self.joueur.y = self.sol_player
                 self.is_jumping = False
                 self.gravity = 0
+
+        if self.joueur.x < 0 :
+            self.joueur.x = 0
+        if self.joueur.x + self.joueur.w > SCREEN_WIDTH :
+            self.joueur.x = SCREEN_WIDTH - self.joueur.w
+
+        if self.joueur.y < 0 :
+            self.joueur.y = 0
+        if  self.joueur.y > self.sol_player:
+            self.joueur.y = self.sol_player
+
+
+

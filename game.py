@@ -1,38 +1,44 @@
 import pygame
 from joueur import Player
 from config import *
+from fonctions_utiles import *
+from menu_screen import Menu
 
 class Game :
     def __init__(self):
         pygame.init()
-        self.ecran = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.ecran = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
         pygame.display.set_caption("Projet Transverse")
         icone = pygame.image.load('image/icone.png')
         pygame.display.set_icon(icone)
         self.clock = pygame.time.Clock()
 
-        self.player = Player(self.ecran.get_width(),self.ecran.get_height())
+        self.reference_size = (1280, 720)
 
-        print(self.ecran.get_width(),self.ecran.get_height())
-        self.font = pygame.font.SysFont(None, 40)
+        self.player = Player()
 
+        self.background_original = pygame.image.load("image/background.png")
+        self.background = pygame.transform.scale(self.background_original, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+
+        self.font = pygame.font.SysFont('arial', FONT_SIZE)
         self.running = True
 
 
-    def afficher_texte(self,texte,position,couleur):
-        rendu = self.font.render(texte, True, couleur)
-        self.ecran.blit(rendu,position)
+    def draw(self,ecran,font):
 
-
-    def draw(self):
-
-        self.ecran.fill('white')
+        self.ecran.fill((0,0,0))
+        self.ecran.blit(self.background,(0,0))
         self.player.draw(self.ecran)
 
-        self.afficher_texte(f"Gravity : {self.player.gravity}",(300,0),"orange")
-        self.afficher_texte(f"Coordinates : {self.player.joueur.y}",(0,0),"red")
+        afficher_texte(ecran,font,f"Gravity : {self.player.gravity}",(300,0),"orange")
+        afficher_texte(ecran,font,f"Coordinates y : {self.player.joueur.y}",(0,0),"red")
+        afficher_texte(ecran,font,f"Coordinates x : {self.player.joueur.x}",(0,20),"black")
+
 
         pygame.display.update()
+
+
 
     def handling(self):
         events = pygame.event.get()
@@ -43,6 +49,9 @@ class Game :
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
+            if event.type == pygame.VIDEORESIZE:
+                self.ecran = pygame.display.set_mode((event.w, event.h),pygame.RESIZABLE)
+                self.background = pygame.transform.scale(self.background_original, (event.w, event.h))
 
         self.player.handle_event(events)
 
@@ -50,12 +59,17 @@ class Game :
     def run(self):
         while self.running:
             self.handling()
-            self.draw()
+            self.draw(self.ecran,self.font)
             self.clock.tick(60)
 
         pygame.quit()
 
+
+
 pygame.init()
 game = Game()
-game.run()
+menu = Menu(game.ecran)
+action = menu.handle()
+if action :
+    game.run()
 
