@@ -17,7 +17,7 @@ class Game :
 
         self.player = Player()
 
-        self.background_original = pygame.image.load("image/background.png")
+        self.background_original = pygame.image.load("image/arriere_plan_basket.png")
         self.background = pygame.transform.scale(self.background_original, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
