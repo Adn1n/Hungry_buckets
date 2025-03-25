@@ -6,14 +6,11 @@ from fonctions_utiles import *
 class Menu :
 
     def __init__(self, ecran):
-        self.menu_img = pygame.image.load("image/Menu.png")
+        self.menu_img = pygame.image.load("image/menu_basket.png")
         self.menu_img = pygame.transform.scale(self.menu_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.ecran = ecran
         self.font = pygame.font.SysFont('arial', FONT_SIZE)
-        self.bouton_nouvelle_partie = pygame.Rect(230,220,332,45)
-
-
-
+        self.bouton_nouvelle_partie = pygame.Rect(370,207,258,51)
 
 
     def handle(self):
