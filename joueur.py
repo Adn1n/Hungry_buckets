@@ -1,6 +1,5 @@
 import pygame
 from config import *
-import random
 
 
 class Player :
@@ -13,8 +12,7 @@ class Player :
         self.is_jumping = False
         self.jump_velocity = PLAYER_JUMP_VELOCITY
 
-        self.joueur = pygame.Rect((SCREEN_WIDTH - PLAYER_WIDTH), (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
-        self.joueur.x = random.randrange(SCREEN_WIDTH - PLAYER_WIDTH)
+        self.joueur = pygame.Rect((SCREEN_WIDTH - PLAYER_WIDTH) // 2, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
         self.sol_player = self.joueur.y
 
 
