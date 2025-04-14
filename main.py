@@ -1,6 +1,11 @@
 import pygame
 from game import Game
+from menu_screen import Menu
 
 if __name__ == "__main__":
+    pygame.init()
     game = Game()
-    game.run()
+    #menu = Menu(game.ecran)
+    #action = menu.handle()
+    if game:
+        game.run()

@@ -1,5 +1,9 @@
 import pygame
 from config import *
+from ball import Ball
+from arrow import Arrow
+import math
+import random
 
 
 class Player :
@@ -12,12 +16,23 @@ class Player :
         self.is_jumping = False
         self.jump_velocity = PLAYER_JUMP_VELOCITY
 
-        self.joueur = pygame.Rect((SCREEN_WIDTH - PLAYER_WIDTH) // 2, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
+
+
+        spawn = random.randint(30,940)
+
+        self.joueur = pygame.Rect( spawn, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
         self.sol_player = self.joueur.y
+
+        self.joueur_arret = False
+
+        self.arrow = Arrow(None)
 
 
     def draw(self, ecran):
         pygame.draw.rect(ecran, PLAYER_COLOR, self.joueur)
+        if self.joueur_arret:
+            self.arrow.draw(ecran,self.joueur)
+
 
 
     def handle_event(self,events):
@@ -26,6 +41,13 @@ class Player :
                 if event.key == pygame.K_UP and not self.is_jumping:
                     self.is_jumping = True
                     self.gravity = - self.jump_velocity
+                if event.key == pygame.K_RETURN:
+                    self.joueur_arret = not self.joueur_arret
+
+        if self.joueur_arret:
+            self.arrow.handle_events(self.joueur)
+            return  # On quitte la méthode, donc aucune touche ne bouge le joueur
+
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -50,6 +72,7 @@ class Player :
             self.joueur.y = 0
         if  self.joueur.y > self.sol_player:
             self.joueur.y = self.sol_player
+
 
 
 
