@@ -8,7 +8,7 @@ import random
 
 class Player :
 
-    def __init__(self):
+    def __init__(self,screen):
 
         self.gravity = 0
         self.velocity = PLAYER_VELOCITY
@@ -18,20 +18,23 @@ class Player :
 
 
 
-        spawn = random.randint(30,940)
+        self.spawn_1 = random.randint(560,910)
+        self.spawn_2 = random.randint(70,500)
+        self.spawn = random.choice([self.spawn_1,self.spawn_2])
 
-        self.joueur = pygame.Rect( spawn, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
+
+        self.joueur = pygame.Rect(self.spawn, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
         self.sol_player = self.joueur.y
 
         self.joueur_arret = False
 
-        self.arrow = Arrow(None)
+        self.arrow = Arrow(screen,self.spawn,self.spawn_1,self.spawn_2)
 
 
-    def draw(self, ecran):
+    def draw(self,ecran,font):
         pygame.draw.rect(ecran, PLAYER_COLOR, self.joueur)
         if self.joueur_arret:
-            self.arrow.draw(ecran,self.joueur)
+            self.arrow.draw(ecran,font,self.joueur)
 
 
 

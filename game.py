@@ -15,7 +15,7 @@ class Game :
 
         self.reference_size = (1280, 720)
 
-        self.player = Player()
+        self.player = Player(self.ecran)
 
         self.background_original = pygame.image.load("image/arriere_plan_basket.png")
         self.background = pygame.transform.scale(self.background_original, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -30,7 +30,7 @@ class Game :
 
         self.ecran.fill((0,0,0))
         self.ecran.blit(self.background,(0,0))
-        self.player.draw(self.ecran)
+        self.player.draw(self.ecran,font)
         self.pos = pygame.mouse.get_pos()
 
         afficher_texte(ecran,font,f"Gravity : {self.player.gravity}",(300,0),"orange")
