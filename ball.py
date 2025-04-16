@@ -5,9 +5,9 @@ class Ball:
     def __init__(self, x, y, angle, force):
         self.x = x
         self.y = y
-        self.radius = 8
-        self.vx = force * math.cos(math.radians(angle))
-        self.vy = -force * math.sin(math.radians(angle))
+        self.radius = 20
+        self.vx = force * math.cos(math.radians(angle)) * 1.2
+        self.vy = -force * math.sin(math.radians(angle)) *1.2
         self.gravity = 0.5
 
     def update(self):

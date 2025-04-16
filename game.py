@@ -2,6 +2,8 @@ import pygame
 from player import Player
 from config import *
 from fonctions_utiles import *
+from ball import Ball
+from arrow import Arrow
 from menu_screen import Menu
 
 class Game :
@@ -9,7 +11,7 @@ class Game :
         pygame.init()
         self.ecran = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
         pygame.display.set_caption("Projet Transverse")
-        icone = pygame.image.load('image/icone.png')
+        icone = pygame.image.load('image/icone_basket.png')
         pygame.display.set_icon(icone)
         self.clock = pygame.time.Clock()
 
@@ -21,10 +23,12 @@ class Game :
         self.background = pygame.transform.scale(self.background_original, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
+
         self.font = pygame.font.SysFont('arial', FONT_SIZE)
         self.running = True
 
-
+    def creer_arrow(self,spawn):
+        self.arrow = Arrow(self.ecran,spawn)
 
     def draw(self,ecran,font):
 
@@ -38,6 +42,9 @@ class Game :
         afficher_texte(ecran,font,f"Coordinates x : {self.player.joueur.x}",(0,20),"black")
         afficher_texte(ecran,font,f'position :{self.pos}',(600,0),'black')
 
+        if hasattr(self, 'arrow') and self.arrow.ball:
+            self.arrow.ball.update()
+            self.arrow.ball.draw(self.ecran)
 
         pygame.display.update()
 
@@ -52,6 +59,18 @@ class Game :
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.running = False
+                if event.key == pygame.K_RETURN and hasattr(self, 'arrow') and not self.arrow.ball:
+                    print("arrow =", self.arrow)
+                    print("Tir !")
+                    self.arrow.ball = Ball(self.player.joueur.centerx,
+                                           self.player.joueur.centery,
+                                           self.arrow.angle,
+                                           self.arrow.force)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pos = pygame.mouse.get_pos()
+                spawn = pos[0]  # x position du clic
+                self.creer_arrow(spawn)
+
             if event.type == pygame.VIDEORESIZE:
                 self.ecran = pygame.display.set_mode((event.w, event.h),pygame.RESIZABLE)
                 self.background = pygame.transform.scale(self.background_original, (event.w, event.h))
@@ -66,6 +85,3 @@ class Game :
             self.clock.tick(60)
 
         pygame.quit()
-
-
-

@@ -19,7 +19,7 @@ class Player :
 
 
         self.spawn_1 = random.randint(560,910)
-        self.spawn_2 = random.randint(70,500)
+        self.spawn_2 = random.randint(70,470)
         self.spawn = random.choice([self.spawn_1,self.spawn_2])
 
 
@@ -28,7 +28,8 @@ class Player :
 
         self.joueur_arret = False
 
-        self.arrow = Arrow(screen,self.spawn,self.spawn_1,self.spawn_2)
+        self.arrow = Arrow(screen,self.spawn)
+        print("spawn : ",self.spawn_1)
 
 
     def draw(self,ecran,font):
@@ -48,7 +49,7 @@ class Player :
                     self.joueur_arret = not self.joueur_arret
 
         if self.joueur_arret:
-            self.arrow.handle_events(self.joueur)
+            self.arrow.handle_events(self.joueur,self.spawn)
             return  # On quitte la méthode, donc aucune touche ne bouge le joueur
 
 
@@ -70,6 +71,13 @@ class Player :
             self.joueur.x = 0
         if self.joueur.x + self.joueur.w > SCREEN_WIDTH :
             self.joueur.x = SCREEN_WIDTH - self.joueur.w
+
+        if 70 <= self.spawn <= 470:  # Si le joueur a spawné côté gauche
+            self.joueur.x = max(70, min(self.joueur.x, 460))
+        else:  # côté droit
+            self.joueur.x = max(560, min(self.joueur.x, 850))
+
+
 
         if self.joueur.y < 0 :
             self.joueur.y = 0

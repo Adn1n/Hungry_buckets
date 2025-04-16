@@ -6,15 +6,16 @@ from fonctions_utiles import afficher_texte
 
 class Arrow:
 
-    def __init__(self, screen,spawn,spawn_1,spawn_2):
+    def __init__(self, screen, spawn):
         self.screen = screen
-        if spawn >= spawn_1:
-            self.angle = 135  # angle de tir initial en degrés
-        elif spawn >= spawn_2:
-            self.angle = 45
+        self.angle = 90
+        if spawn <= 500 :
+            self.angle = 45  # angle de tir initial en degrés
+        elif  spawn >= 500:
+            self.angle = 135
 
 
-        self.force = 75  # force du tir
+        self.force = 45  # force du tir
         self.ball = None  # balle tirée
 
     def draw(self,ecran,font,joueur):
@@ -40,28 +41,34 @@ class Arrow:
 
         afficher_texte(ecran,font,f"Force : {self.force}",(300,250),"black")
 
-    def handle_events(self,joueur):
+        if self.ball:
+            print(">>> BALLE DESSINÉE")
+            self.ball.update()
+            self.ball.draw(ecran)
+
+    def handle_events(self,joueur,spawn):
         keys = pygame.key.get_pressed()
         for key in keys:
-            if keys[pygame.K_RIGHT]:
-                self.angle =  max(0,self.angle - 0.0025)
-            if keys[pygame.K_LEFT]:
-                self.angle = min(180,self.angle + 0.0025)
+            if  70 <= spawn <= 500 :
+                if keys[pygame.K_RIGHT]:
+                    self.angle =  max(0,self.angle - 0.0025)
+                if keys[pygame.K_LEFT]:
+                    self.angle = min(90,self.angle + 0.0025)
+            elif 510 <= spawn <= 910:
+                if keys[pygame.K_RIGHT]:
+                    self.angle =  max(90,self.angle - 0.0025)
+                if keys[pygame.K_LEFT]:
+                    self.angle = min(180,self.angle + 0.0025)
+
+
+
             if keys[pygame.K_UP]:
                 self.force += 0.001
             if keys[pygame.K_DOWN]:
                 self.force -= 0.001
 
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not self.ball:
-                    self.ball = Ball(joueur.centerx, joueur.centery, self.angle, self.force)
 
         if self.force > 130 :
             self.force = 130
         elif self.force < 15:
             self.force = 15
-
-
-
-
