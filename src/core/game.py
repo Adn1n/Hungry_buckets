@@ -1,7 +1,6 @@
 from src.entities.player import Player
 from config import *
 from src.utils.fonctions_utiles import *
-from src.entities.ball import Ball
 from src.entities.arrow import Arrow
 
 
@@ -47,10 +46,6 @@ class Game:
         afficher_texte(ecran,font,f"Coordinates x : {self.player.joueur.x}",(0,20),"black")
         afficher_texte(ecran,font,f'position :{self.pos}',(600,0),'black')
 
-        # Si une flèche est présente et qu'une balle est associée, on la met à jour et on l'affiche
-        if hasattr(self, 'arrow') and self.arrow.ball:
-            self.arrow.ball.update()  # Met à jour l'état de la balle
-            self.arrow.ball.draw(self.ecran)  # Dessine la balle à l'écran
 
         # Met à jour l'affichage à l'écran
         pygame.display.update()
@@ -67,14 +62,6 @@ class Game:
                 if event.key == pygame.K_ESCAPE:
                     # Quitte le jeu si on appuie sur Echap
                     self.running = False
-                if event.key == pygame.K_RETURN and hasattr(self, 'arrow') and not self.arrow.ball:
-                    # Tire une balle si Entrée est pressée, une flèche est présente et aucune balle n’est déjà en vol
-                    print("arrow =", self.arrow)
-                    print("Tir !")
-                    self.arrow.ball = Ball(self.player.joueur.centerx,
-                                           self.player.joueur.centery,
-                                           self.arrow.angle,
-                                           self.arrow.force)
 
             if event.type == pygame.VIDEORESIZE:
                 # Met à jour la taille de la fenêtre et redimensionne le fond
@@ -83,8 +70,10 @@ class Game:
 
         # Délègue les événements clavier au joueur
         self.player.handle_event(events)
+        self.arrow.handle_events(self.player.joueur, self.player.spawn,events)
 
     def run(self):
+        self.creer_arrow(self.player.spawn)
         # Boucle principale du jeu
         while self.running:
             self.handling()  # Gère les événements

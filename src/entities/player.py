@@ -26,10 +26,16 @@ class Player :
         print("spawn : ",self.spawn_1)
 
 
+    def respawn(self):
+        self.spawn = random.choice([self.spawn_1, self.spawn_2])
+        self.joueur.x = self.spawn
+        self.joueur.y = self.sol_player
+
+
     def draw(self,ecran,font):
         pygame.draw.rect(ecran, PLAYER_COLOR, self.joueur)
         if self.joueur_arret:
-            self.arrow.draw(ecran,font,self.joueur)
+            self.arrow.draw(ecran,font,self)
 
 
     def handle_event(self,events):
@@ -45,7 +51,7 @@ class Player :
 
         if self.joueur_arret:
             # Si le joueur est à l'arrêt, permet de contrôler la flèche et bloque les mouvements du joueur
-            self.arrow.handle_events(self.joueur,self.spawn)
+            self.arrow.handle_events(self.joueur,self.spawn,events)
             return  # On quitte la méthode, donc aucune touche ne bouge le joueur
 
         keys = pygame.key.get_pressed()
@@ -83,3 +89,4 @@ class Player :
             self.joueur.y = 0
         if  self.joueur.y > self.sol_player:
             self.joueur.y = self.sol_player
+
