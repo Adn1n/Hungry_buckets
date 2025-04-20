@@ -23,7 +23,6 @@ class Player :
         self.joueur_arret = False
 
         self.arrow = Arrow(screen,self.spawn)
-        print("spawn : ",self.spawn_1)
 
 
     def respawn(self):
@@ -62,6 +61,12 @@ class Player :
             # Déplace le joueur vers la droite
             self.joueur.x += self.velocity
 
+
+
+
+
+
+
         if self.is_jumping:
             # Applique la gravité pour simuler un saut
             self.joueur.y += self.gravity
@@ -72,11 +77,23 @@ class Player :
                 self.is_jumping = False
                 self.gravity = 0
 
+
+
+
+
+
+
         # Empêche le joueur de sortir de l'écran horizontalement
         if self.joueur.x < 0 :
             self.joueur.x = 0
         if self.joueur.x + self.joueur.w > SCREEN_WIDTH :
             self.joueur.x = SCREEN_WIDTH - self.joueur.w
+
+
+
+
+
+
 
         # Contraint le joueur à rester dans sa zone de spawn (gauche ou droite)
         if 70 <= self.spawn <= 470:

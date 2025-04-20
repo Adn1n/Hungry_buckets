@@ -73,8 +73,9 @@ class Game:
         self.arrow.handle_events(self.player.joueur, self.player.spawn,events)
 
     def run(self):
-        self.creer_arrow(self.player.spawn)
+
         # Boucle principale du jeu
+        self.creer_arrow(self.player.spawn)  # Crée la flèche une seule fois au début
         while self.running:
             self.handling()  # Gère les événements
             self.draw(self.ecran,self.font)  # Met à jour l'affichage

@@ -74,28 +74,20 @@ class Arrow:
             self.ball.y = y_end
         else:
             self.ball.tir = True  # elle commence à bouger
+            self.ball.set_trajectoire(self.angle, self.force)
             if self.start_time is None:
                 self.start_time = time.time()
 
         if self.start_time and time.time() - self.start_time > 3:
-            x, y = self.initial_ball_pos
-            self.ball = Ball(x, y, self.angle, self.force, tir=False, sol=player.joueur.bottom)
             player.respawn()
-            # Recalculer la position de la flèche après le respawn
-            joueur = player.joueur
-
-            self.ball.x = x_end
-            self.ball.y = y_end
-            self.ball.tir = False
-
-
+            self.ball = None
             self.verif_tir = False
             self.trajectoire_fixee = False
             self.start_time = None
 
-
-        self.ball.update()
-        self.ball.draw(ecran)
+        if self.ball:
+            self.ball.update()
+            self.ball.draw(ecran)
 
 
 
