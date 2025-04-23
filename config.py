@@ -22,5 +22,3 @@ FPS = 60
 
 # Police
 FONT_SIZE = 30
-
-
