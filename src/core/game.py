@@ -29,13 +29,13 @@ class Game:
         # Crée une nouvelle flèche à la position de spawn spécifiée
         self.arrow = Arrow(self.ecran,spawn)
 
-    def draw(self,ecran,font):
+    def draw(self,ecran,font,dt):
         # Remplit l'écran avec du noir puis dessine le fond
         self.ecran.fill((0,0,0))
         self.ecran.blit(self.background,(0,0))
 
         # Affiche le joueur
-        self.player.draw(self.ecran,font)
+        self.player.draw(self.ecran,font,dt)
 
         # Récupère la position de la souris
         self.pos = pygame.mouse.get_pos()
@@ -49,6 +49,10 @@ class Game:
 
         # Met à jour l'affichage à l'écran
         pygame.display.update()
+
+    def update(self, dt):
+        if self.ball:
+            self.ball.update(dt)
 
     def handling(self):
         # Récupère les événements pygame (clavier, souris, fermeture...)
@@ -77,9 +81,11 @@ class Game:
         # Boucle principale du jeu
         self.creer_arrow(self.player.spawn)  # Crée la flèche une seule fois au début
         while self.running:
+            dt = self.clock.tick(60) / 1000  # Delta time en secondes
             self.handling()  # Gère les événements
-            self.draw(self.ecran,self.font)  # Met à jour l'affichage
-            self.clock.tick(60)  # Limite la boucle à 60 FPS
+            # Met à jour la flèche avec le temps écoulé
+            self.arrow.update(dt)
+            self.draw(self.ecran,self.font,dt)  # Met à jour l'affichage
 
         # Ferme proprement pygame quand on sort de la boucle
         pygame.quit()

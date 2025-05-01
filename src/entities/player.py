@@ -31,10 +31,10 @@ class Player :
         self.joueur.y = self.sol_player
 
 
-    def draw(self,ecran,font):
+    def draw(self,ecran,font,dt):
         pygame.draw.rect(ecran, PLAYER_COLOR, self.joueur)
         if self.joueur_arret:
-            self.arrow.draw(ecran,font,self)
+            self.arrow.draw(ecran, font, self, dt)
 
 
     def handle_event(self,events):

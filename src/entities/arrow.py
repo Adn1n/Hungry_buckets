@@ -54,7 +54,7 @@ class Arrow:
 
 
 
-    def draw(self, ecran, font, player):
+    def draw(self, ecran, font, player,dt):
         if not self.verif_tir:
             x_end, y_end = self.draw_arrow(ecran, player)
         else:
@@ -86,7 +86,7 @@ class Arrow:
             self.start_time = None
 
         if self.ball:
-            self.ball.update()
+            self.ball.update(dt)
             self.ball.draw(ecran)
 
 
@@ -133,3 +133,7 @@ class Arrow:
             self.force = 130
         elif self.force < 15:
             self.force = 15
+
+    def update(self, dt):
+        if self.ball:
+            self.ball.update(dt)
