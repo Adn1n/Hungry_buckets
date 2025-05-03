@@ -1,26 +1,16 @@
-# Dimensions de la fenêtre
 import pygame
+import os
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH, SCREEN_HEIGHT = 1000, 600
 
-
-# Joueur
-PLAYER_WIDTH = 30
-PLAYER_HEIGHT = 50
-PLAYER_COLOR = (3, 255, 255)
-PLAYER_VELOCITY = 10
-PLAYER_JUMP_VELOCITY = 15
-
-# Couleurs
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-TEXT_COLOR = (255, 0, 0)
+BASKET_COLOR = (255, 100, 100)
+BACKBOARD_COLOR = (100, 100, 100)
 
-# FPS
-FPS = 60
-
-# Police
-FONT_SIZE = 30
+PLAYER_Y = SCREEN_HEIGHT - 100
+GRAVITY = 0.5
 
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+ASSETS_DIR = os.path.join(BASE_DIR, "logo")

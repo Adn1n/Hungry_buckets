@@ -1,91 +1,171 @@
+import pygame
+import os
+import math
+import time
+import random
+
+from src.core.config import *
+from src.core.fenetre import Fenetre
 from src.entities.player import Player
-from config import *
-from src.utils.fonctions_utiles import *
+from src.entities.ball import Ball
+from src.entities.panier import Panier
 from src.entities.arrow import Arrow
+from src.ui.menu_screen import MenuScreen
+from src.ui.ecran import Ecran
 
 
 class Game:
-    """Classe principale qui gère la boucle du jeu, l'affichage, les événements et l'état du joueur."""
-
     def __init__(self):
-        pygame.init()  # Initialise tous les modules pygame
-        self.ecran = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)  # Crée une fenêtre redimensionnable avec les dimensions définies dans config.py
-        pygame.display.set_caption("Projet Transverse")  # Définit le titre de la fenêtre
-        icone = pygame.image.load('assets/image/icone_basket.png')  # Charge l'image utilisée comme icône de la fenêtre
-        pygame.display.set_icon(icone)  # Définit l'icône de la fenêtre
-        self.clock = pygame.time.Clock()  # Crée une horloge pour gérer le framerate
+        pygame.init()
 
-        self.reference_size = (1280, 720)  # Taille de référence pour l’affichage, potentiellement pour le redimensionnement futur
-
-        self.player = Player(self.ecran)  # Initialise le joueur avec l’écran en paramètre
-
-        self.background_original = pygame.image.load("assets/image/arriere_plan_basket.png")  # Charge le fond d’écran original
-        self.background = pygame.transform.scale(self.background_original, (SCREEN_WIDTH, SCREEN_HEIGHT))  # Redimensionne l’image de fond à la taille de la fenêtre
-
-        self.font = pygame.font.SysFont('arial', FONT_SIZE)  # Définit la police utilisée dans le jeu
-        self.running = True  # Indique si le jeu est en cours d'exécution
-
-    def creer_arrow(self,spawn):
-        # Crée une nouvelle flèche à la position de spawn spécifiée
-        self.arrow = Arrow(self.ecran,spawn)
-
-    def draw(self,ecran,font,dt):
-        # Remplit l'écran avec du noir puis dessine le fond
-        self.ecran.fill((0,0,0))
-        self.ecran.blit(self.background,(0,0))
-
-        # Affiche le joueur
-        self.player.draw(self.ecran,font,dt)
-
-        # Récupère la position de la souris
-        self.pos = pygame.mouse.get_pos()
-
-        # Affiche diverses informations pour le débogage ou à titre indicatif
-        afficher_texte(ecran,font,f"Gravity : {self.player.gravity}",(300,0),"orange")
-        afficher_texte(ecran,font,f"Coordinates y : {self.player.joueur.y}",(0,0),"red")
-        afficher_texte(ecran,font,f"Coordinates x : {self.player.joueur.x}",(0,20),"black")
-        afficher_texte(ecran,font,f'position :{self.pos}',(600,0),'black')
+        self.window = Fenetre("Hungry Goals")
+        self.screen = self.window.get_screen()
 
 
-        # Met à jour l'affichage à l'écran
-        pygame.display.update()
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
+        icon_path = os.path.join(base_path, "assets", "image", "logo.png")
+        icon = pygame.image.load(icon_path)
+        pygame.display.set_icon(icon)
 
-    def update(self, dt):
-        if self.ball:
-            self.ball.update(dt)
+        self.ecran = Ecran(self.screen)
+        self.ecran.show_loading_screen()
 
-    def handling(self):
-        # Récupère les événements pygame (clavier, souris, fermeture...)
-        events = pygame.event.get()
+        self.clock = pygame.time.Clock()
 
-        for event in events:
-            if event.type == pygame.QUIT:
-                # Quitte le jeu si on ferme la fenêtre
-                self.running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    # Quitte le jeu si on appuie sur Echap
-                    self.running = False
+        # Objets du jeu
+        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+        self.arrow = Arrow()
+        self.panier = Panier()
+        self.menu = MenuScreen()
 
-            if event.type == pygame.VIDEORESIZE:
-                # Met à jour la taille de la fenêtre et redimensionne le fond
-                self.ecran = pygame.display.set_mode((event.w, event.h),pygame.RESIZABLE)
-                self.background = pygame.transform.scale(self.background_original, (event.w, event.h))
+        # État du jeu
+        self.ball_list = []
+        self.score = 0
+        self.high_scores = []
+        self.dragging = False
+        self.start_pos = None
+        self.game_started = False
+        self.game_over = False
+        self.start_time = None
 
-        # Délègue les événements clavier au joueur
-        self.player.handle_event(events)
-        self.arrow.handle_events(self.player.joueur, self.player.spawn,events)
 
     def run(self):
+        running = True
+        while running:
+            if not self.game_started:
+                btn = self.menu.draw_start_screen(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        running = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN and btn.collidepoint(event.pos):
+                        self.start_time = time.time()
+                        self.game_started = True
+                        self.game_over = False
+                        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+                self.clock.tick(60)
+                continue
 
-        # Boucle principale du jeu
-        self.creer_arrow(self.player.spawn)  # Crée la flèche une seule fois au début
-        while self.running:
-            dt = self.clock.tick(60) / 1000  # Delta time en secondes
-            self.handling()  # Gère les événements
-            # Met à jour la flèche avec le temps écoulé
-            self.arrow.update(dt)
-            self.draw(self.ecran,self.font,dt)  # Met à jour l'affichage
+            if self.game_over:
+                btn = self.menu.draw_game_over(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT, self.score, self.high_scores)
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN and btn.collidepoint(event.pos):
+                        self.high_scores.append(self.score)
+                        self.reset_game()
+                self.clock.tick(60)
+                continue
 
-        # Ferme proprement pygame quand on sort de la boucle
+            # Gameplay
+            elapsed = time.time() - self.start_time
+            remaining = max(0, int(60 - elapsed))
+            if remaining <= 0:
+                self.high_scores.append(self.score)
+                self.game_over = True
+                continue
+
+            self.screen.fill(WHITE)
+
+            # Chrono
+            self.screen.blit(self.menu.font.render(f"Time: {remaining}", True, BLACK), (20, 20))
+            if remaining <= 3:
+                txt = self.menu.huge_font.render(str(remaining), True, BLACK)
+                self.screen.blit(txt, txt.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)))
+
+            # Input
+            keys = pygame.key.get_pressed()
+            self.player.handle_input(keys, SCREEN_WIDTH)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                    running = False
+
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    self.start_pos = pygame.mouse.get_pos()
+                    self.dragging = True
+
+                elif event.type == pygame.MOUSEBUTTONUP and self.dragging:
+                    end_pos = pygame.mouse.get_pos()
+                    if self.start_pos and self.start_pos != end_pos:
+                        player_pos = self.player.get_position()
+
+                        dx = end_pos[0] - player_pos[0]
+                        dy = end_pos[1] - player_pos[1]
+                        angle = math.atan2(dy, dx)
+                        power = min(math.hypot(dx, dy) / 4, 20)
+
+                        self.ball_list.append(Ball(player_pos[0], player_pos[1], angle, power))
+
+                    self.dragging = False
+                    self.start_pos = None
+
+            # Affichage
+            self.player.draw(self.screen)
+            self.panier.draw(self.screen)
+
+            # ➕ Flèche de visée quand on vise
+            # ➕ Flèche de visée quand on vise
+            if self.dragging and self.start_pos:
+                current_mouse_pos = pygame.mouse.get_pos()
+                player_pos = self.player.get_position()
+                self.arrow.draw(self.screen, player_pos, self.start_pos, current_mouse_pos, current_mouse_pos)
+
+
+            backboard_rect, basket_rect, hoop_center_rect = self.panier.get_rects()
+
+            for ball in self.ball_list:
+                if ball.active:
+                    result = ball.update(GRAVITY, SCREEN_HEIGHT, backboard_rect, basket_rect, hoop_center_rect)
+                    if result == "score":
+                        self.score += 1
+                        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+                    ball.draw(self.screen)
+
+            self.ball_list = [b for b in self.ball_list if b.active]
+
+            # Score & record
+            self.screen.blit(self.menu.font.render(f"Score: {self.score}", True, BLACK), (SCREEN_WIDTH - 200, 40))
+            record = max(self.high_scores) if self.high_scores else "-"
+            self.screen.blit(self.menu.font.render(f"Record: {record}", True, BLACK), (SCREEN_WIDTH - 200, 10))
+
+            pygame.display.flip()
+            self.clock.tick(60)
+
         pygame.quit()
+
+    def reset_game(self):
+        self.ball_list = []
+        self.score = 0
+        self.start_time = time.time()
+        self.dragging = False
+        self.start_pos = None
+        self.game_started = True
+        self.game_over = False
+        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+
+
+if __name__ == "__main__":
+    game = Game()
+    game.run()

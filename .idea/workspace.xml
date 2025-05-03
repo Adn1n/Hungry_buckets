@@ -4,15 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="read me">
-      <change afterPath="$PROJECT_DIR$/assets/image/player_assets/player_idle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/image/player_assets/player_run1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/core/entrainement.py" afterDir="false" />
+    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="equation de la balle a faire">
+      <change afterPath="$PROJECT_DIR$/src/entities/panier.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/image/arriere_plan_basket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/image/icone.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/image/icone_basket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/image/menu_basket.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/image/player_assets/player_idle.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/image/player_assets/player_run1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pygame_draw_cheatsheet" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/entrainement.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/core/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/main.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/arrow.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/arrow.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/ball.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/ball.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/player.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/player.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scenes/menu_screen.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/fonctions_utiles.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/training.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,32 +65,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.arrow.executor": "Run",
-    "Python.ball.executor": "Run",
-    "Python.config.executor": "Run",
-    "Python.entrainement.executor": "Run",
-    "Python.fonctions_utiles.executor": "Run",
-    "Python.game.executor": "Run",
-    "Python.joueur.executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.menu_screen.executor": "Run",
-    "Python.player.executor": "Run",
-    "Python.training.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/adnan/PycharmProjects/Projet_jeu_animation/assets/image/player_assets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "inlay.hints",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.arrow.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ball.executor&quot;: &quot;Run&quot;,
+    &quot;Python.config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ds.executor&quot;: &quot;Run&quot;,
+    &quot;Python.entrainement.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fonctions_utiles.executor&quot;: &quot;Run&quot;,
+    &quot;Python.game.executor&quot;: &quot;Run&quot;,
+    &quot;Python.joueur.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.menu_screen.executor&quot;: &quot;Run&quot;,
+    &quot;Python.player.executor&quot;: &quot;Run&quot;,
+    &quot;Python.training.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/adnan/PycharmProjects/Projet_jeu_animation/assets/image/player_assets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/assets/image/player_assets" />
@@ -86,11 +99,11 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/entities" />
       <recent name="$PROJECT_DIR$/assets/image" />
       <recent name="$PROJECT_DIR$/assets" />
       <recent name="$PROJECT_DIR$/src/utils" />
       <recent name="$PROJECT_DIR$/src/scenes" />
-      <recent name="$PROJECT_DIR$/src/entities" />
     </key>
   </component>
   <component name="RunManager">
@@ -155,7 +168,9 @@
       <workItem from="1745427682927" duration="2142000" />
       <workItem from="1745935730041" duration="1647000" />
       <workItem from="1746013292880" duration="4621000" />
-      <workItem from="1746028827658" duration="6119000" />
+      <workItem from="1746028827658" duration="6189000" />
+      <workItem from="1746164656512" duration="17804000" />
+      <workItem from="1746219717802" duration="7299000" />
     </task>
     <task id="LOCAL-00001" summary="Teddy">
       <option name="closed" value="true" />
@@ -301,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745438726124</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="equation de la balle a faire">
+      <option name="closed" value="true" />
+      <created>1746110206251</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1746110206251</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -328,23 +351,25 @@
     <MESSAGE value="Ball coder mais il reste a mettre a jour ces equation apres chaque spawn" />
     <MESSAGE value="class Ball:&#10;    def __init__(self):&#10;        self.vy = 0&#10;        self.gravity = 8&#10;&#10;    def update(self):&#10;        self.vy += self.gravity&#10;        print(&quot;gravité appliquée&quot;, self.vy)&#10;&#10;        # Corrige les blocages de la vitesse en tenant compte de la direction&#10;        if abs(self.vy) &lt; 0.1 and self.vy &gt; 0:&#10;            self.vy = 0&#10;&#10;        # Arrêt automatique si la balle est presque immobile&#10;        if abs(self.vy) &lt; 0.05 and abs(self.vx) &lt; 0.05:&#10;            self.vy = 0&#10;            self.vx = 0&#10;            self.tir = False" />
     <MESSAGE value="read me" />
-    <option name="LAST_COMMIT_MESSAGE" value="read me" />
+    <MESSAGE value="equation de la balle a faire" />
+    <option name="LAST_COMMIT_MESSAGE" value="equation de la balle a faire" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$training.coverage" NAME="training Coverage Results" MODIFIED="1744655003443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Projet_jeu_animation$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1746109843816" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
+    <SUITE FILE_PATH="coverage/Projet_jeu_animation$ds.coverage" NAME="ds Coverage Results" MODIFIED="1746214596926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
+    <SUITE FILE_PATH="coverage/Projet_jeu_animation$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1746275925516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$arrow.coverage" NAME="arrow Coverage Results" MODIFIED="1744655204824" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet$player.coverage" NAME="player Coverage Results" MODIFIED="1742662578953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet$game.coverage" NAME="game Coverage Results" MODIFIED="1742820565009" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet$main.coverage" NAME="main Coverage Results" MODIFIED="1742748838780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Projet_jeu_animation$ball.coverage" NAME="ball Coverage Results" MODIFIED="1746109201481" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/entities" />
+    <SUITE FILE_PATH="coverage/Projet_jeu_animation$ball.coverage" NAME="ball Coverage Results" MODIFIED="1746212315037" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/entities" />
     <SUITE FILE_PATH="coverage/Projet$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1742741010630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$game.coverage" NAME="game Coverage Results" MODIFIED="1744631392449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet$joueur.coverage" NAME="joueur Coverage Results" MODIFIED="1742748867964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$player.coverage" NAME="player Coverage Results" MODIFIED="1744636781451" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet$fonctions_utiles.coverage" NAME="fonctions_utiles Coverage Results" MODIFIED="1744007724164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet$menu_screen.coverage" NAME="menu_screen Coverage Results" MODIFIED="1742762950347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Projet_jeu_animation$main.coverage" NAME="main Coverage Results" MODIFIED="1746110137435" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Projet_jeu_animation$main.coverage" NAME="main Coverage Results" MODIFIED="1746275901376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet$config.coverage" NAME="config Coverage Results" MODIFIED="1742817056757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

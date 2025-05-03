@@ -1,139 +1,58 @@
 import pygame
 import math
-import time
-
-from pygame import K_RETURN
-
-from src.utils.fonctions_utiles import afficher_texte
-from src.entities.ball import Ball
 
 class Arrow:
+    def __init__(self, base_color=(255, 0, 0), width=4, length_factor=10.0):
+        self.base_color = base_color
+        self.width = width
+        self.length_factor = length_factor
 
-    def __init__(self, screen, spawn):
-        self.screen = screen
-        self.angle = 90  # angle par défaut
-        if spawn <= 500:
-            # Si le joueur est à gauche, l’angle part de 45°
-            self.angle = 45
-        elif spawn >= 500:
-            # Si le joueur est à droite, l’angle part de 135°
-            self.angle = 135
+    def draw(self, surface, player_pos, start_pos, current_pos,mouse_pos):
+        dx = start_pos[0] - mouse_pos[0]
+        dy = start_pos[1] - mouse_pos[1]
 
-        self.force = 45  # force initiale du tir
-        self.ball = None
+        # Calcul angle + puissance
+        angle = math.atan2(-dy, -dx)
+        distance = math.hypot(dx, dy)
+        power = min(distance / 4, 20)
 
-        self.trajectoire_fixee = False
-        self.verif_tir = False
+        # Simulation du tir
+        gravity = 0.5
+        vel_x = math.cos(angle) * power
+        vel_y = math.sin(angle) * power
 
-        self.start_time = None
-        self.initial_ball_pos = None
+        # Points de la trajectoire
+        num_points = int(30 * (power / 20) * self.length_factor)
+        num_points = max(5, min(60, num_points))
+        time_step = 0.1
+        points = []
+        for i in range(1, num_points + 1):
+            t = i * time_step
+            x = player_pos[0] + vel_x * t
+            y = player_pos[1] + vel_y * t + 0.5 * gravity * t * t
+            points.append((x, y))
 
-
-    def draw_arrow(self, ecran,player) :
-        joueur = player.joueur
-        arrow_length = 10 + self.force
-        rad = math.radians(self.angle)
-
-        x_end = joueur.centerx + arrow_length * math.cos(rad)
-        y_end = joueur.centery - arrow_length * math.sin(rad)
-
-        head_length = 10
-        angle_offset = math.radians(20)
-
-        x1 = x_end - head_length * math.cos(rad - angle_offset)
-        y1 = y_end + head_length * math.sin(rad - angle_offset)
-
-        x2 = x_end - head_length * math.cos(rad + angle_offset)
-        y2 = y_end + head_length * math.sin(rad + angle_offset)
-
-        pygame.draw.line(ecran, "blue", joueur.center, (x_end, y_end), 3)
-        pygame.draw.line(ecran, "black", (x_end, y_end), (x1, y1), 4)
-        pygame.draw.line(ecran, "black", (x_end, y_end), (x2, y2), 4)
-
-        return x_end, y_end
+        # Couleur dynamique selon puissance
+        r = min(255, int((power / 20) * 255))
+        g = 255 - r
+        color = (r, g, 0)
 
 
+        # Flèche principale (plus large)
+        for i in range(len(points) - 1):
+            pygame.draw.line(surface, color, points[i], points[i + 1], self.width + 2)
 
-    def draw(self, ecran, font, player,dt):
-        if not self.verif_tir:
-            x_end, y_end = self.draw_arrow(ecran, player)
-        else:
-            # sinon, utilise la dernière position enregistrée
-            x_end = self.ball.x
-            y_end = self.ball.y
-
-
-        if not self.ball:
-            self.ball = Ball(x_end, y_end, self.angle, self.force, tir=False,sol=player.joueur.bottom)
-            self.initial_ball_pos = (x_end, y_end)
-
-
-        # Balle attachée à la flèche jusqu’à ce qu’on tire
-        if not self.verif_tir:
-            self.ball.x = x_end
-            self.ball.y = y_end
-        else:
-            self.ball.tir = True  # elle commence à bouger
-            self.ball.set_trajectoire(self.angle, self.force)
-            if self.start_time is None:
-                self.start_time = time.time()
-
-        if self.start_time and time.time() - self.start_time > 3:
-            player.respawn()
-            self.ball = None
-            self.verif_tir = False
-            self.trajectoire_fixee = False
-            self.start_time = None
-
-        if self.ball:
-            self.ball.update(dt)
-            self.ball.draw(ecran)
-
-
-
-
-
-    def handle_events(self, joueur, spawn,events):
-        keys = pygame.key.get_pressed()
-
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    if not self.trajectoire_fixee:
-                        self.trajectoire_fixee = True  # On fige la trajectoire
-                if event.key == pygame.K_SPACE :
-                    if self.trajectoire_fixee and not self.verif_tir:
-                        self.verif_tir = True  # On lance le tir
-
-
-
-
-        for key in keys:
-            if 70 <= spawn <= 500:
-                # Côté gauche : angle de 0 à 90
-                if keys[pygame.K_RIGHT]:
-                    self.angle = max(0, self.angle - 0.0025)
-                if keys[pygame.K_LEFT]:
-                    self.angle = min(90, self.angle + 0.0025)
-            elif 510 <= spawn <= 910:
-                # Côté droit : angle de 90 à 180
-                if keys[pygame.K_RIGHT]:
-                    self.angle = max(90, self.angle - 0.0025)
-                if keys[pygame.K_LEFT]:
-                    self.angle = min(180, self.angle + 0.0025)
-
-            # Contrôle de la force du tir avec les flèches haut et bas
-            if keys[pygame.K_UP]:
-                self.force += 0.001
-            if keys[pygame.K_DOWN]:
-                self.force -= 0.001
-
-        # Force minimale et maximale pour éviter les valeurs absurdes
-        if self.force > 130:
-            self.force = 130
-        elif self.force < 15:
-            self.force = 15
-
-    def update(self, dt):
-        if self.ball:
-            self.ball.update(dt)
+        # Tête de flèche triangulaire agrandie
+        if len(points) >= 2:
+            angle = math.atan2(points[-1][1] - points[-2][1], points[-1][0] - points[-2][0])
+            head_len = 20
+            end_pos = points[-1]
+            left = (
+                end_pos[0] - head_len * math.cos(angle - 0.5),
+                end_pos[1] - head_len * math.sin(angle - 0.5),
+            )
+            right = (
+                end_pos[0] - head_len * math.cos(angle + 0.5),
+                end_pos[1] - head_len * math.sin(angle + 0.5),
+            )
+            pygame.draw.polygon(surface, color, [end_pos, left, right])
