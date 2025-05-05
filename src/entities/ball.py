@@ -12,6 +12,9 @@ class Ball:
         self.rest_time = None
         self.scored = False
 
+        self.ball_image = pygame.image.load("assets/image/Ball.png")
+        self.ball_image = pygame.transform.scale(self.ball_image, (60, 60))  # Adjust size to match original ball
+
     def update(self, gravity, screen_height, backboard_rect, basket_rect, hoop_center_rect):
         if not self.active:
             return
@@ -66,7 +69,7 @@ class Ball:
 
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (0, 0, 0), (int(self.x), int(self.y)), 10)
+        screen.blit(self.ball_image, (int(self.x) - 10, int(self.y) - 10))
 
     def rect(self):
         return pygame.Rect(self.x - 10, self.y - 10, 20, 20)

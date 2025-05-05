@@ -16,7 +16,7 @@ class Ecran:
         loading_image = pygame.image.load(loading_path)
         loading_image = pygame.transform.scale(loading_image, (self.WIDTH, self.HEIGHT))
         start_time = time.time()
-        duration = 2  # secondes
+        duration = 1  # secondes
 
         while time.time() - start_time < duration:
             for event in pygame.event.get():
