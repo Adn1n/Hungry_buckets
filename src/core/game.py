@@ -16,7 +16,7 @@ from src.ui.ecran import Ecran
 from src.ui.option_screen import OptionScreen
 from src.ui.choix_joueur import ChoixJoueur
 
-
+#
 class Game:
     def __init__(self):
         pygame.init()

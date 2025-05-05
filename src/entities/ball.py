@@ -1,7 +1,7 @@
 import pygame
 import math
 import time
-
+#
 class Ball:
     def __init__(self, x, y, angle, power):
         self.x = x

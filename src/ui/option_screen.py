@@ -5,7 +5,7 @@ from src.core.config import *
 from src.core.game import *
 from src.utils import afficher_texte
 
-
+#
 class OptionScreen:
     def __init__(self):
         self.background = pygame.image.load("assets/image/option_screen.png")  # ou le nom correct

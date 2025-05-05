@@ -1,6 +1,6 @@
 import pygame
 from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT
-
+#
 class Fenetre:
     def __init__(self, title="My Game", resizable=True):
         flags = pygame.RESIZABLE if resizable else 0

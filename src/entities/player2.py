@@ -1,7 +1,7 @@
 
 import pygame
 from src.utils import *
-
+#
 SCALE = 3  # ou 3 pour encore plus grand
 
 class Player2:

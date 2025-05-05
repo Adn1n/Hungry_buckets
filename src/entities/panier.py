@@ -1,6 +1,6 @@
 import pygame
 from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR
-
+#
 class Panier:
     def __init__(self):
         self.basket_rect = pygame.Rect(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 200, 60, 12)

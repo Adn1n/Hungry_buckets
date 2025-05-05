@@ -4,7 +4,7 @@ from src.core.fenetre import Fenetre
 from src.utils import *
 from src.core.config import *
 
-
+#
 class ChoixJoueur():
     def __init__(self):
         self.background = pygame.image.load("assets/image/choix_joueur.png")  # ou le nom correct

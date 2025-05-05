@@ -1,6 +1,7 @@
 import pygame
 import math
 
+#
 class Arrow:
     def __init__(self, gravity=0.5, color=(0, 0, 0), width=2, length_factor=0.5):
         self.gravity = gravity
