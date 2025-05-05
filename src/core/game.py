@@ -12,6 +12,7 @@ from src.entities.panier import Panier
 from src.entities.arrow import Arrow
 from src.ui.menu_screen import MenuScreen
 from src.ui.ecran import Ecran
+from src.ui.option_screen import OptionScreen
 
 
 class Game:
@@ -37,6 +38,7 @@ class Game:
         self.arrow = Arrow()
         self.panier = Panier()
         self.menu = MenuScreen()
+        self.option_screen = OptionScreen()
 
         # État du jeu
         self.ball_list = []
@@ -49,6 +51,7 @@ class Game:
         self.start_time = None
 
         self.option = False
+        self.choix_joueur = False
 
 
         pygame.display.flip()
@@ -57,6 +60,23 @@ class Game:
     def run(self):
         running = True
         while running:
+
+            if self.option:
+                sound_btn_rect, music_btn_rect, back_btn_rect = self.option_screen.draw(self.screen)
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        running = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if sound_btn_rect.collidepoint(event.pos):
+                            print("Sound button clicked")
+                        elif music_btn_rect.collidepoint(event.pos):
+                            print("Music button clicked")
+                        elif back_btn_rect.collidepoint(event.pos):
+                            self.option = False
+                self.clock.tick(60)
+                continue
+
             if not self.game_started:
                 jouer_btn, options_btn, quitter_btn = self.menu.draw_start_screen(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
                 pygame.display.flip()
@@ -71,10 +91,11 @@ class Game:
                             self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
                         elif options_btn.collidepoint(event.pos):
                             self.option = True
-                            print("Options cliqué (à implémenter)")
                         elif quitter_btn.collidepoint(event.pos):
                             pygame.quit()
                             exit()
+
+
 
             if self.game_over:
                 btn = self.menu.draw_game_over(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT, self.score, self.high_scores)

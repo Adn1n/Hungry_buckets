@@ -14,20 +14,13 @@ class MenuScreen:
         self.menu_bg = pygame.image.load("assets/image/menu.png")
         self.menu_bg = pygame.transform.scale(self.menu_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-        button_width = 280
-        button_height = 70
-        button_x = (1000 - button_width) // 2  # centré horizontalement
-
         self.btn_jouer = pygame.Rect(330, 220, 305, 65)
         self.btn_options = pygame.Rect(345, 305, 280, 50)
         self.btn_quitter = pygame.Rect(370, 380, 230, 45)
 
     def draw_start_screen(self, screen, width, height):
-        bg = pygame.image.load("assets/image/menu.png")
-        bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        bg = self.menu_bg.copy()
         screen.blit(bg, (0, 0))
-
-
 
         jouer_rect = self.btn_jouer
         options_rect = self.btn_options
