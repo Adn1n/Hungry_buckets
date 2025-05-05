@@ -1,6 +1,7 @@
 
 import pygame
 from src.utils import *
+import os
 #
 SCALE = 3  # ou 3 pour encore plus grand
 
@@ -14,7 +15,9 @@ class Player2:
         self.frame_index = 0
         self.animation_speed = 0.4
 
-        self.sprite_sheet = pygame.image.load("assets/image/Character2.png").convert_alpha()
+        base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        image_path = os.path.join(base_path, "assets", "image", "Character2.png")
+        self.sprite_sheet = pygame.image.load(image_path).convert_alpha()
 
         self.frames_idle = load_frames(self.sprite_sheet, row=2, num_frames=23, width=64, height=64)
         self.frames_right = load_combined_frames(self.sprite_sheet, rows=[8, 9], num_frames_per_row=[7, 20], width=64,height=64)

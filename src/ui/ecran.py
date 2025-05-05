@@ -12,7 +12,9 @@ class Ecran:
         self.WIDTH, self.HEIGHT = screen.get_size()
 
     def show_loading_screen(self):
-        loading_image = pygame.image.load("assets/image/ecran_chargement.png")
+        base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        image_path = os.path.join(base_path, "assets", "image", "ecran_chargement.png")
+        loading_image = pygame.image.load(image_path)
         loading_image = pygame.transform.scale(loading_image, (self.WIDTH, self.HEIGHT))
         start_time = time.time()
         duration = 3 # secondes

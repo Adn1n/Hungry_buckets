@@ -1,3 +1,4 @@
+import os
 import pygame
 
 from src.core.fenetre import Fenetre
@@ -7,7 +8,9 @@ from src.core.config import *
 #
 class ChoixJoueur():
     def __init__(self):
-        self.background = pygame.image.load("assets/image/choix_joueur.png")  # ou le nom correct
+        base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        image_path = os.path.join(base_path, "assets", "image", "choix_joueur.png")
+        self.background = pygame.image.load(image_path)
         self.background = pygame.transform.scale(self.background, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
         self.font = pygame.font.SysFont("arial", 20)

@@ -1,3 +1,4 @@
+import os
 import pygame
 from pygame import mouse
 
@@ -10,8 +11,9 @@ class MenuScreen:
         self.font = pygame.font.SysFont(None, 36)
         self.big_font = pygame.font.SysFont(None, 48)
         self.huge_font = pygame.font.SysFont(None, 120)
-
-        self.menu_bg = pygame.image.load("assets/image/menu.png")
+        base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        image_path = os.path.join(base_path, "assets", "image", "menu.png")
+        self.menu_bg = pygame.image.load(image_path)
         self.menu_bg = pygame.transform.scale(self.menu_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
         self.btn_jouer = pygame.Rect(330, 220, 305, 65)

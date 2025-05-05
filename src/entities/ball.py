@@ -1,3 +1,4 @@
+import os
 import pygame
 import math
 import time
@@ -12,7 +13,9 @@ class Ball:
         self.rest_time = None
         self.scored = False
 
-        self.ball_image = pygame.image.load("assets/image/Ball.png")
+        base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        image_path = os.path.join(base_path, "assets", "image", "Ball.png")
+        self.ball_image = pygame.image.load(image_path)
         self.ball_image = pygame.transform.scale(self.ball_image, (60, 60))  # Adjust size to match original ball
 
     def update(self, gravity, screen_height, backboard_rect, basket_rect, hoop_center_rect):
