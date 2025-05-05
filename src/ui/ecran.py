@@ -1,10 +1,9 @@
 import pygame
 import time
+
+from src.utils import *
 import os
 
-base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-loading_path = os.path.join(base_path, "assets", "image", "ecran_chargement.png")
-loading_image = pygame.image.load(loading_path)
 
 class Ecran:
     def __init__(self, screen):
@@ -13,23 +12,40 @@ class Ecran:
         self.WIDTH, self.HEIGHT = screen.get_size()
 
     def show_loading_screen(self):
-        loading_image = pygame.image.load(loading_path)
+        loading_image = pygame.image.load("assets/image/ecran_chargement.png")
         loading_image = pygame.transform.scale(loading_image, (self.WIDTH, self.HEIGHT))
         start_time = time.time()
-        duration = 3  # secondes
+        duration = 3 # secondes
+
+        font = pygame.font.SysFont("arial", 30)
 
         while time.time() - start_time < duration:
-            pygame.event.pump()  # ⬅️ permet de garder l'écran interactif
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE :
+                        pygame.quit()
+                        exit()
+
 
             self.screen.fill((0, 0, 0))
             self.screen.blit(loading_image, (0, 0))
 
             progress = (time.time() - start_time) / duration
-            progress_width = int(400 * progress)
+            progress_width = int(515 * progress)
 
+
+            pos = pygame.mouse.get_pos()
+            afficher_texte(self.screen, font, f'pos : {pos[0],pos[1]}', (0,0), "white")
             # barre de chargement
-            pygame.draw.rect(self.screen, (255, 255, 255), (200, 550, 400, 20), 2)
-            pygame.draw.rect(self.screen, (255, 165, 0), (200, 550, progress_width, 20))
+            pygame.draw.rect(self.screen, (255, 255, 255), (270, 515, 515, 15), 2)
+            pygame.draw.rect(self.screen, (0, 255, 255), (270, 515, progress_width, 15))
 
             pygame.display.flip()
             self.clock.tick(60)
+
+
+
+

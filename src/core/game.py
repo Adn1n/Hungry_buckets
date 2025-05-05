@@ -6,12 +6,15 @@ import random
 
 from src.core.config import *
 from src.core.fenetre import Fenetre
-from src.entities.player import Player
+from src.entities.player1 import*
+from src.entities.player2 import*
 from src.entities.ball import Ball
 from src.entities.panier import Panier
 from src.entities.arrow import Arrow
 from src.ui.menu_screen import MenuScreen
 from src.ui.ecran import Ecran
+from src.ui.option_screen import OptionScreen
+from src.ui.choix_joueur import ChoixJoueur
 
 
 class Game:
@@ -33,10 +36,13 @@ class Game:
         self.clock = pygame.time.Clock()
 
         # Objets du jeu
-        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+        self.player1 = Player1(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+        self.player2 = Player2(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
         self.arrow = Arrow()
         self.panier = Panier()
         self.menu = MenuScreen()
+        self.option_screen = OptionScreen()
+        self.choix_joueur = ChoixJoueur()
 
         # État du jeu
         self.ball_list = []
@@ -48,29 +54,81 @@ class Game:
         self.game_over = False
         self.start_time = None
 
+        self.option = False
+        self.afficher_choix_joueur = False
+
+
+        pygame.display.flip()
+
 
     def run(self):
         running = True
         while running:
-            if not self.game_started:
-                btn = self.menu.draw_start_screen(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
+
+            if self.option:
+                sound_btn_rect, music_btn_rect, back_btn_rect = self.option_screen.draw(self.screen)
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                         running = False
-                    elif event.type == pygame.MOUSEBUTTONDOWN and btn.collidepoint(event.pos):
-                        self.start_time = time.time()
-                        self.game_started = True
-                        self.game_over = False
-                        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if sound_btn_rect.collidepoint(event.pos):
+                            print("Sound button clicked")
+                        elif music_btn_rect.collidepoint(event.pos):
+                            print("Music button clicked")
+                        elif back_btn_rect.collidepoint(event.pos):
+                            self.option = False
                 self.clock.tick(60)
                 continue
+
+            if self.afficher_choix_joueur:
+                axel_rect, tyson_rect = self.choix_joueur.draw(self.screen)
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        running = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if axel_rect.collidepoint(event.pos):
+                            self.start_time = time.time()
+                            self.game_started = True
+                            self.afficher_choix_joueur = False  # ✅ ajoute ça !
+                            self.player2 = Player2(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+                            self.player = self.player2
+                        elif tyson_rect.collidepoint(event.pos):
+                            self.start_time = time.time()
+                            self.game_started = True
+                            self.afficher_choix_joueur = False  # ✅ ajoute ça !
+                            self.player1 = Player1(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+                            self.player = self.player1
+                self.clock.tick(60)
+                continue  # ✅ empêche le menu de s'afficher par-dessus
+
+            if not self.game_started:
+                jouer_btn, options_btn, quitter_btn = self.menu.draw_start_screen(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
+                pygame.display.flip()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                        running = False
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        if jouer_btn.collidepoint(event.pos):
+                            self.afficher_choix_joueur = True
+                        elif options_btn.collidepoint(event.pos):
+                            self.option = True
+                        elif quitter_btn.collidepoint(event.pos):
+                            pygame.quit()
+                            exit()
+
+
+
+
+
+
 
             if self.game_over:
                 btn = self.menu.draw_game_over(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT, self.score, self.high_scores)
                 pygame.display.flip()
                 for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
+                    if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE) :
                         running = False
                     elif event.type == pygame.MOUSEBUTTONDOWN and btn.collidepoint(event.pos):
                         self.high_scores.append(self.score)
@@ -78,7 +136,11 @@ class Game:
                 self.clock.tick(60)
                 continue
 
+
             # Gameplay
+            if not self.start_time:
+                continue
+
             elapsed = time.time() - self.start_time
             remaining = max(0, int(60 - elapsed))
             if remaining <= 0:
@@ -105,14 +167,19 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.start_pos = pygame.mouse.get_pos()
                     self.dragging = True
+                    self.player.start_shoot()
 
                 elif event.type == pygame.MOUSEBUTTONUP and self.dragging:
                     end_pos = pygame.mouse.get_pos()
+                    self.player.state = "idle"
+                    self.player.frames = self.player.frames_idle
+                    self.player.frame_index = 0
+
                     if self.start_pos and self.start_pos != end_pos:
                         player_pos = self.player.get_position()
 
-                        dx = end_pos[0] - player_pos[0]
-                        dy = end_pos[1] - player_pos[1]
+                        dx = self.start_pos[0] - end_pos[0]
+                        dy = self.start_pos[1] - end_pos[1]
                         angle = math.atan2(dy, dx)
                         power = min(math.hypot(dx, dy) / 4, 20)
 
@@ -120,6 +187,7 @@ class Game:
 
                     self.dragging = False
                     self.start_pos = None
+
 
             # Affichage
             self.player.draw(self.screen)
@@ -130,7 +198,7 @@ class Game:
             if self.dragging and self.start_pos:
                 current_mouse_pos = pygame.mouse.get_pos()
                 player_pos = self.player.get_position()
-                self.arrow.draw(self.screen, player_pos, self.start_pos, current_mouse_pos, current_mouse_pos)
+                self.arrow.draw(self.screen, player_pos, self.start_pos, current_mouse_pos)
 
 
             backboard_rect, basket_rect, hoop_center_rect = self.panier.get_rects()
@@ -140,7 +208,14 @@ class Game:
                     result = ball.update(GRAVITY, SCREEN_HEIGHT, backboard_rect, basket_rect, hoop_center_rect)
                     if result == "score":
                         self.score += 1
-                        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+                        new_y = random.randint(200, SCREEN_HEIGHT - 250)  # évite le haut et le bas
+                        self.panier.basket_rect.y = new_y
+                        self.panier.backboard_rect.y = new_y - 50  # ajuste selon ta hauteur
+                        self.panier.hoop_center_rect.y = self.panier.basket_rect.bottom
+
+                        self.panier.hoop_center_rect.x = self.panier.basket_rect.centerx - self.panier.hoop_center_rect.width // 2
+                        self.panier.hoop_center_rect.y = self.panier.basket_rect.bottom
+
                     ball.draw(self.screen)
 
             self.ball_list = [b for b in self.ball_list if b.active]
@@ -163,7 +238,7 @@ class Game:
         self.start_pos = None
         self.game_started = True
         self.game_over = False
-        self.player = Player(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+        self.player = Player2(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
 
 
 if __name__ == "__main__":

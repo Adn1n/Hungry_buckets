@@ -1,4 +1,9 @@
 import pygame
+from pygame import mouse
+
+from src.core.config import *
+from src.core.game import *
+from src.utils import *
 
 class MenuScreen:
     def __init__(self):
@@ -6,20 +11,26 @@ class MenuScreen:
         self.big_font = pygame.font.SysFont(None, 48)
         self.huge_font = pygame.font.SysFont(None, 120)
 
+        self.menu_bg = pygame.image.load("assets/image/menu.png")
+        self.menu_bg = pygame.transform.scale(self.menu_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+        self.btn_jouer = pygame.Rect(330, 220, 305, 65)
+        self.btn_options = pygame.Rect(345, 305, 280, 50)
+        self.btn_quitter = pygame.Rect(370, 380, 230, 45)
+
     def draw_start_screen(self, screen, width, height):
-        screen.fill((255, 255, 255))
-        message = self.big_font.render("Bienvenue dans le jeu de basket !", True, (0, 0, 0))
-        msg_rect = message.get_rect(center=(width // 2, height // 2 - 100))
-        screen.blit(message, msg_rect)
+        bg = self.menu_bg.copy()
+        screen.blit(bg, (0, 0))
 
-        button_rect = pygame.Rect(width // 2 - 100, height // 2, 200, 60)
-        pygame.draw.rect(screen, (200, 200, 200), button_rect)
-        pygame.draw.rect(screen, (0, 0, 0), button_rect, 2)
-        text = self.font.render("Continuer", True, (0, 0, 0))
-        text_rect = text.get_rect(center=button_rect.center)
-        screen.blit(text, text_rect)
+        jouer_rect = self.btn_jouer
+        options_rect = self.btn_options
+        quitter_rect = self.btn_quitter
 
-        return button_rect
+
+        pos = mouse.get_pos()
+        afficher_texte(screen,self.font,f'Pos : {pos[0]}, {pos[1]}',(0,0),'white')
+
+        return jouer_rect, options_rect, quitter_rect
 
     def draw_game_over(self, screen, width, height, score, high_scores):
         screen.fill((255, 255, 255))
