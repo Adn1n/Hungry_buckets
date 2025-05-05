@@ -3,7 +3,7 @@ from src.utils import *
 
 SCALE = 3  # ou 3 pour encore plus grand
 
-class Player:
+class Player1:
     def __init__(self, x, y):
         self.x = x
         self.y = y

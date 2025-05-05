@@ -42,12 +42,18 @@ class Ball:
 
         # Collision avec le panneau
         if self.rect().colliderect(backboard_rect):
-            self.x -= self.vel_x
+            self.x -= self.vel_x  * 1.2
+            self.y -= self.vel_y * 0.6
             self.vel_x *= -0.7
+
 
         # Collision avec l'anneau
         if self.rect().colliderect(basket_rect):
-            if self.x < basket_rect.left or self.x > basket_rect.right:
+            if self.x < basket_rect.left + 5:
+                self.x = basket_rect.left - 10
+                self.vel_x *= -0.6
+            elif self.x > basket_rect.right - 5:
+                self.x = basket_rect.right + 10
                 self.vel_x *= -0.6
 
         # Passage au centre du panier = score
