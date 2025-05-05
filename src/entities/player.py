@@ -9,14 +9,14 @@ class Player:
         self.y = y
         self.radius = 20
         self.color = (0, 100, 255)
-        self.speed = 10
+        self.speed = 6
         self.frame_index = 0
         self.animation_speed = 0.4
 
         self.sprite_sheet = pygame.image.load("assets/image/Character.png").convert_alpha()
 
         self.frames_idle = load_frames(self.sprite_sheet, row=2, num_frames=23, width=64, height=64)
-        self.frames_right = load_frames(self.sprite_sheet, row=8, num_frames=7, width=64, height=64)
+        self.frames_right = load_combined_frames(self.sprite_sheet, rows=[8, 9], num_frames_per_row=[7, 20], width=64,height=64)
         self.frames_left = [pygame.transform.flip(f, True, False) for f in self.frames_right]  # dribble gauche
 
         self.frames_shoot = load_frames(self.sprite_sheet,3, 5, width=64, height=64)
