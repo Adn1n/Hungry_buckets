@@ -1,4 +1,5 @@
 import pygame
+from src.utils import *
 
 SCALE = 3  # ou 3 pour encore plus grand
 
@@ -14,30 +15,36 @@ class Player:
 
         self.sprite_sheet = pygame.image.load("assets/image/Character.png").convert_alpha()
 
-        self.frames_idle = self.load_frames(row=2, num_frames=23, width=64, height=64)  # immobile
-        self.frames_right = self.load_frames(row=8, num_frames=7, width=64, height=64)  # dribble droite
-
+        self.frames_idle = load_frames(self.sprite_sheet, row=2, num_frames=23, width=64, height=64)
+        self.frames_right = load_frames(self.sprite_sheet, row=8, num_frames=7, width=64, height=64)
         self.frames_left = [pygame.transform.flip(f, True, False) for f in self.frames_right]  # dribble gauche
+
+        self.frames_shoot = load_frames(self.sprite_sheet,3, 5, width=64, height=64)
+        self.state = "idle"
+        self.shooting_done = False
 
         self.frames = self.frames_idle
         self.current_frame = self.frames_idle[self.frame_index]
 
-    def load_frames(self, row, num_frames, width, height):
-        frames = []
-        for i in range(num_frames):
-            frame = self.sprite_sheet.subsurface(pygame.Rect(i * width, row * height, width, height))
-            frame = pygame.transform.scale(frame, (width * SCALE, height * SCALE))
-            frames.append(frame)
-        return frames
-
-    def update_animation(self):
-        self.frame_index += self.animation_speed
-        if self.frame_index >= len(self.frames):
+    def start_shoot(self):
+        if self.state != "shoot":
+            self.frames = self.frames_shoot
             self.frame_index = 0
-        self.current_frame = self.frames[int(self.frame_index)]
+            self.state = "shoot"
+            self.shooting_done = False
 
 
     def handle_input(self, keys, screen_width):
+        if self.state == "shoot":
+            if not self.shooting_done:
+                self.frame_index, self.current_frame = update_animation(self.frame_index, self.frames,
+                                                                        self.animation_speed)
+                if int(self.frame_index) >= len(self.frames) - 1:
+                    self.frame_index = len(self.frames) - 1
+                    self.current_frame = self.frames[self.frame_index]
+                    self.shooting_done = True
+            return
+
         moving = False
 
         if keys[pygame.K_LEFT]:
@@ -58,14 +65,11 @@ class Player:
             if self.frames != self.frames_idle:
                 self.frames = self.frames_idle
                 self.frame_index = 0
-            moving = False
 
-        if moving:
-            self.update_animation()
-        else:
-            self.update_animation()  # animation idle aussi
-
+        # Animation si déplacement ou idle
+        self.frame_index, self.current_frame = update_animation(self.frame_index, self.frames, self.animation_speed)
         self.x = max(self.radius, min(screen_width - self.radius, self.x))
+
 
     def draw(self, surface):
         surface.blit(self.current_frame, (self.x - self.current_frame.get_width() // 2, self.y - self.current_frame.get_height() // 2))

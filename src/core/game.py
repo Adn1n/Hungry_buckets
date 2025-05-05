@@ -140,9 +140,14 @@ class Game:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     self.start_pos = pygame.mouse.get_pos()
                     self.dragging = True
+                    self.player.start_shoot()
 
                 elif event.type == pygame.MOUSEBUTTONUP and self.dragging:
                     end_pos = pygame.mouse.get_pos()
+                    self.player.state = "idle"
+                    self.player.frames = self.player.frames_idle
+                    self.player.frame_index = 0
+
                     if self.start_pos and self.start_pos != end_pos:
                         player_pos = self.player.get_position()
 
