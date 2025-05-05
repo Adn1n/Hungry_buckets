@@ -2,7 +2,7 @@ import os
 import pygame
 import math
 import time
-#
+
 class Ball:
     def __init__(self, x, y, angle, power):
         self.x = x
@@ -22,7 +22,7 @@ class Ball:
         if not self.active:
             return
 
-            # Appliquer gravité et mouvement
+        # Appliquer gravité et mouvement
         self.vel_y += gravity
         self.x += self.vel_x
         self.y += self.vel_y
@@ -39,16 +39,23 @@ class Ball:
                 if self.rest_time is None:
                     self.rest_time = time.time()
 
-        # Collision avec les bords de l'écran
-        if self.x - 10 <= 0 or self.x + 10 >= 1000:
-            self.vel_x *= -0.6
-
-        # Collision avec le panneau
-        if self.rect().colliderect(backboard_rect):
-            self.x -= self.vel_x  * 1.2
-            self.y -= self.vel_y * 0.6
+        # Collision avec les bords gauche/droit de l'écran
+        screen_width = 1000  # Si tu veux le rendre dynamique, récupère-le depuis le screen directement
+        if self.x - 10 <= 0:
+            self.x = 10
             self.vel_x *= -0.7
 
+        elif self.x + 10 >= screen_width:
+            self.x = screen_width - 10
+            self.vel_x *= -0.7
+
+        # Collision avec le panneau (planche)
+        if self.rect().colliderect(backboard_rect):
+            if self.vel_x > 0:
+                self.x = backboard_rect.left - 10
+            else:
+                self.x = backboard_rect.right + 10
+            self.vel_x *= -0.7
 
         # Collision avec l'anneau
         if self.rect().colliderect(basket_rect):
@@ -61,11 +68,10 @@ class Ball:
 
         # Passage au centre du panier = score
         if self.rect().colliderect(hoop_center_rect):
-            # Si la balle touche le panier par le bas => supprimer
             if self.vel_y < 0:
                 self.active = False
                 return
-            if self.vel_y > 0 and not self.scored :
+            if self.vel_y > 0 and not self.scored:
                 self.scored = True
                 self.active = False
                 return "score"
@@ -73,9 +79,6 @@ class Ball:
         # Désactivation après repos
         if self.rest_time and time.time() - self.rest_time >= 1.5:
             self.active = False
-        pass
-
-
 
     def draw(self, screen):
         screen.blit(self.ball_image, (int(self.x) - 10, int(self.y) - 10))
