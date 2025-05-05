@@ -10,7 +10,12 @@ class MenuScreen:
         screen.fill((255, 255, 255))
         message = self.big_font.render("Bienvenue dans le jeu de basket !", True, (0, 0, 0))
         msg_rect = message.get_rect(center=(width // 2, height // 2 - 100))
+
+        message_2 = self.font.render("Adnan-Omar-Teddy-Cylia",True, (0, 0, 0))
+        msg_rect1 = message_2.get_rect(center=(width // 2, height // 2 - 200))
+
         screen.blit(message, msg_rect)
+        screen.blit(message_2, msg_rect1)
 
         button_rect = pygame.Rect(width // 2 - 100, height // 2, 200, 60)
         pygame.draw.rect(screen, (200, 200, 200), button_rect)

@@ -2,7 +2,7 @@ import pygame
 import math
 
 class Arrow:
-    def __init__(self, base_color=(255, 0, 0), width=4, length_factor=10.0):
+    def __init__(self, base_color=(255, 0, 0), width=2, length_factor=10.0):
         self.base_color = base_color
         self.width = width
         self.length_factor = length_factor
@@ -38,9 +38,9 @@ class Arrow:
         color = (r, g, 0)
 
 
-        # Flèche principale (plus large)
-        for i in range(len(points) - 1):
-            pygame.draw.line(surface, color, points[i], points[i + 1], self.width + 2)
+        # Flèche principale en pointillés (plus fine)
+        for i in range(0, len(points) - 1, 2):
+            pygame.draw.line(surface, color, points[i], points[i + 1], max(1, self.width))
 
         # Tête de flèche triangulaire agrandie
         if len(points) >= 2:
