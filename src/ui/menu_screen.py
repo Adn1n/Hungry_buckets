@@ -3,7 +3,6 @@ import pygame
 from pygame import mouse
 
 from src.core.config import *
-from src.core.game import *
 from src.utils import *
 #
 class MenuScreen:

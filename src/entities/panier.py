@@ -10,8 +10,10 @@ class Panier:
     def draw(self, screen):
         pygame.draw.rect(screen, BASKET_COLOR, self.basket_rect)
         pygame.draw.rect(screen, BACKBOARD_COLOR, self.backboard_rect)
+
         pygame.draw.rect(screen, (255, 0, 0), self.backboard_rect, 2)
-        pygame.draw.rect(screen, (255, 0, 0), self.basket_rect, 2)
+        pygame.draw.rect(screen, (0, 255, 0), self.basket_rect, 2)
+        pygame.draw.rect(screen, (0, 0, 255), self.hoop_center_rect, 2)
 
 
     def get_rects(self):
