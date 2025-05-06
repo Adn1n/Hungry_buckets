@@ -6,7 +6,7 @@ from src.core.config import *
 from src.core.game import *
 from src.utils import afficher_texte
 
-#
+####
 class OptionScreen:
     def __init__(self):
         base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
