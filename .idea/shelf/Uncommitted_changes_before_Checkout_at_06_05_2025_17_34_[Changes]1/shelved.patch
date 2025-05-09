@@ -1,0 +1,43 @@
+Index: src/entities/panier.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\r\nfrom src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR\r\n#\r\nclass Panier:\r\n    def __init__(self):\r\n        self.basket_rect = pygame.Rect(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 200, 60, 12)\r\n        self.backboard_rect = pygame.Rect(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 250, 10, 70)\r\n        self.hoop_center_rect = pygame.Rect(self.basket_rect.centerx - 15, self.basket_rect.bottom, 30, 20)\r\n\r\n    def draw(self, screen):\r\n        pygame.draw.rect(screen, BASKET_COLOR, self.basket_rect)\r\n        pygame.draw.rect(screen, BACKBOARD_COLOR, self.backboard_rect)\r\n        pygame.draw.rect(screen, (255, 0, 0), self.backboard_rect, 2)\r\n        pygame.draw.rect(screen, (255, 0, 0), self.basket_rect, 2)\r\n\r\n\r\n    def get_rects(self):\r\n        return self.backboard_rect, self.basket_rect, self.hoop_center_rect
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/entities/panier.py b/src/entities/panier.py
+--- a/src/entities/panier.py	(revision a9e61a81ceb9a4c8f1aa96157bfd6ea8cb74acdf)
++++ b/src/entities/panier.py	(date 1746545466801)
+@@ -1,18 +1,20 @@
+ import pygame
+-from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR
+-#
++from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT
++
++BASKET_WIDTH = 60
++BASKET_HEIGHT = 10
++BACKBOARD_WIDTH = 10
++BACKBOARD_HEIGHT = 70
++
+ class Panier:
+     def __init__(self):
+-        self.basket_rect = pygame.Rect(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 200, 60, 12)
+-        self.backboard_rect = pygame.Rect(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 250, 10, 70)
+-        self.hoop_center_rect = pygame.Rect(self.basket_rect.centerx - 15, self.basket_rect.bottom, 30, 20)
++        self.basket_rect = pygame.Rect(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 200, BASKET_WIDTH, BASKET_HEIGHT)
++        self.backboard_rect = pygame.Rect(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 250, BACKBOARD_WIDTH, BACKBOARD_HEIGHT)
++        self.hoop_center_rect = pygame.Rect(self.basket_rect.centerx - 10, self.basket_rect.bottom, 20, 15)
+ 
+     def draw(self, screen):
+-        pygame.draw.rect(screen, BASKET_COLOR, self.basket_rect)
+-        pygame.draw.rect(screen, BACKBOARD_COLOR, self.backboard_rect)
+-        pygame.draw.rect(screen, (255, 0, 0), self.backboard_rect, 2)
+-        pygame.draw.rect(screen, (255, 0, 0), self.basket_rect, 2)
+-
++        pygame.draw.rect(screen, (255, 100, 100), self.basket_rect)        # Red for the rim
++        pygame.draw.rect(screen, (100, 100, 100), self.backboard_rect)     # Grey for the backboard
+ 
+     def get_rects(self):
+-        return self.backboard_rect, self.basket_rect, self.hoop_center_rect
+\ No newline at end of file
++        return self.backboard_rect, self.basket_rect, self.hoop_center_rect
