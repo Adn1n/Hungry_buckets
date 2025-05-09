@@ -23,6 +23,7 @@ class Game:
 
         self.window = Fenetre("Hungry Goals")
         self.screen = self.window.get_screen()
+        self.font = pygame.font.SysFont("comicsans", 30)
 
 
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
@@ -220,6 +221,10 @@ class Game:
 
             self.ball_list = [b for b in self.ball_list if b.active]
 
+            pos = pygame.mouse.get_pos()
+            afficher_texte(self.screen, self.font, f'Pos : {pos[0]}, {pos[1]}', (0, 0), 'red')
+
+
             # Score & record
             self.screen.blit(self.menu.font.render(f"Score: {self.score}", True, BLACK), (SCREEN_WIDTH - 200, 40))
             record = max(self.high_scores) if self.high_scores else "-"
@@ -238,7 +243,7 @@ class Game:
         self.start_pos = None
         self.game_started = True
         self.game_over = False
-        self.player = Player2(random.randint(100, 3 * SCREEN_WIDTH // 4), PLAYER_Y)
+
 
 
 if __name__ == "__main__":
