@@ -21,7 +21,10 @@ PANNEAU_COLOR = (46, 46, 184)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Hungry Goals")
-icon = pygame.image.load("assets/image/logo.png")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+icon_path = os.path.join(BASE_DIR, "assets", "image", "logo.png")
+icon = pygame.image.load(icon_path)
 pygame.display.set_icon(icon)
 
 font = pygame.font.SysFont(None, 36)
@@ -32,14 +35,14 @@ font_huge = pygame.font.SysFont(None, 120)
 pixel_font = pygame.font.Font(None, 48)  # Remplace None par le chemin si tu utilises une .ttf custom
 
 # Gestion des scores
-def load_high_scores(path="high_scores.txt"):
+def load_high_scores(path="code_omar/high_scores.txt"):
     if not os.path.exists(path):
         return 0
     with open(path, "r") as f:
         line = f.readline().strip()
         return int(line) if line.isdigit() else 0
 
-def save_high_score(score, path="high_scores.txt"):
+def save_high_score(score, path="code_omar/high_scores.txt"):
     with open(path, "w") as f:
         f.write(f"{score}\n")
 
@@ -83,8 +86,8 @@ def draw_start_screen():
     record_rect = pygame.Rect(405, 448, 167, 42)
 
     # Recharge le meilleur score à chaque affichage
-    if os.path.exists("high_scores.txt"):
-        with open("high_scores.txt", "r") as f:
+    if os.path.exists("code_omar/high_scores.txt"):
+        with open("code_omar/high_scores.txt", "r") as f:
             scores = [int(line.strip()) for line in f if line.strip().isdigit()]
             if scores:
                 best_score = max(scores)
