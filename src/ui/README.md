@@ -11,7 +11,7 @@ Teddy RAME : codage des fichiers choix_joueur.py, ball.py, background.py, fenetr
 Adnan MOUBARAC : codage des fichiers menu_screen.py, player1.py, player2.py, game.py
 
 Description :
-Ce projet nous a permis d’utiliser les connaissances accumulées en C durant ce semestre, tout en nous offrant une bonne expérience dans le domaine du travail d’équipe, en nous répartissant les tâches entre chacun, tout en gardant un regard sur le travail des autres afin de pouvoir nous entraider et améliorer notre code.
+Ce projet nous a permis d’utiliser les connaissances accumulées en python durant ce semestre, tout en nous offrant une bonne expérience dans le domaine du travail d’équipe, en nous répartissant les tâches entre chacun, tout en gardant un regard sur le travail des autres afin de pouvoir nous entraider et améliorer notre code.
 
 Fonctionnalités principales :
 Ce jeu est un jeu de basketball, dans lequel le joueur choisit son personnage et doit marquer le plus de paniers possible en un temps défini.
@@ -21,12 +21,15 @@ Nous avons utilisé C comme langage de programmation. Comme bibliothèque, nous 
 Nous avons également utilisé des images au format PNG que nous avons nous-mêmes générées.
 
 Installation :
+
 Il faut copier l’URL du Git, puis, dans notre projet PyCharm, aller dans "File", puis "Project from Version Control", et coller l’URL.
 Créer les différents fichiers vides que l’on viendra remplir plus tard, puis enregistrer les fichiers.
 
+pour acceder au code des autre il faut push et pour envoyer notre code sur le git il faut pull.
+
 Utilisation :
-Il suffit de push le code que l’on vient de coder, il s’enregistre alors directement sur Git.
-Il y a la commande push évoquée plus haut, mais également la commande pull qui sert à récupérer les fichiers, à l’inverse de push qui sert à ajouter les modifications.
+Il suffit de push le main,le jeu se lance alors dans une nouvelle fenetre.
+
 
 
 Titre du jeu : Hungry Buckets
