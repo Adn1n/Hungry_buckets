@@ -122,35 +122,37 @@ def draw_choix_joueur_screen():
     return tyson_btn, axel_btn, retour_btn
 
 
-def draw_game_over(score, high_score, is_record=False, blink_timer=0):
-    if score > 12:
-        bg = pygame.image.load("assets/image/you_win.png").convert()
-        bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
-        screen.blit(bg, (0, 0))
-    else:
-        bg = pygame.image.load("assets/image/game_over.png").convert()
-        bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
-        screen.blit(bg, (0, 0))
+def draw_game_over(score, high_score, is_record=False, blink_timer=0, cumulative_score=0, final_mode=False):
+    VIOLET = (200, 0, 200)
+    bg = pygame.image.load("assets/image/you_win.png" if score > 12 else "assets/image/game_over.png").convert()
+    bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+    screen.blit(bg, (0, 0))
 
-        y_text = 246
-        if is_record and (blink_timer // 20) % 2 == 0:
-            text = pixel_font.render(f"Nouveau record : {score}", True, (0, 255, 255))
-        else:
-            text = pixel_font.render(f"Score : {score}", True, (0, 255, 255))
-        text_rect = text.get_rect(center=(WIDTH // 2, y_text))
-        screen.blit(text, text_rect)
+    y_text = 246
+    display_score = score + cumulative_score if final_mode else score
+
+    if is_record and (blink_timer // 20) % 2 == 0:
+        text = pixel_font.render(f"Nouveau record : {display_score}", True, VIOLET)
+    else:
+        text = pixel_font.render(f"Score : {display_score}", True, VIOLET)
+
+    text_rect = text.get_rect(center=(WIDTH // 2, y_text))
+    screen.blit(text, text_rect)
 
     # Coordonnées souris (toujours affichées)
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    mouse_text = font.render(f"Mouse: ({mouse_x}, {mouse_y})", True, (200, 0, 200))
+    mouse_text = font.render(f"Mouse: ({mouse_x}, {mouse_y})", True, VIOLET)
     screen.blit(mouse_text, (10, HEIGHT - 30))
 
     # Bouton replay
     btn = pygame.Rect(WIDTH - 160, HEIGHT - 80, 140, 50)
     pygame.draw.rect(screen, (200, 200, 200), btn)
     pygame.draw.rect(screen, BLACK, btn, 2)
-    screen.blit(font.render("Replay", True, BLACK), font.render("Replay", True, BLACK).get_rect(center=btn.center))
+    replay_label = font.render("Replay", True, BLACK)
+    screen.blit(replay_label, replay_label.get_rect(center=btn.center))
+
     return btn
+
 
 
 
@@ -492,7 +494,8 @@ def main():
 
         # === Fin de partie
         if game_over:
-            btn = draw_game_over(score, high_score, is_new_record, blink_timer)
+            btn = draw_game_over(score, high_score, is_new_record, blink_timer, cumulative_score, final_mode)
+
             pygame.display.flip()
 
             menu_btn_you_win = pygame.Rect(372, 330, 244, 61)
@@ -529,12 +532,22 @@ def main():
                         final_mode = False
                         game_started = False
                         game_over = False
-                    elif replay_btn_game_over.collidepoint(event.pos):
+                    elif final_mode and replay_btn_you_win.collidepoint(event.pos):
+                        # Fin du niveau final → on recommence tout depuis zéro
+                        cumulative_score = 0
                         score = 0
+                        final_mode = False
+                        is_challenge_mode = False
                         game_over = False
                         game_started = True
+                        show_intro_screen = True
+                        intro_start_time = time.time()
                         reposition_panier()
-                        start_time = time.time()
+                        ball_list.clear()
+                        player_x = random.randint(100, 750)
+                        continue
+
+
             continue
 
         # === Chrono & fin
