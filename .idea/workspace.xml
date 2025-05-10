@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="equation de la balle a faire" />
+    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="equation de la balle a faire">
+      <change beforePath="$PROJECT_DIR$/.idea/Projet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Projet.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,12 +32,12 @@
     &quot;assignee&quot;: &quot;Adn1n&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Adn1n/Projet.git&quot;,
-    &quot;accountId&quot;: &quot;7b8e1e96-33d3-4b74-bdbd-fed687c054de&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Adn1n/Projet.git",
+    "accountId": "7b8e1e96-33d3-4b74-bdbd-fed687c054de"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -202,10 +207,7 @@
       <workItem from="1746472035167" duration="311000" />
       <workItem from="1746472362332" duration="67000" />
       <workItem from="1746474358695" duration="2141000" />
-      <workItem from="1746628892495" duration="1516000" />
-      <workItem from="1746896668559" duration="112000" />
-      <workItem from="1746902952321" duration="11000" />
-      <workItem from="1746903108522" duration="2559000" />
+      <workItem from="1746628892495" duration="1032000" />
     </task>
     <task id="LOCAL-00001" summary="Teddy">
       <option name="closed" value="true" />
@@ -367,39 +369,7 @@
       <option name="project" value="LOCAL" />
       <updated>1746472069869</updated>
     </task>
-    <task id="LOCAL-00021" summary="equation de la balle a faire">
-      <option name="closed" value="true" />
-      <created>1746630228396</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1746630228396</updated>
-    </task>
-    <task id="LOCAL-00022" summary="equation de la balle a faire">
-      <option name="closed" value="true" />
-      <created>1746903471392</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1746903471392</updated>
-    </task>
-    <task id="LOCAL-00023" summary="equation de la balle a faire">
-      <option name="closed" value="true" />
-      <created>1746905300405</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1746905300405</updated>
-    </task>
-    <task id="LOCAL-00024" summary="equation de la balle a faire">
-      <option name="closed" value="true" />
-      <created>1746905579635</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1746905579635</updated>
-    </task>
-    <option name="localTasksCounter" value="25" />
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,7 +402,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1744630161112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$game.coverage" NAME="game Coverage Results" MODIFIED="1744631392449" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Projet$game.coverage" NAME="game Coverage Results" MODIFIED="1746903218815" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
+    <SUITE FILE_PATH="coverage/Projet$game.coverage" NAME="game Coverage Results" MODIFIED="1746627831605" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
     <SUITE FILE_PATH="coverage/Projet$joueur.coverage" NAME="joueur Coverage Results" MODIFIED="1742748867964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$ds.coverage" NAME="ds Coverage Results" MODIFIED="1746214596926" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/core" />
     <SUITE FILE_PATH="coverage/Projet$fonctions_utiles.coverage" NAME="fonctions_utiles Coverage Results" MODIFIED="1744007724164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
