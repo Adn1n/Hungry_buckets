@@ -35,14 +35,15 @@ font_huge = pygame.font.SysFont(None, 120)
 pixel_font = pygame.font.Font(None, 48)  # Remplace None par le chemin si tu utilises une .ttf custom
 
 # Gestion des scores
-def load_high_scores(path="code_omar/high_scores.txt"):
+def load_high_scores(path="high_scores.txt"):
     if not os.path.exists(path):
         return 0
     with open(path, "r") as f:
         line = f.readline().strip()
         return int(line) if line.isdigit() else 0
 
-def save_high_score(score, path="code_omar/high_scores.txt"):
+
+def save_high_score(score, path="high_scores.txt"):
     with open(path, "w") as f:
         f.write(f"{score}\n")
 
@@ -86,16 +87,13 @@ def draw_start_screen():
     record_rect = pygame.Rect(405, 448, 167, 42)
 
     # Recharge le meilleur score à chaque affichage
-    if os.path.exists("code_omar/high_scores.txt"):
-        with open("code_omar/high_scores.txt", "r") as f:
-            scores = [int(line.strip()) for line in f if line.strip().isdigit()]
-            if scores:
-                best_score = max(scores)
-                text_surface = pixel_font.render(f"Record : {best_score}", True, (0, 255, 255))
-                text_rect = text_surface.get_rect(center=record_rect.center)
-                screen.blit(text_surface, text_rect)
+    best_score = load_high_scores()
+    text_surface = pixel_font.render(f"Record : {best_score}", True, (0, 255, 255))
+    text_rect = text_surface.get_rect(center=record_rect.center)
+    screen.blit(text_surface, text_rect)
 
     return jouer_btn, options_btn, quitter_btn
+
 
 
 
@@ -118,8 +116,9 @@ def draw_choix_joueur_screen():
     return tyson_btn, axel_btn, retour_btn
 
 
-def draw_game_over(score, high_score, is_record=False):
-    if is_record:
+def draw_game_over(score, high_score, is_record=False, blink_timer=0):
+    # Choisir l'image de fond
+    if score > 12:
         bg = pygame.image.load("assets/image/you_win.png").convert()
     elif score < 10:
         bg = pygame.image.load("assets/image/game_over.png").convert()
@@ -137,11 +136,20 @@ def draw_game_over(score, high_score, is_record=False):
 
     bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
     screen.blit(bg, (0, 0))
+
+    # Clignotement du texte
+    if is_record and (blink_timer // 10) % 2 == 0:
+        text = pixel_font.render(f"Nouveau record : {score}", True, (0, 255, 255))
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        screen.blit(text, text_rect)
+
+    # Bouton replay
     btn = pygame.Rect(WIDTH - 160, HEIGHT - 80, 140, 50)
     pygame.draw.rect(screen, (200, 200, 200), btn)
     pygame.draw.rect(screen, BLACK, btn, 2)
     screen.blit(font.render("Replay", True, BLACK), font.render("Replay", True, BLACK).get_rect(center=btn.center))
     return btn
+
 
 
 
@@ -301,12 +309,17 @@ def main():
     show_loading_screen()
     clock = pygame.time.Clock()
     high_score = load_high_scores()
+    blink_timer = 0
+    is_challenge_mode = False
+    panier_timer = 0  # Pour suivre le temps écoulé
 
     current_player = None
     on_option_screen = False
     on_choix_joueur = False
     game_started = False
     game_over = False
+    is_new_record = False
+
     frame_index = 0
     score = 0
     ball_list = []
@@ -315,14 +328,14 @@ def main():
     preview_angle = None
     preview_power = None
     start_time = None
-    is_new_record = False
     player_x = random.randint(100, 750)
 
     running = True
 
     while running:
+        blink_timer += 1
 
-        # Écran des options
+        # Écrans secondaires
         if on_option_screen:
             music_btn, sound_btn, return_btn = draw_option_screen()
             pygame.display.flip()
@@ -331,16 +344,11 @@ def main():
                     save_high_score(high_score)
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if music_btn.collidepoint(event.pos):
-                        print("🎵 Musique toggle")
-                    elif sound_btn.collidepoint(event.pos):
-                        print("🔊 Son toggle")
-                    elif return_btn.collidepoint(event.pos):
+                    if return_btn.collidepoint(event.pos):
                         on_option_screen = False
             clock.tick(60)
             continue
 
-        # Écran choix joueur
         if on_choix_joueur:
             tyson_btn, axel_btn, retour_btn = draw_choix_joueur_screen()
             pygame.display.flip()
@@ -365,7 +373,6 @@ def main():
             clock.tick(60)
             continue
 
-        # Menu principal
         if not game_started:
             jouer_btn, options_btn, quitter_btn = draw_start_screen()
             pygame.display.flip()
@@ -385,25 +392,50 @@ def main():
             clock.tick(60)
             continue
 
-        # Écran de fin
         if game_over:
-            btn = draw_game_over(score, high_score, is_new_record)
+            btn = draw_game_over(score, high_score, is_new_record, blink_timer)
             pygame.display.flip()
+
+            menu_btn_you_win = pygame.Rect(372, 330, 244, 61)
+            replay_btn_you_win = pygame.Rect(378, 426, 248, 55)
+            menu_btn_game_over = pygame.Rect(328, 281, 344, 65)
+            replay_btn_game_over = pygame.Rect(332, 368, 338, 74)
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     save_high_score(high_score)
                     running = False
-                elif event.type == pygame.MOUSEBUTTONDOWN and btn.collidepoint(event.pos):
-                    if score > high_score:
-                        high_score = score
-                        save_high_score(score)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if score >= 12:
+                        if menu_btn_you_win.collidepoint(event.pos):
+                            game_over = False
+                            game_started = False
+                            score = 0
+                            ball_list.clear()
+                        elif replay_btn_you_win.collidepoint(event.pos):
+                            game_started = True
+                            game_over = False
+                            score = 0
+                            ball_list.clear()
+                            reposition_panier()
+                            start_time = time.time()
+                            player_x = random.randint(100, 750)
+                            is_challenge_mode = True
+                            panier_timer = pygame.time.get_ticks()  # Start the 3s timer
 
-                    score = 0
-                    ball_list.clear()
-                    game_started = False
-                    game_over = False
-                    player_x = random.randint(100, 750)
-            clock.tick(60)
+                else:
+                        if menu_btn_game_over.collidepoint(event.pos):
+                            game_over = False
+                            game_started = False
+                            score = 0
+                            ball_list.clear()
+                        elif replay_btn_game_over.collidepoint(event.pos):
+                            game_over = False
+                            game_started = True
+                            score = 0
+                            ball_list.clear()
+                            reposition_panier()
+                            start_time = time.time()
             continue
 
         # Partie en cours
@@ -417,21 +449,15 @@ def main():
             game_over = True
             continue
 
-        # Chargement des frames
+        # Frames du joueur
         if current_player:
-            if current_player == "tyson":
-                frames_idle = load_frames(sprite_sheet, 2, 23, 64, 64)
-                frames_run = load_frames(sprite_sheet, 8, 7, 64, 64) + load_frames(sprite_sheet, 9, 20, 64, 64)
-            elif current_player == "axel":
-                frames_idle = load_frames(sprite_sheet, 2, 23, 64, 64)
-                frames_run = load_frames(sprite_sheet, 8, 7, 64, 64) + load_frames(sprite_sheet, 9, 20, 64, 64)
+            frames_idle = load_frames(sprite_sheet, 2, 23, 64, 64)
+            frames_run = load_frames(sprite_sheet, 8, 7, 64, 64) + load_frames(sprite_sheet, 9, 20, 64, 64)
             frames_left = [pygame.transform.flip(f, True, False) for f in frames_run]
 
-        # Affichage principal
+        # Rendu principal
         screen.blit(background_game, (0, 0))
         screen.blit(font.render(f"Time: {remaining}", True, BLACK), (20, 20))
-        if remaining <= 3:
-            screen.blit(font_huge.render(str(remaining), True, BLACK), (WIDTH // 2 - 40, HEIGHT // 2 - 60))
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -452,7 +478,7 @@ def main():
         player_y = PLAYER_Y
         player_pos = (player_x, player_y)
 
-        # Gestion des événements
+        # Événements
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 save_high_score(high_score)
@@ -479,8 +505,12 @@ def main():
         screen.blit(current_frame, (player_x - current_frame.get_width() // 2, player_y - current_frame.get_height() // 2))
         pygame.draw.rect(screen, ARCEAU_COLOR, basket_rect)
         pygame.draw.rect(screen, PANNEAU_COLOR, backboard_rect)
+        if is_challenge_mode:
+            now = pygame.time.get_ticks()
+            if now - panier_timer > 3000:  # 3000 ms = 3 secondes
+                reposition_panier()
+                panier_timer = now
 
-        # Boucle balle
         for ball in ball_list:
             if ball.active:
                 if ball.update() == "score":
@@ -490,18 +520,17 @@ def main():
                 ball.draw(screen)
         ball_list = [b for b in ball_list if b.active]
 
-        # Dessin de la trajectoire prévisionnelle
         if dragging and preview_angle is not None and preview_power is not None:
             draw_trajectory(screen, player_pos, preview_angle, preview_power)
 
         screen.blit(font.render(f"Score: {score}", True, BLACK), (WIDTH - 200, 40))
         screen.blit(font.render(f"Record: {high_score}", True, BLACK), (WIDTH - 200, 10))
-        screen.blit(font.render(f"Mouse: {pygame.mouse.get_pos()}", True, BLACK), (20, HEIGHT - 40))
         pygame.display.flip()
         clock.tick(60)
 
     save_high_score(high_score)
     pygame.quit()
+
 
 
 if __name__ == "__main__":
