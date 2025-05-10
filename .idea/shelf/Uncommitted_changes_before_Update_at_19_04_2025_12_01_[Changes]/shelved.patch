@@ -1,0 +1,515 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\r\nfrom game import Game\r\n\r\nif __name__ == \"__main__\":\r\n    game = Game()\r\n    game.run()
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision 85e361daac84ceb86197465c3f2fa0ab364c7e98)
++++ b/main.py	(date 1744008788851)
+@@ -1,5 +1,5 @@
+ import pygame
+-from game import Game
++from game import game
+ 
+ if __name__ == "__main__":
+     game = Game()
+Index: game.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\r\nfrom joueur import Player\r\nfrom config import *\r\nfrom fonctions_utiles import *\r\nfrom menu_screen import
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game.py b/game.py
+--- a/game.py	(revision 85e361daac84ceb86197465c3f2fa0ab364c7e98)
++++ b/game.py	(date 1744011181704)
+@@ -2,4 +2,4 @@
+ from joueur import Player
+ from config import *
+ from fonctions_utiles import *
+-from menu_screen import
+\ No newline at end of file
++from menu_screen import * 
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_07_04_2025_08_34_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_07_04_2025_08_34_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_07_04_2025_08_34_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_07_04_2025_08_34_[Changes]/shelved.patch	(revision 85e361daac84ceb86197465c3f2fa0ab364c7e98)
++++ /dev/null	(revision 85e361daac84ceb86197465c3f2fa0ab364c7e98)
+@@ -1,359 +0,0 @@
+-Index: game.py
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>import pygame\r\nfrom joueur import Player\r\nfrom config import *\r\nfrom fonctions_utiles import *\r\nfrom menu_screen import Menu\r\n\r\nclass Game :\r\n    def __init__(self):\r\n        pygame.init()\r\n        self.ecran = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)\r\n        pygame.display.set_caption(\"Projet Transverse\")\r\n        icone = pygame.image.load('image/icone.png')\r\n        pygame.display.set_icon(icone)\r\n        self.clock = pygame.time.Clock()\r\n\r\n        self.reference_size = (1280, 720)\r\n\r\n        self.player = Player()\r\n\r\n        self.background_original = pygame.image.load(\"image/arriere_plan_basket.png\")\r\n        self.background = pygame.transform.scale(self.background_original, (SCREEN_WIDTH, SCREEN_HEIGHT))\r\n\r\n\r\n        self.font = pygame.font.SysFont('arial', FONT_SIZE)\r\n        self.running = True\r\n\r\n\r\n    def draw(self,ecran,font):\r\n\r\n        self.ecran.fill((0,0,0))\r\n        self.ecran.blit(self.background,(0,0))\r\n        self.player.draw(self.ecran)\r\n\r\n        afficher_texte(ecran,font,f\"Gravity : {self.player.gravity}\",(300,0),\"orange\")\r\n        afficher_texte(ecran,font,f\"Coordinates y : {self.player.joueur.y}\",(0,0),\"red\")\r\n        afficher_texte(ecran,font,f\"Coordinates x : {self.player.joueur.x}\",(0,20),\"black\")\r\n\r\n\r\n        pygame.display.update()\r\n\r\n\r\n\r\n    def handling(self):\r\n        events = pygame.event.get()\r\n\r\n        for event in events:\r\n            if event.type == pygame.QUIT:\r\n                self.running = False\r\n            if event.type == pygame.KEYDOWN:\r\n                if event.key == pygame.K_ESCAPE:\r\n                    self.running = False\r\n            if event.type == pygame.VIDEORESIZE:\r\n                self.ecran = pygame.display.set_mode((event.w, event.h),pygame.RESIZABLE)\r\n                self.background = pygame.transform.scale(self.background_original, (event.w, event.h))\r\n\r\n        self.player.handle_event(events)\r\n\r\n\r\n    def run(self):\r\n        while self.running:\r\n            self.handling()\r\n            self.draw(self.ecran,self.font)\r\n            self.clock.tick(60)\r\n\r\n        pygame.quit()\r\n\r\n\r\n\r\npygame.init()\r\ngame = Game()\r\nmenu = Menu(game.ecran)\r\naction = menu.handle()\r\nif action :\r\n    game.run()\r\n\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/game.py b/game.py
+---- a/game.py	(revision a2f99f230c6e7603061019346b20f374f902920a)
+-+++ b/game.py	(date 1742822511910)
+-@@ -4,72 +4,82 @@
+- from fonctions_utiles import *
+- from menu_screen import Menu
+- 
+--class Game :
+--    def __init__(self):
+--        pygame.init()
+--        self.ecran = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT),pygame.RESIZABLE)
+--        pygame.display.set_caption("Projet Transverse")
+--        icone = pygame.image.load('image/icone.png')
+--        pygame.display.set_icon(icone)
+--        self.clock = pygame.time.Clock()
+--
+--        self.reference_size = (1280, 720)
+--
+--        self.player = Player()
+--
+--        self.background_original = pygame.image.load("image/arriere_plan_basket.png")
+--        self.background = pygame.transform.scale(self.background_original, (SCREEN_WIDTH, SCREEN_HEIGHT))
+--
+--
+--        self.font = pygame.font.SysFont('arial', FONT_SIZE)
+--        self.running = True
+--
+--
+--    def draw(self,ecran,font):
+-+try:
+-+    class BasketballGame:
+-+        def __init__(self, team1_name, team2_name):
+-+            self.team1_name = team1_name
+-+            self.team2_name = team2_name
+-+            self.team1_score = 0
+-+            self.team2_score = 0
+-+            self.current_team = None
+-+            self.current_quarter = 1
+-+            self.max_quarter = 4
+-+            self.max_points = 50
+-+            self.players = {
+-+                team1_name: {"player1": "Player 1", "player2": "Player 2", "player3": "Player 3"},
+-+                team2_name: {"player1": "Player 1",
+-+                             "player2": "Player 2", "player3": "Player 3"}
+-+            }
+- 
+--        self.ecran.fill((0,0,0))
+--        self.ecran.blit(self.background,(0,0))
+--        self.player.draw(self.ecran)
+-+        def switch_team(self):
+-+            if self.current_team == self.team1_name:
+-+                self.current_team = self.team2_name
+-+            else:
+-+                self.current_team = self.team1_name
+- 
+--        afficher_texte(ecran,font,f"Gravity : {self.player.gravity}",(300,0),"orange")
+--        afficher_texte(ecran,font,f"Coordinates y : {self.player.joueur.y}",(0,0),"red")
+--        afficher_texte(ecran,font,f"Coordinates x : {self.player.joueur.x}",(0,20),"black")
+-+        def make_shot(self, points):
+-+            if points == 1:
+-+                print(f"{self.current_team} scores a free throw!")
+-+            else:
+-+                print(f"{self.current_team} scores a {points}-point shot!")
+-+            if self.current_team == self.team1_name:
+-+                self.team1_score += points
+-+            else:
+-+                self.team2_score += points
+- 
+-+        def print_scoreboard(self):
+-+            print(
+-+                f"Scoreboard: {self.team1_name} {self.team1_score} - {self.team2_score} {self.team2_name}")
+- 
+--        pygame.display.update()
+-+        def simulate(self):
+-+            print("Welcome to the Basketball Game Simulator!")
+-+            self.current_team = self.team1_name
+-+            while self.current_quarter <= self.max_quarter and max(self.team1_score, self.team2_score) < self.max_points:
+-+                print(f"\nStart of Quarter {self.current_quarter}")
+-+                while True:
+-+                    print(f"\n{self.current_team} ball!")
+-+                    print("What would you like to do?")
+-+                    print("1. Shoot a free throw")
+-+                    print("2. Shoot a 2-point shot")
+-+                    print("3. Shoot a 3-point shot")
+-+                    choice = input("Enter your choice (1-3): ")
+- 
+-+                    if choice == "1":
+-+                        self.make_shot(1)
+-+                        break
+-+                    elif choice == "2":
+-+                        self.make_shot(2)
+-+                        break
+-+                    elif choice == "3":
+-+                        self.make_shot(3)
+-+                        break
+-+                    else:
+-+                        print("Invalid choice. Please try again.")
+-+                self.switch_team()
+-+                self.print_scoreboard()
+-+                self.current_quarter += 1
+- 
+-+            if self.team1_score > self.team2_score:
+-+                print(f"{self.team1_name} wins!")
+-+            elif self.team2_score > self.team1_score:
+-+                print(f"{self.team2_name} wins!")
+-+            else:
+-+                print("It's a tie!")
+- 
+--    def handling(self):
+--        events = pygame.event.get()
+-+    game = BasketballGame("Team 1", "Team 2")
+-+    game.simulate()
+- 
+--        for event in events:
+--            if event.type == pygame.QUIT:
+--                self.running = False
+--            if event.type == pygame.KEYDOWN:
+--                if event.key == pygame.K_ESCAPE:
+--                    self.running = False
+--            if event.type == pygame.VIDEORESIZE:
+--                self.ecran = pygame.display.set_mode((event.w, event.h),pygame.RESIZABLE)
+--                self.background = pygame.transform.scale(self.background_original, (event.w, event.h))
+--
+--        self.player.handle_event(events)
+--
+--
+--    def run(self):
+--        while self.running:
+--            self.handling()
+--            self.draw(self.ecran,self.font)
+--            self.clock.tick(60)
+--
+--        pygame.quit()
+--
+--
+--
+--pygame.init()
+--game = Game()
+--menu = Menu(game.ecran)
+--action = menu.handle()
+--if action :
+--    game.run()
+--
+-+except KeyError:
+-+    print("Type Carefully...Exiting...")
+-+except KeyboardInterrupt:
+-+    print("Ctrl+C Detected...Exiting...")
+-\ No newline at end of file
+-Index: joueur.py
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>import pygame\r\nfrom config import *\r\n\r\n\r\nclass Player :\r\n\r\n    def __init__(self):\r\n\r\n        self.gravity = 0\r\n        self.velocity = PLAYER_VELOCITY\r\n\r\n        self.is_jumping = False\r\n        self.jump_velocity = PLAYER_JUMP_VELOCITY\r\n\r\n        self.joueur = pygame.Rect((SCREEN_WIDTH - PLAYER_WIDTH) // 2, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)\r\n        self.sol_player = self.joueur.y\r\n\r\n\r\n    def draw(self, ecran):\r\n        pygame.draw.rect(ecran, PLAYER_COLOR, self.joueur)\r\n\r\n\r\n    def handle_event(self,events):\r\n        for event in events:\r\n            if event.type == pygame.KEYDOWN:\r\n                if event.key == pygame.K_UP and not self.is_jumping:\r\n                    self.is_jumping = True\r\n                    self.gravity = - self.jump_velocity\r\n\r\n        keys = pygame.key.get_pressed()\r\n        if keys[pygame.K_LEFT]:\r\n            self.joueur.x -= self.velocity\r\n        if keys[pygame.K_RIGHT]:\r\n            self.joueur.x += self.velocity\r\n\r\n        if self.is_jumping:\r\n            self.joueur.y += self.gravity\r\n            self.gravity += 1\r\n            if self.joueur.y >= self.sol_player:\r\n                self.joueur.y = self.sol_player\r\n                self.is_jumping = False\r\n                self.gravity = 0\r\n\r\n        if self.joueur.x < 0 :\r\n            self.joueur.x = 0\r\n        if self.joueur.x + self.joueur.w > SCREEN_WIDTH :\r\n            self.joueur.x = SCREEN_WIDTH - self.joueur.w\r\n\r\n        if self.joueur.y < 0 :\r\n            self.joueur.y = 0\r\n        if  self.joueur.y > self.sol_player:\r\n            self.joueur.y = self.sol_player\r\n\r\n\r\n\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/joueur.py b/joueur.py
+---- a/joueur.py	(revision a2f99f230c6e7603061019346b20f374f902920a)
+-+++ b/joueur.py	(date 1742822012232)
+-@@ -1,7 +1,6 @@
+- import pygame
+- from config import *
+- 
+--
+- class Player :
+- 
+-     def __init__(self):
+-@@ -12,7 +11,7 @@
+-         self.is_jumping = False
+-         self.jump_velocity = PLAYER_JUMP_VELOCITY
+- 
+--        self.joueur = pygame.Rect((SCREEN_WIDTH - PLAYER_WIDTH) // 2, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 90, PLAYER_WIDTH, PLAYER_HEIGHT)
+-+        self.joueur = pygame.Rect((SCREEN_WIDTH - PLAYER_WIDTH) // 2, (SCREEN_HEIGHT - PLAYER_HEIGHT) - 100, PLAYER_WIDTH, PLAYER_HEIGHT)
+-         self.sol_player = self.joueur.y
+- 
+- 
+-Index: .idea/misc.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"Python 3.12 (Projet)\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.12 (Projet_python)\" project-jdk-type=\"Python SDK\" />\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/misc.xml b/.idea/misc.xml
+---- a/.idea/misc.xml	(revision a2f99f230c6e7603061019346b20f374f902920a)
+-+++ b/.idea/misc.xml	(date 1742821889099)
+-@@ -3,5 +3,5 @@
+-   <component name="Black">
+-     <option name="sdkName" value="Python 3.12 (Projet)" />
+-   </component>
+--  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (Projet_python)" project-jdk-type="Python SDK" />
+-+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13" project-jdk-type="Python SDK" />
+- </project>
+-\ No newline at end of file
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b\" name=\"Changes\" comment=\"Du nouveau\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/config.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/config.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/game.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/game.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Unit Test\" />\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;Adn1n&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/Adn1n/Projet.git&quot;,\r\n    &quot;accountId&quot;: &quot;1d4673ab-fdd8-462b-a347-4212ad4de6ce&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 7\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2uR7N5TcrJvbazUTYd2KcelFrsp\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Python.config.executor\": \"Run\",\r\n    \"Python.entrainement.executor\": \"Run\",\r\n    \"Python.game.executor\": \"Run\",\r\n    \"Python.joueur.executor\": \"Run\",\r\n    \"Python.main.executor\": \"Run\",\r\n    \"Python.menu_screen.executor\": \"Run\",\r\n    \"Python.player.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"last_opened_file_path\": \"/Users/adnan/PycharmProjects/Projet/image\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"inlay.hints\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"$PROJECT_DIR$/image\" />\r\n      <recent name=\"$PROJECT_DIR$\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29\" />\r\n        <option value=\"bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b\" name=\"Changes\" comment=\"\" />\r\n      <created>1742199489440</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1742199489440</updated>\r\n      <workItem from=\"1742199491334\" duration=\"765000\" />\r\n      <workItem from=\"1742200272116\" duration=\"2820000\" />\r\n      <workItem from=\"1742482963738\" duration=\"44000\" />\r\n      <workItem from=\"1742484249828\" duration=\"370000\" />\r\n      <workItem from=\"1742484639993\" duration=\"9842000\" />\r\n      <workItem from=\"1742660955517\" duration=\"37000\" />\r\n      <workItem from=\"1742661013444\" duration=\"34652000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742199860531</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742199860531</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742200582452</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742200582452</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742200630355</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742200630355</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742200996335</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742200996335</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742201347579</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742201347579</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742484924438</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742484924438</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742745693735</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742745693735</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742745721134</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742745721134</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742813020627</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742813020627</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742815888119</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742815888119</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742816384940</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742816384940</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"12\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Teddy\" />\r\n    <MESSAGE value=\"Du nouveau\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Du nouveau\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/Projet$joueur.coverage\" NAME=\"joueur Coverage Results\" MODIFIED=\"1742748867964\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$player.coverage\" NAME=\"player Coverage Results\" MODIFIED=\"1742662578953\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$main.coverage\" NAME=\"main Coverage Results\" MODIFIED=\"1742748838780\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$game.coverage\" NAME=\"game Coverage Results\" MODIFIED=\"1742820565009\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$entrainement.coverage\" NAME=\"entrainement Coverage Results\" MODIFIED=\"1742741010630\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$menu_screen.coverage\" NAME=\"menu_screen Coverage Results\" MODIFIED=\"1742762950347\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$config.coverage\" NAME=\"config Coverage Results\" MODIFIED=\"1742817056757\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision a2f99f230c6e7603061019346b20f374f902920a)
+-+++ b/.idea/workspace.xml	(date 1744007522412)
+-@@ -4,10 +4,12 @@
+-     <option name="autoReloadType" value="SELECTIVE" />
+-   </component>
+-   <component name="ChangeListManager">
+--    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="Du nouveau">
+-+    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="Teddy">
+-+      <change beforePath="$PROJECT_DIR$/.idea/Projet.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Projet.iml" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+-       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/joueur.py" beforeDir="false" afterPath="$PROJECT_DIR$/joueur.py" afterDir="false" />
+-     </list>
+-     <option name="SHOW_DIALOG" value="false" />
+-     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-@@ -48,28 +50,27 @@
+-     <option name="hideEmptyMiddlePackages" value="true" />
+-     <option name="showLibraryContents" value="true" />
+-   </component>
+--  <component name="PropertiesComponent"><![CDATA[{
+--  "keyToString": {
+--    "Python.config.executor": "Run",
+--    "Python.entrainement.executor": "Run",
+--    "Python.game.executor": "Run",
+--    "Python.joueur.executor": "Run",
+--    "Python.main.executor": "Run",
+--    "Python.menu_screen.executor": "Run",
+--    "Python.player.executor": "Run",
+--    "RunOnceActivity.ShowReadmeOnStart": "true",
+--    "RunOnceActivity.git.unshallow": "true",
+--    "git-widget-placeholder": "main",
+--    "last_opened_file_path": "/Users/adnan/PycharmProjects/Projet/image",
+--    "node.js.detected.package.eslint": "true",
+--    "node.js.detected.package.tslint": "true",
+--    "node.js.selected.package.eslint": "(autodetect)",
+--    "node.js.selected.package.tslint": "(autodetect)",
+--    "nodejs_package_manager_path": "npm",
+--    "settings.editor.selected.configurable": "inlay.hints",
+--    "vue.rearranger.settings.migration": "true"
+-+  <component name="PropertiesComponent">{
+-+  &quot;keyToString&quot;: {
+-+    &quot;Python.entrainement.executor&quot;: &quot;Run&quot;,
+-+    &quot;Python.game.executor&quot;: &quot;Run&quot;,
+-+    &quot;Python.joueur.executor&quot;: &quot;Run&quot;,
+-+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+-+    &quot;Python.menu_screen.executor&quot;: &quot;Run&quot;,
+-+    &quot;Python.player.executor&quot;: &quot;Run&quot;,
+-+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+-+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+-+    &quot;last_opened_file_path&quot;: &quot;/Users/adnan/PycharmProjects/Projet/image&quot;,
+-+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+-+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+-   }
+--}]]></component>
+-+}</component>
+-   <component name="RecentsManager">
+-     <key name="CopyFile.RECENT_KEYS">
+-       <recent name="$PROJECT_DIR$/image" />
+-@@ -79,8 +80,8 @@
+-   <component name="SharedIndexes">
+-     <attachedChunks>
+-       <set>
+--        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
+--        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+-+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PY-243.21565.199" />
+-+        <option value="bundled-python-sdk-cab1f2013843-4ae2d6a61b08-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.21565.199" />
+-       </set>
+-     </attachedChunks>
+-   </component>
+-@@ -98,7 +99,10 @@
+-       <workItem from="1742484249828" duration="370000" />
+-       <workItem from="1742484639993" duration="9842000" />
+-       <workItem from="1742660955517" duration="37000" />
+--      <workItem from="1742661013444" duration="34652000" />
+-+      <workItem from="1742661013444" duration="31756000" />
+-+      <workItem from="1744007027868" duration="46000" />
+-+      <workItem from="1744007138358" duration="16000" />
+-+      <workItem from="1744007348661" duration="173000" />
+-     </task>
+-     <task id="LOCAL-00001" summary="Teddy">
+-       <option name="closed" value="true" />
+-@@ -172,23 +176,7 @@
+-       <option name="project" value="LOCAL" />
+-       <updated>1742813020627</updated>
+-     </task>
+--    <task id="LOCAL-00010" summary="Du nouveau">
+--      <option name="closed" value="true" />
+--      <created>1742815888119</created>
+--      <option name="number" value="00010" />
+--      <option name="presentableId" value="LOCAL-00010" />
+--      <option name="project" value="LOCAL" />
+--      <updated>1742815888119</updated>
+--    </task>
+--    <task id="LOCAL-00011" summary="Du nouveau">
+--      <option name="closed" value="true" />
+--      <created>1742816384940</created>
+--      <option name="number" value="00011" />
+--      <option name="presentableId" value="LOCAL-00011" />
+--      <option name="project" value="LOCAL" />
+--      <updated>1742816384940</updated>
+--    </task>
+--    <option name="localTasksCounter" value="12" />
+-+    <option name="localTasksCounter" value="10" />
+-     <servers />
+-   </component>
+-   <component name="TypeScriptGeneratedFilesManager">
+-@@ -200,12 +188,11 @@
+-     <option name="LAST_COMMIT_MESSAGE" value="Du nouveau" />
+-   </component>
+-   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+--    <SUITE FILE_PATH="coverage/Projet$joueur.coverage" NAME="joueur Coverage Results" MODIFIED="1742748867964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-+    <SUITE FILE_PATH="coverage/Projet$game.coverage" NAME="game Coverage Results" MODIFIED="1744007143269" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-+    <SUITE FILE_PATH="coverage/Projet$joueur.coverage" NAME="joueur Coverage Results" MODIFIED="1742822031180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-     <SUITE FILE_PATH="coverage/Projet$player.coverage" NAME="player Coverage Results" MODIFIED="1742662578953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-+    <SUITE FILE_PATH="coverage/Projet$menu_screen.coverage" NAME="menu_screen Coverage Results" MODIFIED="1742762950347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-     <SUITE FILE_PATH="coverage/Projet$main.coverage" NAME="main Coverage Results" MODIFIED="1742748838780" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+--    <SUITE FILE_PATH="coverage/Projet$game.coverage" NAME="game Coverage Results" MODIFIED="1742820565009" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-     <SUITE FILE_PATH="coverage/Projet$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1742741010630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+--    <SUITE FILE_PATH="coverage/Projet$menu_screen.coverage" NAME="menu_screen Coverage Results" MODIFIED="1742762950347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+--    <SUITE FILE_PATH="coverage/Projet$config.coverage" NAME="config Coverage Results" MODIFIED="1742817056757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-   </component>
+- </project>
+-\ No newline at end of file
+-Index: .idea/Projet.iml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.12 (Projet_python)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/Projet.iml b/.idea/Projet.iml
+---- a/.idea/Projet.iml	(revision a2f99f230c6e7603061019346b20f374f902920a)
+-+++ b/.idea/Projet.iml	(date 1742821911968)
+-@@ -4,7 +4,7 @@
+-     <content url="file://$MODULE_DIR$">
+-       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+-     </content>
+--    <orderEntry type="jdk" jdkName="Python 3.12 (Projet_python)" jdkType="Python SDK" />
+-+    <orderEntry type="jdk" jdkName="Python 3.13" jdkType="Python SDK" />
+-     <orderEntry type="sourceFolder" forTests="false" />
+-   </component>
+- </module>
+-\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b\" name=\"Changes\" comment=\"Du nouveau\">\r\n      <change beforePath=\"$PROJECT_DIR$/game.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/game.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Unit Test\" />\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;Adn1n&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/Adn1n/Projet.git&quot;,\r\n    &quot;accountId&quot;: &quot;1d4673ab-fdd8-462b-a347-4212ad4de6ce&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 7\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2uR7N5TcrJvbazUTYd2KcelFrsp\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Python.config.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.entrainement.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.fonctions_utiles.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.game.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.joueur.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.main.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.menu_screen.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.player.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;/Users/adnan/PycharmProjects/Projet/image&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"$PROJECT_DIR$/image\" />\r\n      <recent name=\"$PROJECT_DIR$\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PY-243.21565.199\" />\r\n        <option value=\"bundled-python-sdk-cab1f2013843-4ae2d6a61b08-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.21565.199\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b\" name=\"Changes\" comment=\"\" />\r\n      <created>1742199489440</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1742199489440</updated>\r\n      <workItem from=\"1742199491334\" duration=\"765000\" />\r\n      <workItem from=\"1742200272116\" duration=\"2820000\" />\r\n      <workItem from=\"1742482963738\" duration=\"44000\" />\r\n      <workItem from=\"1742484249828\" duration=\"370000\" />\r\n      <workItem from=\"1742484639993\" duration=\"9842000\" />\r\n      <workItem from=\"1742660955517\" duration=\"37000\" />\r\n      <workItem from=\"1742661013444\" duration=\"34652000\" />\r\n      <workItem from=\"1744007821960\" duration=\"327000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742199860531</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742199860531</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742200582452</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742200582452</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742200630355</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742200630355</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742200996335</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742200996335</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742201347579</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742201347579</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Teddy\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742484924438</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742484924438</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742745693735</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742745693735</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742745721134</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742745721134</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742813020627</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742813020627</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742815888119</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742815888119</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1742816384940</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1742816384940</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1744007987343</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1744007987343</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Du nouveau\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1744007999584</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1744007999584</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"14\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Teddy\" />\r\n    <MESSAGE value=\"Du nouveau\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Du nouveau\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/Projet$game.coverage\" NAME=\"game Coverage Results\" MODIFIED=\"1744008078114\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$joueur.coverage\" NAME=\"joueur Coverage Results\" MODIFIED=\"1744008112816\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$fonctions_utiles.coverage\" NAME=\"fonctions_utiles Coverage Results\" MODIFIED=\"1744007724164\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$player.coverage\" NAME=\"player Coverage Results\" MODIFIED=\"1742662578953\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$menu_screen.coverage\" NAME=\"menu_screen Coverage Results\" MODIFIED=\"1742762950347\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$main.coverage\" NAME=\"main Coverage Results\" MODIFIED=\"1744008118895\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$config.coverage\" NAME=\"config Coverage Results\" MODIFIED=\"1744008132446\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n    <SUITE FILE_PATH=\"coverage/Projet$entrainement.coverage\" NAME=\"entrainement Coverage Results\" MODIFIED=\"1744008137868\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 85e361daac84ceb86197465c3f2fa0ab364c7e98)
++++ b/.idea/workspace.xml	(date 1744458511481)
+@@ -5,7 +5,9 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="Du nouveau">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/game.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -22,6 +24,7 @@
+   </component>
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
++    <option name="UPDATE_TYPE" value="REBASE" />
+   </component>
+   <component name="GitHubPullRequestSearchHistory">{
+   &quot;lastFilter&quot;: {
+@@ -32,7 +35,7 @@
+   <component name="GithubPullRequestsUISettings">{
+   &quot;selectedUrlAndAccountId&quot;: {
+     &quot;url&quot;: &quot;https://github.com/Adn1n/Projet.git&quot;,
+-    &quot;accountId&quot;: &quot;1d4673ab-fdd8-462b-a347-4212ad4de6ce&quot;
++    &quot;accountId&quot;: &quot;7b8e1e96-33d3-4b74-bdbd-fed687c054de&quot;
+   }
+ }</component>
+   <component name="ProjectColorInfo">{
+@@ -74,6 +77,36 @@
+       <recent name="$PROJECT_DIR$/image" />
+       <recent name="$PROJECT_DIR$" />
+     </key>
++  </component>
++  <component name="RunManager">
++    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++      <module name="Projet" />
++      <option name="ENV_FILES" value="" />
++      <option name="INTERPRETER_OPTIONS" value="" />
++      <option name="PARENT_ENVS" value="true" />
++      <envs>
++        <env name="PYTHONUNBUFFERED" value="1" />
++      </envs>
++      <option name="SDK_HOME" value="" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
++      <option name="IS_MODULE_SDK" value="true" />
++      <option name="ADD_CONTENT_ROOTS" value="true" />
++      <option name="ADD_SOURCE_ROOTS" value="true" />
++      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
++      <option name="PARAMETERS" value="" />
++      <option name="SHOW_COMMAND_LINE" value="false" />
++      <option name="EMULATE_TERMINAL" value="false" />
++      <option name="MODULE_MODE" value="false" />
++      <option name="REDIRECT_INPUT" value="false" />
++      <option name="INPUT_FILE" value="" />
++      <method v="2" />
++    </configuration>
++    <recent_temporary>
++      <list>
++        <item itemvalue="Python.main" />
++      </list>
++    </recent_temporary>
+   </component>
+   <component name="SharedIndexes">
+     <attachedChunks>
+@@ -98,7 +131,9 @@
+       <workItem from="1742484639993" duration="9842000" />
+       <workItem from="1742660955517" duration="37000" />
+       <workItem from="1742661013444" duration="34652000" />
+-      <workItem from="1744007821960" duration="327000" />
++      <workItem from="1744007821960" duration="2944000" />
++      <workItem from="1744137976768" duration="8000" />
++      <workItem from="1744373959858" duration="52000" />
+     </task>
+     <task id="LOCAL-00001" summary="Teddy">
+       <option name="closed" value="true" />
+@@ -204,7 +239,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1744007999584</updated>
+     </task>
+-    <option name="localTasksCounter" value="14" />
++    <task id="LOCAL-00014" summary="Du nouveau">
++      <option name="closed" value="true" />
++      <created>1744008176308</created>
++      <option name="number" value="00014" />
++      <option name="presentableId" value="LOCAL-00014" />
++      <option name="project" value="LOCAL" />
++      <updated>1744008176308</updated>
++    </task>
++    <option name="localTasksCounter" value="15" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -221,8 +264,8 @@
+     <SUITE FILE_PATH="coverage/Projet$fonctions_utiles.coverage" NAME="fonctions_utiles Coverage Results" MODIFIED="1744007724164" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+     <SUITE FILE_PATH="coverage/Projet$player.coverage" NAME="player Coverage Results" MODIFIED="1742662578953" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+     <SUITE FILE_PATH="coverage/Projet$menu_screen.coverage" NAME="menu_screen Coverage Results" MODIFIED="1742762950347" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-    <SUITE FILE_PATH="coverage/Projet$main.coverage" NAME="main Coverage Results" MODIFIED="1744008118895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+     <SUITE FILE_PATH="coverage/Projet$config.coverage" NAME="config Coverage Results" MODIFIED="1744008132446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+-    <SUITE FILE_PATH="coverage/Projet$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1744008137868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
++    <SUITE FILE_PATH="coverage/Projet$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1744008213094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
++    <SUITE FILE_PATH="coverage/Projet$main.coverage" NAME="main Coverage Results" MODIFIED="1744373989052" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+   </component>
+ </project>
+\ No newline at end of file
