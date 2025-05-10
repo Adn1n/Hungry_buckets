@@ -98,10 +98,11 @@ def draw_start_screen():
 
 
 def draw_option_screen():
-    bg = pygame.image.load("assets/image/option_screen.png")
+    bg = pygame.image.load("assets/image/options.png").convert()
     bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
     screen.blit(bg, (0, 0))
     return pygame.Rect(400, 230, 220, 60), pygame.Rect(400, 330, 220, 60), pygame.Rect(400, 430, 220, 60)
+
 
 def draw_choix_joueur_screen():
     bg = pygame.image.load("assets/image/choix_joueur.png")
