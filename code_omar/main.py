@@ -101,6 +101,10 @@ def draw_option_screen():
     bg = pygame.image.load("assets/image/options.png").convert()
     bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
     screen.blit(bg, (0, 0))
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_text = font.render(f"{mouse_pos}", True, (200, 0, 200))  # même couleur que les pointillés
+    screen.blit(mouse_text, (10, HEIGHT - 30))  # en bas à gauche
+
     return pygame.Rect(400, 230, 220, 60), pygame.Rect(400, 330, 220, 60), pygame.Rect(400, 430, 220, 60)
 
 
@@ -161,6 +165,8 @@ def detect_colored_rect(image, target_color):
     if mask.count() == 0:
         return None
     return mask.get_bounding_rects()[0]
+
+
 
 def draw_trajectory(surface, start_pos, angle, power, steps=20):
     # Clone exact de la logique de Ball.__init__
@@ -311,6 +317,7 @@ def main():
     high_score = load_high_scores()
     blink_timer = 0
     VIOLET = (200, 0, 200)  # à déclarer une seule fois en haut si pas encore fait
+    show_rules_screen = False
 
     current_player = None
     on_option_screen = False
@@ -377,15 +384,68 @@ def main():
 
         # === Options
         if on_option_screen:
-            music_btn, sound_btn, return_btn = draw_option_screen()
+            bg = pygame.image.load("assets/image/options.png").convert()
+            bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+            screen.blit(bg, (0, 0))
+
+            # Coordonnées de la souris
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            mouse_text = font.render(f"Mouse: {mouse_x}, {mouse_y}", True, (200, 0, 200))
+            screen.blit(mouse_text, (20, HEIGHT - 30))
+
             pygame.display.flip()
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     save_high_score(high_score)
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if return_btn.collidepoint(event.pos):
+                    if pygame.Rect(316, 520, 329, 53).collidepoint(event.pos):  # Retour au menu
                         on_option_screen = False
+                    elif pygame.Rect(315, 412, 327, 84).collidepoint(event.pos):  # Affiche le but du jeu
+                        show_rules_screen = True
+                        on_option_screen = False
+
+            clock.tick(60)
+            continue
+
+        if show_rules_screen:
+            screen.fill((0, 0, 0))  # Fond noir
+            font_rules = pygame.font.Font(None, 24)  # Police plus petite
+
+            lines = [
+                "But du jeu :",
+                "Bienvenue dans Hungry Goals ! Le but est simple : marque un maximum de paniers avant la fin du chrono.",
+                "Pour tirer, clique et fais glisser la souris à l’opposé de la direction du tir, puis relâche pour lancer la balle.",
+                "Mais attention... Chaque panier réussi tombe directement sur la tête d'une personne mauvaise.",
+                "Ces individus malveillants méritent leur punition, alors venge-toi habilement !",
+                "Mais fais attention à ne pas être confondu avec eux… ou tu pourrais bien te la prendre toi aussi.",
+                "Objectif bonus : Si tu marques 12 points ou plus lors de la première partie, tu débloques le niveau final :",
+                "un défi plus rapide, plus précis, et encore plus intense.",
+                "Conseil : Observe la trajectoire, dose ta puissance, et venge les justes... en visant les mauvais !"
+            ]
+
+            y = 134
+            for line in lines:
+                rendered = font_rules.render(line, True, (200, 0, 200))
+                rect = rendered.get_rect(center=(WIDTH // 2, y))
+                screen.blit(rendered, rect)
+                y += 30
+
+            # Quitter l’écran des règles en cliquant n’importe où
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    show_rules_screen = False
+                    on_option_screen = True
+
+            # Coordonnées souris (bas gauche)
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            mouse_text = font.render(f"Mouse: ({mouse_x}, {mouse_y})", True, (200, 0, 200))
+            screen.blit(mouse_text, (10, HEIGHT - 30))
+
+            pygame.display.flip()
             clock.tick(60)
             continue
 
