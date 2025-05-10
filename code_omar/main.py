@@ -304,14 +304,12 @@ BALL_RADIUS = ball_image.get_width() // 2
 background_game = pygame.image.load("assets/image/terrain.png").convert()
 background_game = pygame.transform.scale(background_game, (WIDTH, HEIGHT))
 
-
 def main():
     show_loading_screen()
     clock = pygame.time.Clock()
     high_score = load_high_scores()
     blink_timer = 0
-    is_challenge_mode = False
-    panier_timer = 0  # Pour suivre le temps écoulé
+    VIOLET = (200, 0, 200)  # à déclarer une seule fois en haut si pas encore fait
 
     current_player = None
     on_option_screen = False
@@ -319,6 +317,15 @@ def main():
     game_started = False
     game_over = False
     is_new_record = False
+
+    is_challenge_mode = False
+    final_mode = False
+    final_screen_shown = False
+    final_screen_start = None
+    panier_timer = 0
+    cumulative_score = 0
+    show_intro_screen = False
+    intro_start_time = None
 
     frame_index = 0
     score = 0
@@ -335,7 +342,39 @@ def main():
     while running:
         blink_timer += 1
 
-        # Écrans secondaires
+        # === Intro écran noir "partie initiatrice"
+        if show_intro_screen:
+            if time.time() - intro_start_time < 2:
+                screen.fill(BLACK)
+                txt = font_big.render("Partie initiatrice", True, WHITE)
+                screen.blit(txt, txt.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
+                pygame.display.flip()
+                clock.tick(60)
+                continue
+            else:
+                show_intro_screen = False
+                start_time = time.time()
+
+        # === Transition vers niveau final
+        if final_screen_shown:
+            if time.time() - final_screen_start < 2:
+                screen.fill(BLACK)
+                txt = font_big.render("Niveau final", True, WHITE)
+                screen.blit(txt, txt.get_rect(center=(WIDTH // 2, HEIGHT // 2)))
+                pygame.display.flip()
+                clock.tick(60)
+                continue
+            else:
+                final_screen_shown = False
+                is_challenge_mode = True
+                start_time = time.time()
+                score = 0
+                ball_list.clear()
+                reposition_panier()
+                player_x = random.randint(100, 750)
+                continue
+
+        # === Options
         if on_option_screen:
             music_btn, sound_btn, return_btn = draw_option_screen()
             pygame.display.flip()
@@ -349,6 +388,7 @@ def main():
             clock.tick(60)
             continue
 
+        # === Choix joueur
         if on_choix_joueur:
             tyson_btn, axel_btn, retour_btn = draw_choix_joueur_screen()
             pygame.display.flip()
@@ -359,20 +399,19 @@ def main():
                     if tyson_btn.collidepoint(event.pos):
                         current_player = "tyson"
                         sprite_sheet = pygame.image.load("assets/image/Character.png").convert_alpha()
-                        on_choix_joueur = False
-                        game_started = True
-                        start_time = time.time()
                     elif axel_btn.collidepoint(event.pos):
                         current_player = "axel"
                         sprite_sheet = pygame.image.load("assets/image/Character2.png").convert_alpha()
-                        on_choix_joueur = False
-                        game_started = True
-                        start_time = time.time()
-                    elif retour_btn.collidepoint(event.pos):
-                        on_choix_joueur = False
+                    else:
+                        continue
+                    on_choix_joueur = False
+                    game_started = True
+                    show_intro_screen = True
+                    intro_start_time = time.time()
             clock.tick(60)
             continue
 
+        # === Menu principal
         if not game_started:
             jouer_btn, options_btn, quitter_btn = draw_start_screen()
             pygame.display.flip()
@@ -392,6 +431,7 @@ def main():
             clock.tick(60)
             continue
 
+        # === Fin de partie
         if game_over:
             btn = draw_game_over(score, high_score, is_new_record, blink_timer)
             pygame.display.flip()
@@ -406,59 +446,61 @@ def main():
                     save_high_score(high_score)
                     running = False
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if score >= 12:
-                        if menu_btn_you_win.collidepoint(event.pos):
+                    if score >= 12 and not final_mode:
+                        if replay_btn_you_win.collidepoint(event.pos):
+                            cumulative_score = score
+                            final_mode = True
+                            final_screen_shown = True
+                            final_screen_start = time.time()
                             game_over = False
-                            game_started = False
-                            score = 0
-                            ball_list.clear()
-                        elif replay_btn_you_win.collidepoint(event.pos):
-                            game_started = True
-                            game_over = False
-                            score = 0
-                            ball_list.clear()
-                            reposition_panier()
-                            start_time = time.time()
-                            player_x = random.randint(100, 750)
-                            is_challenge_mode = True
-                            panier_timer = pygame.time.get_ticks()  # Start the 3s timer
+                            continue
+                    elif final_mode and replay_btn_you_win.collidepoint(event.pos):
+                        game_over = False
+                        game_started = True
+                        score = 0
+                        show_intro_screen = True
+                        intro_start_time = time.time()
+                        final_mode = False
+                        cumulative_score = 0
+                        continue
 
-                else:
-                        if menu_btn_game_over.collidepoint(event.pos):
-                            game_over = False
-                            game_started = False
-                            score = 0
-                            ball_list.clear()
-                        elif replay_btn_game_over.collidepoint(event.pos):
-                            game_over = False
-                            game_started = True
-                            score = 0
-                            ball_list.clear()
-                            reposition_panier()
-                            start_time = time.time()
+                    if menu_btn_you_win.collidepoint(event.pos) or menu_btn_game_over.collidepoint(event.pos):
+                        score = 0
+                        cumulative_score = 0
+                        final_mode = False
+                        game_started = False
+                        game_over = False
+                    elif replay_btn_game_over.collidepoint(event.pos):
+                        score = 0
+                        game_over = False
+                        game_started = True
+                        reposition_panier()
+                        start_time = time.time()
             continue
 
-        # Partie en cours
+        # === Chrono & fin
         elapsed = time.time() - start_time
         remaining = max(0, int(60 - elapsed))
         if remaining <= 0:
-            if score > high_score:
-                save_high_score(score)
+            total_score = score + cumulative_score
+            if total_score > high_score:
+                save_high_score(total_score)
+                high_score = total_score
                 is_new_record = True
-                high_score = score
             game_over = True
             continue
 
-        # Frames du joueur
+        # === Chargement sprites joueur
         if current_player:
             frames_idle = load_frames(sprite_sheet, 2, 23, 64, 64)
             frames_run = load_frames(sprite_sheet, 8, 7, 64, 64) + load_frames(sprite_sheet, 9, 20, 64, 64)
             frames_left = [pygame.transform.flip(f, True, False) for f in frames_run]
 
-        # Rendu principal
+        # === Rendu principal
         screen.blit(background_game, (0, 0))
-        screen.blit(font.render(f"Time: {remaining}", True, BLACK), (20, 20))
+        screen.blit(font.render(f"Time: {remaining}", True, VIOLET), (20, 20))
 
+        # Déplacement joueur
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             player_x -= PLAYER_SPEED
@@ -478,7 +520,7 @@ def main():
         player_y = PLAYER_Y
         player_pos = (player_x, player_y)
 
-        # Événements
+        # === Events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 save_high_score(high_score)
@@ -494,7 +536,8 @@ def main():
                 preview_power = min(math.hypot(dx, dy) / 5, 24)
             elif event.type == pygame.MOUSEBUTTONUP and dragging:
                 end_pos = pygame.mouse.get_pos()
-                dx, dy = start_pos[0] - end_pos[0], start_pos[1] - end_pos[1]
+                dx = start_pos[0] - end_pos[0]
+                dy = start_pos[1] - end_pos[1]
                 angle = math.atan2(dy, dx)
                 power = min(math.hypot(dx, dy) / 5, 24)
                 ball_list.append(Ball(player_x, player_y, angle, power))
@@ -505,9 +548,10 @@ def main():
         screen.blit(current_frame, (player_x - current_frame.get_width() // 2, player_y - current_frame.get_height() // 2))
         pygame.draw.rect(screen, ARCEAU_COLOR, basket_rect)
         pygame.draw.rect(screen, PANNEAU_COLOR, backboard_rect)
+
         if is_challenge_mode:
             now = pygame.time.get_ticks()
-            if now - panier_timer > 3000:  # 3000 ms = 3 secondes
+            if now - panier_timer > 3000:
                 reposition_panier()
                 panier_timer = now
 
@@ -523,13 +567,18 @@ def main():
         if dragging and preview_angle is not None and preview_power is not None:
             draw_trajectory(screen, player_pos, preview_angle, preview_power)
 
-        screen.blit(font.render(f"Score: {score}", True, BLACK), (WIDTH - 200, 40))
-        screen.blit(font.render(f"Record: {high_score}", True, BLACK), (WIDTH - 200, 10))
+        total_score = score + cumulative_score
+
+        screen.blit(font.render(f"Score: {score}", True, VIOLET), (WIDTH - 200, 40))
+        screen.blit(font.render(f"Total: {total_score}", True, VIOLET), (WIDTH - 200, 70))
+        screen.blit(font.render(f"Record: {high_score}", True, VIOLET), (WIDTH - 200, 10))
+
         pygame.display.flip()
         clock.tick(60)
 
     save_high_score(high_score)
     pygame.quit()
+
 
 
 
