@@ -27,38 +27,58 @@ class MenuScreen:
         options_rect = self.btn_options
         quitter_rect = self.btn_quitter
 
-
         pos = mouse.get_pos()
         afficher_texte(screen,self.font,f'Pos : {pos[0]}, {pos[1]}',(0,0),'white')
 
+        # ➕ Zone du record
+        record_rect = pygame.Rect(405, 448, 167, 42)
+
+        if os.path.exists("high_scores.txt"):
+            with open("high_scores.txt", "r") as f:
+                scores = [int(line.strip()) for line in f if line.strip().isdigit()]
+                if scores:
+                    best_score = max(scores)
+                    text_surface = self.font.render(f"Record : {best_score}", True, (0, 255, 255))
+                    text_rect = text_surface.get_rect(center=record_rect.center)
+                    screen.blit(text_surface, text_rect)
+
         return jouer_rect, options_rect, quitter_rect
 
-    def draw_game_over(self, screen, width, height, score, high_scores):
-        screen.fill((255, 255, 255))
-        msg = self.big_font.render("Fin de la partie", True, (0, 0, 0))
-        screen.blit(msg, msg.get_rect(center=(width // 2, height // 2 - 120)))
+    def draw_game_over(self, screen, width, height, score,high_score):
+        # Lire le record existant depuis le fichier
 
-        score_msg = self.font.render(f"Score : {score}", True, (0, 0, 0))
-        screen.blit(score_msg, score_msg.get_rect(center=(width // 2, height // 2 - 60)))
+        is_record = score > high_score
 
-        label = self.font.render("Meilleurs scores :", True, (0, 0, 0))
-        screen.blit(label, label.get_rect(center=(width // 2, height // 2)))
+        bg_path = None
 
-        high_scores_sorted = sorted(high_scores, reverse=True)[:3]
-        y_offset = 40
-        for i in range(3):
-            if i < len(high_scores_sorted):
-                text = f"{i+1}. {high_scores_sorted[i]}"
-            else:
-                text = f"{i+1}. -"
-            score_line = self.font.render(text, True, (0, 0, 0))
-            screen.blit(score_line, (width // 2 - 50, height // 2 + y_offset))
-            y_offset += 40
+        # Enregistre le nouveau record si battu
+        if is_record:
+            save_high_score(score)
 
-        replay_btn = pygame.Rect(width - 160, height - 80, 140, 50)
-        pygame.draw.rect(screen, (200, 200, 200), replay_btn)
-        pygame.draw.rect(screen, (0, 0, 0), replay_btn, 2)
-        text = self.font.render("Rejouer", True, (0, 0, 0))
-        screen.blit(text, text.get_rect(center=replay_btn.center))
+        # Choisir le fond en fonction du résultat
+        if score < 10:
+            bg_path = os.path.join("assets", "image", "game_over.png")
+        elif score >= 10:
+            bg_path = os.path.join("assets", "image", "game_win.png")
 
-        return replay_btn
+        # Affichage du fond
+        if bg_path and os.path.exists(bg_path):
+            bg = pygame.image.load(bg_path).convert()
+            bg = pygame.transform.scale(bg, (width, height))
+            screen.blit(bg, (0, 0))
+
+        pos = mouse.get_pos()
+        afficher_texte(screen,self.font,f'pos : {pos}',(0,0),'white')
+
+        if score >= 10 :
+            btn_menu = pygame.Rect(380, 330, 240, 55)
+            btn_rejouer = pygame.Rect(380, 430, 240, 50)
+            return btn_menu, btn_rejouer
+        else:
+            btn_menu = pygame.Rect(330, 280, 340, 65)
+            btn_rejouer = pygame.Rect(330, 370, 340, 65)
+            return btn_menu, btn_rejouer
+
+
+
+

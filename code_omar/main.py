@@ -110,7 +110,7 @@ def draw_option_screen():
 
 
 def draw_choix_joueur_screen():
-    bg = pygame.image.load("assets/image/choix_joueur.png")
+    bg = pygame.image.load("assets/image/choix_joueur1.png")
     bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
     screen.blit(bg, (0, 0))
 
@@ -124,7 +124,7 @@ def draw_choix_joueur_screen():
 
 def draw_game_over(score, high_score, is_record=False, blink_timer=0, cumulative_score=0, final_mode=False):
     VIOLET = (200, 0, 200)
-    bg = pygame.image.load("assets/image/you_win.png" if score > 12 else "assets/image/game_over.png").convert()
+    bg = pygame.image.load("code_omar/assets/image/you_win.png" if score > 12 else "assets/image/game_over.png").convert()
     bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
     screen.blit(bg, (0, 0))
 
@@ -308,7 +308,7 @@ ball_image = pygame.image.load("assets/image/Ball.png").convert_alpha()
 ball_image = pygame.transform.scale(ball_image, (50, 50))
 BALL_RADIUS = ball_image.get_width() // 2
 
-background_game = pygame.image.load("assets/image/terrain.png").convert()
+background_game = pygame.image.load("assets/image/background.png").convert()
 background_game = pygame.transform.scale(background_game, (WIDTH, HEIGHT))
 
 def main():

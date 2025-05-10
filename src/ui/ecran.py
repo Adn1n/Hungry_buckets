@@ -17,7 +17,7 @@ class Ecran:
         loading_image = pygame.image.load(image_path)
         loading_image = pygame.transform.scale(loading_image, (self.WIDTH, self.HEIGHT))
         start_time = time.time()
-        duration = 3 # secondes
+        duration = 1 # secondes
 
         font = pygame.font.SysFont("arial", 30)
 

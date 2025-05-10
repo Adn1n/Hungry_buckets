@@ -1,17 +1,45 @@
 import pygame
-from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR
+import random
+from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR, ARCEAU_COLOR, PANNEAU_COLOR
+
+
 #
 class Panier:
     def __init__(self):
-        self.basket_rect = pygame.Rect(SCREEN_WIDTH - 120, SCREEN_HEIGHT - 200, 60, 12)
-        self.backboard_rect = pygame.Rect(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 250, 10, 70)
-        self.hoop_center_rect = pygame.Rect(self.basket_rect.centerx - 15, self.basket_rect.bottom, 30, 20)
+        self.basket_rect = None
+        self.backboard_rect = None
+        self.hoop_center_rect = None
+        self.repositionner()
 
     def draw(self, screen):
-        pygame.draw.rect(screen, BASKET_COLOR, self.basket_rect)
-        pygame.draw.rect(screen, BACKBOARD_COLOR, self.backboard_rect)
-        pygame.draw.rect(screen, (255, 0, 0), self.backboard_rect, 2)
-        pygame.draw.rect(screen, (255, 0, 0), self.basket_rect, 2)
+        pygame.draw.rect(screen, ARCEAU_COLOR, self.basket_rect)
+        pygame.draw.rect(screen, PANNEAU_COLOR, self.backboard_rect)
+
+    def repositionner(self):
+        min_y = 200
+        max_y = int(SCREEN_HEIGHT * 0.75)
+        y = random.randint(min_y, max_y)
+
+        basket_width = 70
+        basket_height = 10
+        backboard_width = 10
+        backboard_height = 70
+        hoop_width = 50
+        hoop_height = 12
+
+        self.basket_rect = pygame.Rect(SCREEN_WIDTH - 80, y, basket_width, basket_height)
+        self.backboard_rect = pygame.Rect(
+            self.basket_rect.right - backboard_width,
+            self.basket_rect.top - backboard_height + 10,
+            backboard_width,
+            backboard_height
+        )
+        self.hoop_center_rect = pygame.Rect(
+            self.basket_rect.centerx - hoop_width // 2,
+            self.basket_rect.bottom,
+            hoop_width,
+            hoop_height
+        )
 
 
     def get_rects(self):
