@@ -1,38 +1,69 @@
-Titre du jeu: Hungry Buckets
+Titre du jeu : Hungry Buckets
+
 Contributeurs :
-Omar SNANI : generation des assets ,  
-Cylia GOUCEM : codage du fichier ecran.py
-Teddy RAME : codage 
-Adnan MOUBARAC :
+
+Omar SNANI : génération des assets, options_screen.py, arrow.py, player2.py, game.py
+
+Cylia GOUCEM : codage des fichiers ecran.py, panier.py, config.py, game.py, PowerPoint
+
+Teddy RAME : codage des fichiers choix_joueur.py, ball.py, background.py, fenetre.py, game.py
+
+Adnan MOUBARAC : codage des fichiers menu_screen.py, player1.py, player2.py, game.py
+
 Description :
-Ce projet nous a permis d'utiliser les connaissances accumulés en python durant ce semestre tout en nouspermettant d'avoir une bonne experience dans le domaine du travail d'équipe en nous séparent les tâches entre chacun tout en gardant un regard sur le travail de l'autre afin de pouvoir nous entraider pour améliorer notre code.
+Ce projet nous a permis d’utiliser les connaissances accumulées en C durant ce semestre, tout en nous offrant une bonne expérience dans le domaine du travail d’équipe, en nous répartissant les tâches entre chacun, tout en gardant un regard sur le travail des autres afin de pouvoir nous entraider et améliorer notre code.
 
-Fonctionnalités Principales :
-Cette application est presentée sous forme d'un jeu où l'utilisateur doit remporter des clés en gagnant à des défis. Chaque partie permet de défié l'utilisateur sur sa logique d'une manière ludique.
+Fonctionnalités principales :
+Ce jeu est un jeu de basketball, dans lequel le joueur choisit son personnage et doit marquer le plus de paniers possible en un temps défini.
 
-Technologies Utilisées :
-Nous avons utilisé python comme langage de programmation. Comme bibliothèque, nous avons deux fichiers ".json" (JavaScript Object Notation). Un fichier ".json" est un format texte utilisé pour représenter des données structurées sous forme de paires clé-valeur et/ou de listes, lisible par les humains et interprétable par les machines. Il est souvent utilisé pour échanger ou stocker des données, notamment dans les applications web. Nous avons également utilisé des fichiers afin de pouvoir structurer d'une façon claire notre travail et les fonctions à implementer.
+Technologies utilisées :
+Nous avons utilisé C comme langage de programmation. Comme bibliothèque, nous avons utilisé Pygame.
+Nous avons également utilisé des images au format PNG que nous avons nous-mêmes générées.
 
 Installation :
-il faut copier l'url du git et rentrer dans notre projet pycharm aller dans "file" puis "Project from version control" et coller l'url.
-
-cree les differents fichier vides qu'on viendras remplir plus tard puis enregistrer les fichiers
+Il faut copier l’URL du Git, puis, dans notre projet PyCharm, aller dans "File", puis "Project from Version Control", et coller l’URL.
+Créer les différents fichiers vides que l’on viendra remplir plus tard, puis enregistrer les fichiers.
 
 Utilisation :
-Il suffit de push le code qu'on viens de code est il s'enregistre directement sur git. il y a la commande push évoquer avant mais également la commande pull qui sert à récupérer les commande à l'inverse de push qui sert à ajouter les modifications.
+Il suffit de push le code que l’on vient de coder, il s’enregistre alors directement sur Git.
+Il y a la commande push évoquée plus haut, mais également la commande pull qui sert à récupérer les fichiers, à l’inverse de push qui sert à ajouter les modifications.
+
+
+Titre du jeu : Hungry Buckets
+Contributeurs :
+Omar SNANI : génération des assets, options_screen.py, arrow.py, player2.py, game.py
+Cylia GOUCEM : codage du fichier ecran.py, panier.py, config.py, game.py, PowerPoint
+Teddy RAME : codage des fichiers choix_joueur.py, ball.py, background.py, fenetre.py, game.py
+Adnan MOUBARAC : codage des fichiers menu_screen.py, player1.py, player2.py, game.py
+
+Description :
+Ce projet nous a permis d'utiliser les connaissances accumulées en C durant ce semestre tout en nous permettant d'avoir une bonne expérience dans le domaine du travail d'équipe en nous séparant les tâches entre chacun, tout en gardant un regard sur le travail de l'autre afin de pouvoir nous entraider pour améliorer notre code.
+
+Fonctionnalités principales :
+Ce jeu est un jeu de basketball, "Dans lequel le joueur choisit son personnage et doit marquer le plus de paniers possible en un temps défini."
+
+Technologies utilisées :
+Nous avons utilisé C comme langage de programmation. Comme bibliothèque nous avons utilisé Pygame. "Nous avons également utilisé des images au format PNG que nous avons nous-mêmes générées."
+
+Installation :
+Il faut copier l'URL du Git et rentrer dans notre projet PyCharm, aller dans "File" puis "Project from Version Control" et coller l'URL.
+
+Créer les différents fichiers vides qu'on viendra remplir plus tard, puis enregistrer les fichiers.
+
+Utilisation :
+Il suffit de push le code qu'on vient de coder et il s'enregistre directement sur Git. Il y a la commande push évoquée avant mais également la commande pull qui sert à récupérer les commandes, à l'inverse de push qui sert à ajouter les modifications.
 
 Journal de bord :
 
-5/12/2024 : répartition des taches ( omar : épreuves math,utiles,logique et teddy : épreuve final , père Fouras et hasard)
-4/1/2024 : rencontre a la bibliothèque afin de mettre en commun les fonction et répartition de taches quand au fichier main et au fichier bonus OMAR :
-5/12/2024 : épreuves math 3 première fonction terminer
-19/12/2024 : épreuves math fini
-22/12/2024 : fonction utiles fini
-28/12/2024 : épreuve logique 3 première fonction finie
-29/12/2024 : épreuve logique fini
-4/1/2024 : historique fini (bonus) TEDDY :
-5/12/2024 : épreuves père Fouras fini
-19/12/2024 : épreuves final fini
-23/12/2024 : épreuve hasard première fonction fini
-27/12/2024 : épreuve hasard fini
-4/1/2024 : main finie
+3/02/2025 : choix du thème du jeu et calcul des équations de trajectoires
+10/02/2025 : installation de Pygame, prise de connaissance de la bibliothèque et répartition des tâches
+10/02/2025 : épreuves maths 3, premières fonctions terminées
+19/02/2025 : génération de tous les assets nécessaires
+3/03/2025 : fichiers background, config, finis
+17/03/2025 : fichiers arrow, panier, finis
+24/03/2025 : fichier fenêtre fini
+10/03/2025 : fichier ball fini
+29/03/2025 : fichiers players 1 et 2 finis
+6/04/2025 : fichier game fini
+9/04/2025 : documentation sur le jeu finie
+
