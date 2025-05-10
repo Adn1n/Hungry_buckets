@@ -34,6 +34,7 @@ font_huge = pygame.font.SysFont(None, 120)
 # Police style pixel art (ex: pour le score affiché dans le menu)
 pixel_font = pygame.font.Font(None, 48)  # Remplace None par le chemin si tu utilises une .ttf custom
 
+
 # Gestion des scores
 def load_high_scores(path="high_scores.txt"):
     if not os.path.exists(path):
@@ -122,31 +123,27 @@ def draw_choix_joueur_screen():
 
 
 def draw_game_over(score, high_score, is_record=False, blink_timer=0):
-    # Choisir l'image de fond
     if score > 12:
         bg = pygame.image.load("assets/image/you_win.png").convert()
-    elif score < 10:
-        bg = pygame.image.load("assets/image/game_over.png").convert()
+        bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+        screen.blit(bg, (0, 0))
     else:
-        screen.fill(WHITE)
-        screen.blit(font_big.render("Game Over", True, BLACK), (WIDTH // 2 - 80, HEIGHT // 2 - 120))
-        screen.blit(font.render(f"Score: {score}", True, BLACK), (WIDTH // 2 - 50, HEIGHT // 2 - 60))
-        screen.blit(font.render(f"Best Record: {high_score}", True, BLACK), (WIDTH // 2 - 70, HEIGHT // 2 + 20))
-        # bouton replay
-        btn = pygame.Rect(WIDTH - 160, HEIGHT - 80, 140, 50)
-        pygame.draw.rect(screen, (200, 200, 200), btn)
-        pygame.draw.rect(screen, BLACK, btn, 2)
-        screen.blit(font.render("Replay", True, BLACK), font.render("Replay", True, BLACK).get_rect(center=btn.center))
-        return btn
+        bg = pygame.image.load("assets/image/game_over.png").convert()
+        bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
+        screen.blit(bg, (0, 0))
 
-    bg = pygame.transform.scale(bg, (WIDTH, HEIGHT))
-    screen.blit(bg, (0, 0))
-
-    # Clignotement du texte
-    if is_record and (blink_timer // 10) % 2 == 0:
-        text = pixel_font.render(f"Nouveau record : {score}", True, (0, 255, 255))
-        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        y_text = 246
+        if is_record and (blink_timer // 20) % 2 == 0:
+            text = pixel_font.render(f"Nouveau record : {score}", True, (0, 255, 255))
+        else:
+            text = pixel_font.render(f"Score : {score}", True, (0, 255, 255))
+        text_rect = text.get_rect(center=(WIDTH // 2, y_text))
         screen.blit(text, text_rect)
+
+    # Coordonnées souris (toujours affichées)
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    mouse_text = font.render(f"Mouse: ({mouse_x}, {mouse_y})", True, (200, 0, 200))
+    screen.blit(mouse_text, (10, HEIGHT - 30))
 
     # Bouton replay
     btn = pygame.Rect(WIDTH - 160, HEIGHT - 80, 140, 50)
@@ -154,6 +151,7 @@ def draw_game_over(score, high_score, is_record=False, blink_timer=0):
     pygame.draw.rect(screen, BLACK, btn, 2)
     screen.blit(font.render("Replay", True, BLACK), font.render("Replay", True, BLACK).get_rect(center=btn.center))
     return btn
+
 
 
 
