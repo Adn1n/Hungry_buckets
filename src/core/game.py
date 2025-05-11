@@ -392,6 +392,9 @@ class Game:
         self.start_pos = None
         self.game_started = True
         self.game_over = False
+        self.challenge_mode = False  # 🔁 remet le mode normal
+        self.total_score = 0  # 🔁 remet à zéro
+        self.bonus_items = []
 
 
 if __name__ == "__main__":
