@@ -71,8 +71,16 @@ class Ball:
             self.active = False
             self.scored = True
             return "score"
+
+        # Si la balle vient d’en dessous et touche le fond du cerceau, on l’annule
+        if self.rect().colliderect(hoop_center_rect) and self.vel_y < 0:
+            self.active = False
+            return
+
         if self.rest_time and time.time() - self.rest_time > 1.5:
             self.active = False
+
+
 
 
 

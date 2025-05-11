@@ -20,6 +20,7 @@ from src.ui.option_screen import OptionScreen
 from src.ui.choix_joueur import ChoixJoueur
 from src.core.music_manager import MusicManager
 from src.core.score_manager import ScoreManager
+from src.entities.bonus_item import BonusItem
 
 #
 class Game:
@@ -57,6 +58,8 @@ class Game:
         self.option_screen = OptionScreen()
         self.choix_joueur = ChoixJoueur()
 
+        self.bonus_items = []
+        self.last_bonus_spawn = time.time()
 
         # État du jeu
         self.ball_list = []
@@ -124,7 +127,10 @@ class Game:
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        self.score_manager.save_high_score(self.score)
+                        total = self.total_score + self.score
+                        if total > self.high_score:
+                            self.score_manager.save_high_score(total)
+                            self.high_score = total
                         running = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         if sound_btn_rect.collidepoint(event.pos):
@@ -170,7 +176,10 @@ class Game:
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        self.score_manager.save_high_score(self.score)
+                        total = self.total_score + self.score
+                        if total > self.high_score:
+                            self.score_manager.save_high_score(total)
+                            self.high_score = total
                         running = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         if jouer_btn.collidepoint(event.pos):
@@ -178,7 +187,10 @@ class Game:
                         elif options_btn.collidepoint(event.pos):
                             self.option = True
                         elif quitter_btn.collidepoint(event.pos):
-                            self.score_manager.save_high_score(self.score)
+                            total = self.total_score + self.score
+                            if total > self.high_score:
+                                self.score_manager.save_high_score(total)
+                                self.high_score = total
                             pygame.quit()
                             exit()
 
@@ -193,22 +205,38 @@ class Game:
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        self.score_manager.save_high_score(self.score)
+                        total = self.total_score + self.score
+                        if total > self.high_score:
+                            self.score_manager.save_high_score(total)
+                            self.high_score = total
                         running = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
 
-                        if self.score > self.high_score:
+                        total = self.total_score + self.score
+                        if total > self.high_score:
+                            self.score_manager.save_high_score(total)
+                            self.is_new_record = True
+                            self.high_score = total
                             high_score = self.score
-                            self.score_manager.save_high_score(self.score)
+                            total = self.total_score + self.score
+                            if total > self.high_score:
+                                self.score_manager.save_high_score(total)
+                                self.high_score = total
 
                         if btn_menu.collidepoint(event.pos):
-                            self.score_manager.save_high_score(self.score)
+                            total = self.total_score + self.score
+                            if total > self.high_score:
+                                self.score_manager.save_high_score(total)
+                                self.high_score = total
                             self.start_time = None
                             self.game_over = False
                             self.game_started = False
                             self.player = None
                         elif btn_rejouer.collidepoint(event.pos):
-                            self.score_manager.save_high_score(self.score)
+                            total = self.total_score + self.score
+                            if total > self.high_score:
+                                self.score_manager.save_high_score(total)
+                                self.high_score = total
                             self.reset_game()
 
                 self.clock.tick(60)
@@ -223,10 +251,12 @@ class Game:
             remaining = max(0, int(TEMPS_JEU - elapsed))
 
             if remaining <= 0:
-                if self.score > self.high_score:
-                    self.score_manager.save_high_score(self.score)
-                    self.is_new_record = True
-                    self.high_score = self.score
+                total = self.total_score + self.score
+                if total > self.high_score:
+                    self.score_manager.save_high_score(total)
+                    self.high_score = total
+                    self.is_new_record = True  # si tu veux afficher "Nouveau record"
+
 
                 if self.score >= 12 and not self.challenge_mode:
                     self.final_screen_shown = True
@@ -252,7 +282,10 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                    self.score_manager.save_high_score(self.score)
+                    total = self.total_score + self.score
+                    if total > self.high_score:
+                        self.score_manager.save_high_score(total)
+                        self.high_score = total
                     running = False
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -322,6 +355,23 @@ class Game:
                 if time.time() - self.challenge_timer > 2:
                     self.panier.repositionner()
                     self.challenge_timer = time.time()
+                # ➕ Spawn bonus toutes les 5 secondes
+                if time.time() - self.last_bonus_spawn > 5:
+                    bonus = BonusItem("assets/image/bonus.png", SCREEN_WIDTH)
+                    self.bonus_items.append(bonus)
+                    self.last_bonus_spawn = time.time()
+
+            for bonus in self.bonus_items:
+                bonus.update()
+                bonus.draw(self.screen)
+
+                # Collision avec le joueur
+                if self.player.rect.colliderect(bonus.rect):
+                    self.start_time += 5
+                    self.bonus_items.remove(bonus)
+
+            # Supprimer ceux qui sortent de l’écran
+            self.bonus_items = [b for b in self.bonus_items if not b.is_off_screen(SCREEN_HEIGHT)]
 
             # Score & record
             self.screen.blit(self.menu.font.render(f"Score: {self.score}", True, TEXT_COLOR), (20, 20))

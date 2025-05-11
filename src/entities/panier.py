@@ -1,5 +1,6 @@
 import pygame
 import random
+import os
 from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR, ARCEAU_COLOR, PANNEAU_COLOR
 
 
@@ -12,8 +13,15 @@ class Panier:
         self.direction = None
         self.repositionner()
 
+        filet_path = os.path.join("assets", "image", "filet.png")
+        self.filet_image = pygame.image.load(filet_path).convert_alpha()
+        self.filet_image = pygame.transform.scale(self.filet_image, (64, 36))  # adapte selon besoin
+
     def draw(self, screen):
         pygame.draw.rect(screen, ARCEAU_COLOR, self.basket_rect)
+        filet_rect = self.filet_image.get_rect(midtop=(self.basket_rect.centerx - 4, self.basket_rect.bottom - 12))
+        screen.blit(self.filet_image, filet_rect)
+
         pygame.draw.rect(screen, PANNEAU_COLOR, self.backboard_rect)
 
     def repositionner(self):
@@ -22,7 +30,7 @@ class Panier:
         y = random.randint(min_y, max_y)
 
         basket_width = 70
-        basket_height = 10
+        basket_height = 4
         backboard_width = 10
         backboard_height = 70
         hoop_width = 50

@@ -76,7 +76,8 @@ class Player2:
 
 
     def draw(self, surface):
-        surface.blit(self.current_frame, (self.x - self.current_frame.get_width() // 2, self.y - self.current_frame.get_height() // 2))
+        self.rect = self.current_frame.get_rect(center=(self.x, self.y))  # ✅ crée le rect à jour
+        surface.blit(self.current_frame, self.rect)
 
     def get_position(self):
         return (self.x, self.y)
