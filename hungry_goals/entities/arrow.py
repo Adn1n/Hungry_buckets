@@ -18,7 +18,7 @@ class Arrow:
         self.gravity = gravity
         self.color = color
 
-    def draw_trajectory(self, surface, start_pos, angle, power, steps=20):
+    def draw_trajectory(self, surface, start_pos, angle, power, steps=50):
         """
         Dessine la trajectoire prédite de la flèche en tenant compte de la gravité et des rebonds.
         :param surface: Surface pygame sur laquelle dessiner.
@@ -36,17 +36,19 @@ class Arrow:
         # Rayon de la balle (importé depuis la config)
         radius = BALL_RADIUS  # doit être importé depuis config
 
-        for _ in range(steps):
-            # Mise à jour de la position en fonction de la vitesse
-            x += vel_x
-            y += vel_y
+        for i in range(steps):
+            # Temps simulé (le pas peut être ajusté pour raffiner l'affichage)
+            t = i * 0.5  # par exemple 0.5 secondes entre chaque point
+
+            # Formules explicites basées sur les équations du mouvement parabolique
+            x = start_pos[0] + math.cos(angle) * power * t
+            y = start_pos[1] + math.sin(angle) * power * t + 0.5 * self.gravity * t ** 2
 
             # Vérifie si la position est encore dans la fenêtre, sinon on arrête la simulation
             if 0 <= x <= surface.get_width() and 0 <= y <= surface.get_height():
                 # Dessine un cercle pour représenter la position de la flèche à cette étape
                 pygame.draw.circle(surface, (200, 0, 200), (int(x), int(y)), 4)
             else:
-                # Sort de la boucle si la position sort de la fenêtre
                 break
 
             # Application de la gravité à la vitesse verticale
