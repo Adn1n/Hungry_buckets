@@ -187,6 +187,8 @@ class Game:
                         elif options_btn.collidepoint(event.pos):
                             self.option = True
                         elif quitter_btn.collidepoint(event.pos):
+                            self.total_score = 0
+                            self.score = 0
                             total = self.total_score + self.score
                             if total > self.high_score:
                                 self.score_manager.save_high_score(total)
@@ -224,6 +226,8 @@ class Game:
                                 self.high_score = total
 
                         if btn_menu.collidepoint(event.pos):
+                            self.total_score = 0
+                            self.score = 0
                             total = self.total_score + self.score
                             if total > self.high_score:
                                 self.score_manager.save_high_score(total)
@@ -233,6 +237,8 @@ class Game:
                             self.game_started = False
                             self.player = None
                         elif btn_rejouer.collidepoint(event.pos):
+                            self.total_score = 0
+                            self.score = 0
                             total = self.total_score + self.score
                             if total > self.high_score:
                                 self.score_manager.save_high_score(total)
@@ -279,6 +285,8 @@ class Game:
             # Input
             keys = pygame.key.get_pressed()
             self.player.handle_input(keys, SCREEN_WIDTH)
+            if keys[pygame.K_RETURN] and self.player.state != "special":
+                self.player.start_special()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -327,6 +335,20 @@ class Game:
             self.player.draw(self.screen)
             self.panier.draw(self.screen)
 
+            if self.player.shooting_done and self.player.state == "special":
+                player_pos = self.player.get_position()
+
+                _, _, hoop_rect = self.panier.get_rects()
+                target_pos = hoop_rect.center
+
+                dx = target_pos[0] - player_pos[0] * 0.8
+                dy = target_pos[1] - player_pos[1] - 1500
+                angle = math.atan2(dy, dx)
+                power = 25  # ajuste si besoin
+
+                self.ball_list.append(Ball(player_pos[0], player_pos[1], angle, power))
+                self.player.state = "idle"
+
             # ➕ Flèche de visée quand on vise
             # ➕ Flèche de visée quand on vise
             if self.dragging and self.start_pos:
@@ -345,8 +367,33 @@ class Game:
                         self.score += POINT_SCORE
                         self.panier.repositionner()
                         player_x = random.randint(100, 750)
+
                         if self.challenge_mode:
-                            self.player.x = random.randint(100, 750)  # reposition rapide du joueur
+                            self.player.x = random.randint(100, 750)
+
+                            # 🎥 Shake léger
+                            for i in range(10):
+                                intensity = max(1, 6 - i)  # de 6 à 1
+                                offset_x = random.randint(-intensity, intensity)
+                                offset_y = random.randint(-intensity, intensity)
+
+                                # Fond
+                                self.background.draw(self.screen)
+
+                                # Déplacements avec décalage
+                                self.screen.scroll(offset_x, offset_y)
+
+                                # Dessins avec effet de secousse
+                                self.player.draw(self.screen)
+                                self.panier.draw(self.screen)
+                                for b in self.ball_list:
+                                    b.draw(self.screen)
+
+                                # Optionnel : afficher un texte "🔥" tremblant
+
+                                pygame.display.flip()
+                                self.clock.tick(60)
+
                     ball.draw(self.screen)
 
             self.ball_list = [b for b in self.ball_list if b.active]

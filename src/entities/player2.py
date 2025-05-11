@@ -30,8 +30,17 @@ class Player2:
         self.frames = self.frames_idle
         self.current_frame = self.frames_idle[self.frame_index]
 
+        self.frames_special = load_frames(self.sprite_sheet, row=7, num_frames=11, width=64, height=64)
+
+    def start_special(self):
+        if self.state != "special":
+            self.frames = self.frames_special
+            self.frame_index = 0
+            self.state = "special"
+            self.shooting_done = False
+
     def start_shoot(self):
-        if self.state != "shoot":
+        if self.state != ["shoot"]:
             self.frames = self.frames_shoot
             self.frame_index = 0
             self.state = "shoot"
@@ -39,7 +48,7 @@ class Player2:
 
 
     def handle_input(self, keys, screen_width):
-        if self.state == "shoot":
+        if self.state in ["shoot", "special"]:
             if not self.shooting_done:
                 self.frame_index, self.current_frame = update_animation(self.frame_index, self.frames,
                                                                         self.animation_speed)
