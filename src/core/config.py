@@ -22,8 +22,8 @@ ARCEAU_COLOR = (204, 0, 204)        # Rouge vif
 PANNEAU_COLOR = (46, 46, 184)
 
 
-POINT_SCORE = 10
-TEMPS_JEU = 30
+POINT_SCORE = 1
+TEMPS_JEU = 60
 
 
 
