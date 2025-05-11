@@ -1,5 +1,5 @@
 import pygame
-from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT
+from hungry_goals.engine.config import SCREEN_WIDTH, SCREEN_HEIGHT
 # Classe Fenetre : gère la fenêtre principale du jeu avec Pygame.
 class Fenetre:
     def __init__(self, title="My Game", resizable=True):

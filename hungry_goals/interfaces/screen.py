@@ -1,10 +1,10 @@
-# Projet : Hungry Goals
+# Projet : Hungry Buckets
 # Description : Gère les écrans intermédiaires comme l'écran de chargement (affichage, durée, barre de progression).
 
 import pygame
 import time
 
-from src.utils import *
+from hungry_goals.utils import *
 import os
 
 #

@@ -5,22 +5,22 @@ import time
 import random
 
 
-from src.core.config import *
-from src.utils import *
-from src.core.fenetre import Fenetre
-from src.entities.player1 import*
-from src.entities.player2 import*
-from src.entities.ball import Ball
-from src.entities.panier import Panier
-from src.entities.arrow import Arrow
-from src.ui.menu_screen import MenuScreen
-from src.core.backgroung import BackgroundManager
-from src.ui.ecran import Ecran
-from src.ui.option_screen import OptionScreen
-from src.ui.choix_joueur import ChoixJoueur
-from src.core.music_manager import MusicManager
-from src.core.score_manager import ScoreManager
-from src.entities.bonus_item import BonusItem
+from hungry_goals.engine.config import *
+from hungry_goals.utils import *
+from hungry_goals.engine.window import Fenetre
+from hungry_goals.entities.player1 import*
+from hungry_goals.entities.player2 import*
+from hungry_goals.entities.ball import Ball
+from hungry_goals.entities.hoop import Panier
+from hungry_goals.entities.arrow import Arrow
+from hungry_goals.interfaces.menu_screen import MenuScreen
+from hungry_goals.engine.backgroung import BackgroundManager
+from hungry_goals.interfaces.screen import Ecran
+from hungry_goals.interfaces.option_screen import OptionScreen
+from hungry_goals.interfaces.player_selection import ChoixJoueur
+from hungry_goals.engine.music_manager import MusicManager
+from hungry_goals.engine.score_manager import ScoreManager
+from hungry_goals.entities.bonus_item import BonusItem
 
 class Game:
     # Classe principale du jeu : gère l'initialisation, la boucle principale, et la réinitialisation du jeu.

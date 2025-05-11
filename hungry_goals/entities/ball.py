@@ -3,7 +3,7 @@ import pygame
 import math
 import time
 
-from src.core.config import *
+from hungry_goals.engine.config import *
 #
 
 class Ball:

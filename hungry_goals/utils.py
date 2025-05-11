@@ -1,4 +1,4 @@
-# Projet : Hungry Goals
+# Projet : Hungry Buckets
 # Description : Fonctions utilitaires pour le projet : chargement de sprites, mise à jour d’animations, affichage de texte, détection de pixels colorés.
 
 import pygame
@@ -6,7 +6,7 @@ import os
 import time
 import math
 
-from src.core.config import *
+from hungry_goals.engine.config import *
 
 base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 image_path = os.path.join(base_path, "assets", "image", "Ball.png")

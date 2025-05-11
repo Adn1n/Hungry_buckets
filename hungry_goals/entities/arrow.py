@@ -1,7 +1,7 @@
 import pygame
 import math
 
-from src.core.config import *
+from hungry_goals.engine.config import *
 
 # Classe Arrow : gère la simulation et l'affichage de la trajectoire d'une flèche (ou balle)
 # en tenant compte de la gravité et des rebonds sur les bords de la fenêtre.

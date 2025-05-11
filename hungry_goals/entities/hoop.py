@@ -1,10 +1,10 @@
-# Hungry Goals
+# Hungry Buckets
 # Description : Ce fichier gère l’affichage et le positionnement du panier dans le jeu.
 
 import pygame
 import random
 import os
-from src.core.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR, ARCEAU_COLOR, PANNEAU_COLOR
+from hungry_goals.engine.config import SCREEN_WIDTH, SCREEN_HEIGHT, BASKET_COLOR, BACKBOARD_COLOR, ARCEAU_COLOR, PANNEAU_COLOR
 
 
 #
