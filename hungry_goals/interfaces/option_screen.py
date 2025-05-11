@@ -1,12 +1,12 @@
-# Projet : Hungry Goals
+# Projet : Hungry Buckets
 # Description : Ce fichier gère l'écran des options, avec affichage des boutons son, musique et retour.
 
 import os
 import pygame
 from pygame import mouse
 
-from src.core.config import *
-from src.utils import afficher_texte
+from hungry_goals.engine.config import *
+from hungry_goals.utils import afficher_texte
 
 ####
 class OptionScreen:

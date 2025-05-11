@@ -1,13 +1,13 @@
-# Projet : Hungry Goals
+# Projet : Hungry Buckets
 # Description : Gère les écrans de menu principal et d'écran de fin avec leurs boutons et affichages de score.
 
 import os
 import pygame
 from pygame import mouse
 
-from src.core.config import *
-from src.utils import *
-from src.core.score_manager import *
+from hungry_goals.engine.config import *
+from hungry_goals.utils import *
+from hungry_goals.engine.score_manager import *
 #
 class MenuScreen:
     def __init__(self):

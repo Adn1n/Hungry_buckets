@@ -1,4 +1,4 @@
-# Projet : Hungry Goals
+# Projet : Hungry Buckets
 # Description : Ce fichier définit la classe BonusItem, qui gère l’apparition, le mouvement et l’affichage des objets bonus dans le jeu.
 
 import pygame

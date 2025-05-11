@@ -1,91 +1,122 @@
 # Hungry Goals 🏀⏱️
 
-## 1. Présentation Générale
+## 1. Présentation du Projet
 
-### 🎓 Titre du Projet
-**Hungry Goals** – Jeu de Basket Arcade en Pygame
+### Résumé
+Le jeu **Hungry Goals** repose sur un gameplay simple et efficace : le joueur déplace un basketteur horizontalement (`← →`) et tente de tirer (`Entrée` ou souris) dans un panier. L’objectif est de marquer **12 points en 45 secondes** pour débloquer une **seconde manche plus difficile** avec un panier en mouvement. Des bonus tombants permettent de gagner du temps. Inspiré de « Angry Birds », ce jeu addictif propose une rejouabilité forte avec un design **cyber** stylisé.
 
-### 👥 Contributeurs
+### Contraintes Techniques
+- Utilisation de **Python** avec la **bibliothèque Pygame**
+- Implémentation d’une **équation de trajectoire physique** : angle, vitesse, poids, temps
+- Rétroactions : conditions de victoire/défaite, messages et conseils au joueur
 
-| Nom              | Rôle                                                             |
-|------------------|------------------------------------------------------------------|
-| MOUBARAC Adnan   | Lead développeur, structure du projet, intégration complète      |
-| Omar SNANI       | Développeur gameplay, logique de score, système de bonus         |
-| Teddy RAME        | Graphiste principal, interface visuelle, animation du jeu        |
-| Cylia GOUCEM      | Recherche d’assets visuels, idées de gameplay                    |
+### Objectifs Pédagogiques
+- Travailler en mode projet
+- Appliquer les connaissances de Python et de physique
+- Développer autonomie, collaboration, créativité, capacité à s’auto-former
 
-### 📝 Description
+---
 
-**Hungry Goals** est un jeu d’arcade où le joueur contrôle un basketteur. Il dispose de **45 secondes** pour **marquer au moins 12 points**. En cas de réussite, un **mode Challenge** se déverrouille, avec un **panier mobile**, des **bonus** qui tombent et plus de difficulté.
+## 2. Organisation de l'Équipe
 
-### ⭐ Fonctionnalités Principales
+| Membre           | Rôle                                                                 |
+|------------------|----------------------------------------------------------------------|
+| Cylia GOUCEM     | Testeuse, présentation, rédaction du carnet                          |
+| Teddy RAME       | Game design, création et gestion des images                          |
+| Omar SNANI       | Interfaces, logique bonus, codage manche finale                      |
+| MOUBARAC Adnan   | Chef de projet, structure, algorithmes, équation de trajectoire      |
 
-- Déplacement du joueur (← →)
-- Lancer de ballon avec `Entrée`
-- Timer intégré (45s)
-- Système de score
-- Bonus temporels (plus de temps)
+### Communication
+- Discord, GitHub, WhatsApp  
+- Réunions hebdomadaires + échanges permanents
+
+---
+
+## 3. Journal de Bord
+
+- **3 fév. 2025** : Brainstorming idées
+- **10 fév.** : Premiers tests Pygame
+- **15 fév.** : Mini-jeux d’entraînement
+- **3 mars** : Début projet plateforme
+- **17–24 mars** : Graphismes + mécanique de tir
+- **10 avril** : Pivot vers Hungry Goals
+- **14–21 avril** : Ajout du panier, tir à trajectoire
+- **28 avril** : Interface, menu, sons, bonus
+- **5 mai** : Panier mobile toutes les 2s, derniers raffinements
+- **7 mai** : Ajout des conditions de victoire, README et finalisation
+
+---
+
+## 4. Suivi Technique
+
+- Initial : jeu de plateforme abandonné
+- Final : jeu de basket avec deux manches et physique de tir
+- Organisation en fichiers modulaires (`ball.py`, `player.py`, `bonus_item.py`, etc.)
+
+---
+
+## 5. Fonctionnalités Principales
+
+- Déplacement latéral
+- Tir avec **entrée** ou **clic souris**  
+  ➜ Affichage dynamique de **la trajectoire en fonction de l’angle et la force**
+- Score, timer (45s)
+- Bonus temporels tombants
 - Mode Challenge avec panier mouvant
-- Menu principal et options
-- Sons de fond et bruitages
-- Transitions animées
+- Sons, musiques, interface animée
 
-### 🛠️ Technologies Utilisées
+---
+
+## 6. Technologies Utilisées
 
 - **Langage** : Python 3
 - **Librairie** : Pygame
 - **Outils** :
-  - YouTube (musique libre de droit)
-  - Logiciels de pixel art (sprites)
+  - YouTube (sons)
+  - Logiciels pixel art
   - PyCharm / VSCode
 
 ---
 
-## ⚙️ Installation
+## 7. Installation
 
-### Cloner le dépôt :
 ```bash
 git clone https://github.com/Adn1n/Hungry_goals.git
 cd Hungry_goals
-```
-
-### Installer les dépendances :
-```bash
 pip install pygame
 ```
 
 ---
 
-## ▶️ Utilisation
+## 8. Utilisation
 
-### Lancer le jeu :
 ```bash
 python main.py
 ```
 
-### Contrôles :
-- `← →` : Déplacement joueur
-- `Entrée` : Tir
+### Contrôles
+
+- `← →` : Déplacement joueur  
+- `Entrée` : Tir  
+- **Souris** : Viser et tirer avec affichage de trajectoire  
 - `Échap` : Quitter
 
 ---
 
-## 2. Documentation Technique
+## 9. Documentation Technique
 
-### 🔁 Algorithme du Jeu
+### Algorithme du Jeu
 
 1. Chargement des ressources
-2. Affichage du menu principal
-3. Sélection du personnage
-4. Début du chrono (45s)
-5. Détection du tir et mise à jour du score
-6. Passage en mode Challenge après 12 points
-7. Bonus tombants
-8. Fin de partie (victoire ou échec)
+2. Affichage menu principal
+3. Sélection joueur
+4. Lancement timer
+5. Viseur souris + tir
+6. Vérification collision panier
+7. Score, bonus, passage en manche 2
+8. Fin du jeu, affichage résultat
 
----
-
-### 🧩 Fonctions principales
+### Fonctions principales
 
 ```python
 def afficher_texte(ecran, font, texte, position, couleur)
@@ -95,68 +126,35 @@ def load_combined_frames(sprite_sheet, rows, num_frames_per_row, width, height)
 def detect_colored_rect(surface, color)
 ```
 
-- `main.py` : boucle principale
-- `player1.py / player2.py` : comportement des joueurs
-- `ball.py` : logique de tir
-- `panier.py` : détection de panier
-- `bonus_item.py` : gestion du temps bonus
-- `menu_screen.py / option_screen.py` : interface
-- `music_manager.py / score_manager.py` : sons et score
+---
+
+## 10. Gestion des Erreurs et Bugs Connus
+
+- 🎯 Collision panier imprécise selon FPS
+- 🔊 Plantage possible si fichier audio manquant (`pygame.mixer`)
+- 📏 Bonus qui sortent de l’écran selon la résolution
+- 🌀 Panier parfois bloqué en bordure en mode Challenge
 
 ---
 
-### ⚠️ Gestion des Erreurs et Bugs Connus
+## 11. Tests et Validation
 
-- 🎯 Bug : la collision du ballon avec le panier peut être imprécise selon la FPS
-- 🔊 Bug : `pygame.mixer` freeze s’il manque un fichier audio
-- 📏 Bug : les objets peuvent sortir de l’écran sur petits écrans
-- 🌀 Bug : en mode Challenge, le panier peut se bloquer sur un bord
-
----
-
-## 3. Journal de Bord 🗂️
-
-### 📆 Chronologie
-
-| Date       | Étape                                     |
-|------------|-------------------------------------------|
-| 03/04/2024 | Initialisation du dépôt                   |
-| 05/04/2024 | Création de la structure des fichiers     |
-| 08/04/2024 | Ajout du moteur de jeu                    |
-| 11/04/2024 | Gestion du score et timer                 |
-| 13/04/2024 | Intégration du mode Challenge             |
-| 15/04/2024 | Tests finaux et corrections               |
-
-### 👥 Répartition des Tâches
-
-- **Adnan** : structure, moteur, classes principales
-- **Omar** : logique gameplay, bonus, collisions
-- **Teddy** : sprites, animations, interface visuelle
-- **Cylia** : choix des visuels, idées gameplay, organisation
+- Tests manuels sur chaque fonctionnalité
+- Tests de score, timer, trajectoire, collision, bonus
+- Mode Challenge vérifié avec panier mouvant toutes les 2s
 
 ---
 
-## ✅ 4. Tests et Validation
+### Captures attendues
 
-### 🧪 Stratégie
-
-- Tests manuels de chaque fonctionnalité
-- Vérification du timer et du score
-- Passage automatique au mode Challenge
-- Test des collisions et du panier mouvant
-
----
-
-### 🖼️ Captures attendues
-
-- Écran menu
-- Lancer de balle
-- Mode Challenge avec panier mobile
-- Bonus tombant capturé
+- Écran menu  
+- Trajectoire affichée avant tir  
+- Panier mouvant  
+- Bonus tombant
 
 ---
 
 ## 🎓 Licence
 
-Projet réalisé dans le cadre d’un exercice universitaire 2024.  
-© Tous droits réservés par les auteurs.
+Projet universitaire — 2024  
+Tous droits réservés aux auteurs.

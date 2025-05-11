@@ -1,12 +1,12 @@
-# Projet : Hungry Goals
+# Projet : Hungry Buckets
 # Description : Gère l’écran de sélection du joueur (affichage du fond et détection des clics sur les zones interactives).
 
 import os
 import pygame
 
-from src.core.fenetre import Fenetre
-from src.utils import *
-from src.core.config import *
+from hungry_goals.engine.window import Fenetre
+from hungry_goals.utils import *
+from hungry_goals.engine.config import *
 
 #
 class ChoixJoueur():
