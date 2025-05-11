@@ -18,7 +18,7 @@ class Arrow:
         self.gravity = gravity
         self.color = color
 
-    def draw_trajectory(self, surface, start_pos, angle, power, steps=50):
+    def draw_trajectory(self, surface, start_pos, angle, power, steps=40):
         """
         Dessine la trajectoire prédite de la flèche en tenant compte de la gravité et des rebonds.
         :param surface: Surface pygame sur laquelle dessiner.
