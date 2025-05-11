@@ -153,8 +153,3 @@ def detect_colored_rect(surface, color)
 - Bonus tombant
 
 ---
-
-## 🎓 Licence
-
-Projet universitaire — 2024  
-Tous droits réservés aux auteurs.
