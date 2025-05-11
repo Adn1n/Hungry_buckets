@@ -4,6 +4,7 @@ class ScoreManager:
     def __init__(self, path="high_scores.txt"):
         self.path = path
 
+    # Lit le fichier de score s’il existe, et retourne 0 si le fichier est vide ou absent.
     def load_high_score(self):
         if not os.path.exists(self.path):
             return 0
