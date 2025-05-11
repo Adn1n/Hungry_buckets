@@ -11,6 +11,7 @@ class MusicManager:
             print(f"[ERREUR] Fichier introuvable : {path}")
 
     def play(self, loop=True):
+        # Joue la musique en boucle si loop est True (avec -1), sinon la joue une seule fois (avec 0)
         pygame.mixer.music.play(-1 if loop else 0)
 
     def pause(self):

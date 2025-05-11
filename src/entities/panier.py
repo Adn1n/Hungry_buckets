@@ -1,3 +1,6 @@
+# Hungry Goals
+# Description : Ce fichier gère l’affichage et le positionnement du panier dans le jeu.
+
 import pygame
 import random
 import os
@@ -25,17 +28,25 @@ class Panier:
         pygame.draw.rect(screen, PANNEAU_COLOR, self.backboard_rect)
 
     def repositionner(self):
-        min_y = 200
-        max_y = int(SCREEN_HEIGHT * 0.75)
-        y = random.randint(min_y, max_y)
+        """
+        Repositionner dynamiquement le panier à une hauteur aléatoire.
 
-        basket_width = 70
-        basket_height = 4
-        backboard_width = 10
-        backboard_height = 70
-        hoop_width = 50
-        hoop_height = 12
+        Aucun paramètre.
 
+        Aucun retour.
+        """
+        # Calcul de la hauteur aléatoire du panier entre une valeur minimale et maximale
+        y = random.randint(200, int(SCREEN_HEIGHT * 0.75))
+
+        # Dimensions des différents éléments du panier
+        basket_width = 70     # largeur de l'arceau (basket)
+        basket_height = 4     # hauteur de l'arceau
+        backboard_width = 10  # largeur du panneau (backboard)
+        backboard_height = 70 # hauteur du panneau
+        hoop_width = 50       # largeur de la zone centrale du panier (hoop)
+        hoop_height = 12      # hauteur de la zone centrale du panier
+
+        # Positionnement des rectangles représentant les différentes parties du panier
         self.basket_rect = pygame.Rect(SCREEN_WIDTH - 80, y, basket_width, basket_height)
         self.backboard_rect = pygame.Rect(
             self.basket_rect.right - backboard_width,

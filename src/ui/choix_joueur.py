@@ -1,3 +1,6 @@
+# Projet : Hungry Goals
+# Description : Gère l’écran de sélection du joueur (affichage du fond et détection des clics sur les zones interactives).
+
 import os
 import pygame
 
@@ -21,12 +24,23 @@ class ChoixJoueur():
 
 
     def draw(self,screen):
+        """
+        Affiche l'écran de choix du joueur et retourne les zones cliquables.
 
+        Paramètres :
+            screen : surface Pygame sur laquelle dessiner l'écran.
+
+        Retour :
+            tuple : (btn_axel, btn_tyson, btn_retour) - les Rects représentant les zones de clic pour Axel, Tyson et Retour.
+        """
+        # Affichage du fond
         img_option = self.background
         screen.blit(img_option, (0, 0))
 
+        # Définition des boutons interactifs
         btn_axel = self.btn_rect_axel
         btn_tyson = self.btn_rect_tyson
         btn_retour = self.btn_rect_retour
 
+        # Retour des zones cliquables
         return btn_axel, btn_tyson, btn_retour
