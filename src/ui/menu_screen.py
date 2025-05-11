@@ -29,8 +29,6 @@ class MenuScreen:
         options_rect = self.btn_options
         quitter_rect = self.btn_quitter
 
-        pos = mouse.get_pos()
-        afficher_texte(screen,self.font,f'Pos : {pos[0]}, {pos[1]}',(0,0),'white')
 
         # ➕ Zone du record
         record_rect = pygame.Rect(405, 448, 167, 42)
@@ -69,8 +67,6 @@ class MenuScreen:
             bg = pygame.transform.scale(bg, (width, height))
             screen.blit(bg, (0, 0))
 
-        pos = mouse.get_pos()
-        afficher_texte(screen,self.font,f'pos : {pos}',(0,0),'white')
 
         if score >= 10 :
             btn_menu = pygame.Rect(380, 330, 240, 55)

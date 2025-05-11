@@ -414,7 +414,7 @@ class Game:
 
                 # Collision avec le joueur
                 if self.player.rect.colliderect(bonus.rect):
-                    self.start_time += 5
+                    self.start_time += TEMPS_ADDITIONNEL
                     self.bonus_items.remove(bonus)
 
             # Supprimer ceux qui sortent de l’écran

@@ -29,7 +29,4 @@ class ChoixJoueur():
         btn_tyson = self.btn_rect_tyson
         btn_retour = self.btn_rect_retour
 
-        pos = pygame.mouse.get_pos()
-        afficher_texte(screen,self.font,f'pos : {pos[0]}, {pos[1]}',(0,0),'white')
-
         return btn_axel, btn_tyson, btn_retour

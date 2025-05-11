@@ -39,8 +39,6 @@ class Ecran:
             progress_width = int(515 * progress)
 
 
-            pos = pygame.mouse.get_pos()
-            afficher_texte(self.screen, font, f'pos : {pos[0],pos[1]}', (0,0), "white")
             # barre de chargement
             pygame.draw.rect(self.screen, (255, 255, 255), (270, 515, 515, 15), 2)
             pygame.draw.rect(self.screen, (0, 255, 255), (270, 515, progress_width, 15))
