@@ -42,6 +42,7 @@ class OptionScreen:
         sound_btn_rect = self.sound_btn
         music_btn_rect = self.music_btn
         back_btn_rect = self.back_btn
+        rules_btn_rect = self.rules_btn
 
 
-        return sound_btn_rect, music_btn_rect, back_btn_rect
+        return sound_btn_rect, music_btn_rect, back_btn_rect,rules_btn_rect

@@ -4,6 +4,7 @@ import math
 import time
 import random
 
+from pygame import mouse
 
 from hungry_goals.engine.config import *
 from hungry_goals.utils import *
@@ -95,7 +96,7 @@ class Game:
 
 
 
-        music_path = os.path.join("assets", "sounds", "musique.mp3")
+        music_path = os.path.join("assets", "sounds", "musique1.mp3")
         # Crée un objet qui va gérer la musique du jeu
         self.music = MusicManager(music_path)
         self.music.play()
@@ -139,7 +140,7 @@ class Game:
 
             # Affiche le menu des options (musique, sons, retour)
             if self.option:
-                sound_btn_rect, music_btn_rect, back_btn_rect = self.option_screen.draw(self.screen)
+                sound_btn_rect, music_btn_rect, back_btn_rect, rules_btn_rect = self.option_screen.draw(self.screen)
                 pygame.display.flip()
 
                 for event in pygame.event.get():
@@ -167,6 +168,34 @@ class Game:
                         # Retour au menu principal
                         elif back_btn_rect.collidepoint(event.pos):
                             self.option = False
+
+                        elif rules_btn_rect.collidepoint(event.pos):
+                            # Charge l'image des règles
+                            rules_image_path = os.path.join("assets", "image", "rules.png")
+                            rules_image = pygame.image.load(rules_image_path)
+                            rules_image = pygame.transform.scale(rules_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+                            # Définir la zone cliquable correspondant au bouton "Retour" DANS l'image
+                            # (ajuste ces valeurs à la position réelle de ton bouton dans l'image)
+                            return_click_zone = pygame.Rect(385, 540, 220, 40)
+
+
+
+                            viewing_rules = True
+                            while viewing_rules:
+                                self.screen.blit(rules_image, (0, 0))
+                                pos = mouse.get_pos()
+                                afficher_texte(self.screen, self.font, f'pos : {pos}', (0, 0), 'white')
+                                pygame.display.flip()
+
+                                for e in pygame.event.get():
+                                    if e.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
+                                        pygame.quit()
+                                        exit()
+                                    elif e.type == pygame.MOUSEBUTTONDOWN :
+                                        if return_click_zone.collidepoint(e.pos):
+                                            viewing_rules = False
+
 
                 self.clock.tick(60)
                 continue
@@ -478,6 +507,11 @@ class Game:
             record = self.score_manager.load_high_score()
             self.screen.blit(self.menu.font.render(f"Record: {record}", True, TEXT_COLOR), (20, 50))
             self.screen.blit(self.menu.font.render(f"Total: {self.total_score + self.score}", True, TEXT_COLOR),(20, 80))
+
+
+            if not self.challenge_mode:
+                objectif_text = self.menu.font.render(f"Objectif: 12", True, 'red')
+                self.screen.blit(objectif_text, objectif_text.get_rect(center=(SCREEN_WIDTH // 2, 50)))
 
             pygame.display.flip()
             self.clock.tick(60)
