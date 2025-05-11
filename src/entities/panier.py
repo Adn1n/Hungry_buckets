@@ -9,6 +9,7 @@ class Panier:
         self.basket_rect = None
         self.backboard_rect = None
         self.hoop_center_rect = None
+        self.direction = None
         self.repositionner()
 
     def draw(self, screen):
@@ -41,6 +42,10 @@ class Panier:
             hoop_height
         )
 
+    def move_horizontally(self):
+        self.basket_rect.x += self.direction * 2
+        if self.basket_rect.right > SCREEN_WIDTH or self.basket_rect.left < SCREEN_WIDTH // 2:
+            self.direction *= -1
 
     def get_rects(self):
         return self.backboard_rect, self.basket_rect, self.hoop_center_rect

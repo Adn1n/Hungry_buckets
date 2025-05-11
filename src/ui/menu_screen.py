@@ -4,9 +4,11 @@ from pygame import mouse
 
 from src.core.config import *
 from src.utils import *
+from src.core.score_manager import *
 #
 class MenuScreen:
     def __init__(self):
+        self.score_manager = ScoreManager()
         self.font = pygame.font.SysFont(None, 36)
         self.big_font = pygame.font.SysFont(None, 48)
         self.huge_font = pygame.font.SysFont(None, 120)
@@ -53,7 +55,7 @@ class MenuScreen:
 
         # Enregistre le nouveau record si battu
         if is_record:
-            save_high_score(score)
+            self.score_manager.save_high_score(score)
 
         # Choisir le fond en fonction du résultat
         if score < 10:
@@ -73,10 +75,14 @@ class MenuScreen:
         if score >= 10 :
             btn_menu = pygame.Rect(380, 330, 240, 55)
             btn_rejouer = pygame.Rect(380, 430, 240, 50)
+            text = self.big_font.render(f"Score : {score}", True, TEXT_COLOR)
+            screen.blit(text, text.get_rect(center=(width // 2, 250)))  # ajuste la hauteur si besoin
             return btn_menu, btn_rejouer
         else:
             btn_menu = pygame.Rect(330, 280, 340, 65)
             btn_rejouer = pygame.Rect(330, 370, 340, 65)
+            score_text = self.big_font.render(f"Score : {score}", True, TEXT_COLOR)
+            screen.blit(score_text, score_text.get_rect(center=(width // 2, 250)))
             return btn_menu, btn_rejouer
 
 

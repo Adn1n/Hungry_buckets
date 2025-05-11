@@ -18,6 +18,8 @@ from src.core.backgroung import BackgroundManager
 from src.ui.ecran import Ecran
 from src.ui.option_screen import OptionScreen
 from src.ui.choix_joueur import ChoixJoueur
+from src.core.music_manager import MusicManager
+from src.core.score_manager import ScoreManager
 
 #
 class Game:
@@ -40,6 +42,7 @@ class Game:
         self.ecran = Ecran(self.screen)
         self.ecran.show_loading_screen()
 
+        self.start_time = time.time()  # 🟢 On revient à l’ancien système
         self.clock = pygame.time.Clock()
 
         self.player = None
@@ -53,7 +56,7 @@ class Game:
         self.menu = MenuScreen()
         self.option_screen = OptionScreen()
         self.choix_joueur = ChoixJoueur()
-        self.high_score = load_high_scores()
+
 
         # État du jeu
         self.ball_list = []
@@ -79,9 +82,14 @@ class Game:
         self.challenge_timer = time.time()
 
         self.total_score = 0  # Score classique + challenge
-
-
         pygame.display.flip()
+
+        self.score_manager = ScoreManager()
+        self.high_score = self.score_manager.load_high_score()
+
+        music_path = os.path.join("assets", "sounds", "musique.mp3")
+        self.music = MusicManager(music_path)
+        self.music.play()
 
 
     def run(self):
@@ -91,9 +99,12 @@ class Game:
 
             if self.final_screen_shown:
                 if time.time() - self.final_screen_start < 2:
-                    self.screen.fill(BLACK)
-                    txt = self.menu.font.render("Niveau Challenge !", True, TEXT_COLOR)
-                    self.screen.blit(txt, txt.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)))
+
+                    image_path = os.path.join("assets", "image", "niveau_finale.png")
+                    challenge_img = pygame.image.load(image_path)
+                    challenge_img = pygame.transform.scale(challenge_img, (SCREEN_WIDTH, SCREEN_HEIGHT))  # adapte la taille si besoin
+                    self.screen.blit(challenge_img, challenge_img.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)))
+
                     pygame.display.flip()
                     self.clock.tick(60)
                     continue
@@ -103,6 +114,7 @@ class Game:
                     self.start_time = time.time()
                     self.total_score = self.score
                     self.score = 0
+                    self.score_challenge = 0
                     self.ball_list.clear()
                     self.panier.repositionner()
                     continue
@@ -112,13 +124,16 @@ class Game:
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        save_high_score(self.high_score)
+                        self.score_manager.save_high_score(self.score)
                         running = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         if sound_btn_rect.collidepoint(event.pos):
                             print("Sound button clicked")
                         elif music_btn_rect.collidepoint(event.pos):
-                            print("Music button clicked")
+                            if pygame.mixer.music.get_busy():
+                                self.music.pause()
+                            else:
+                                self.music.resume()
                         elif back_btn_rect.collidepoint(event.pos):
                             self.option = False
                 self.clock.tick(60)
@@ -155,7 +170,7 @@ class Game:
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        save_high_score(self.high_score)
+                        self.score_manager.save_high_score(self.score)
                         running = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
                         if jouer_btn.collidepoint(event.pos):
@@ -163,7 +178,7 @@ class Game:
                         elif options_btn.collidepoint(event.pos):
                             self.option = True
                         elif quitter_btn.collidepoint(event.pos):
-                            save_high_score(self.high_score)
+                            self.score_manager.save_high_score(self.score)
                             pygame.quit()
                             exit()
 
@@ -174,26 +189,26 @@ class Game:
 
 
             if self.game_over:
-                btn_menu, btn_rejouer = self.menu.draw_game_over(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT, self.score,self.high_score)
+                btn_menu, btn_rejouer = self.menu.draw_game_over(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT, self.total_score + self.score,self.high_score)
                 pygame.display.flip()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                        save_high_score(self.high_score)
+                        self.score_manager.save_high_score(self.score)
                         running = False
                     elif event.type == pygame.MOUSEBUTTONDOWN:
 
                         if self.score > self.high_score:
                             high_score = self.score
-                            save_high_score(self.score)
+                            self.score_manager.save_high_score(self.score)
 
                         if btn_menu.collidepoint(event.pos):
-                            save_high_score(self.score)
+                            self.score_manager.save_high_score(self.score)
                             self.start_time = None
                             self.game_over = False
                             self.game_started = False
                             self.player = None
                         elif btn_rejouer.collidepoint(event.pos):
-                            save_high_score(self.score)
+                            self.score_manager.save_high_score(self.score)
                             self.reset_game()
 
                 self.clock.tick(60)
@@ -209,7 +224,7 @@ class Game:
 
             if remaining <= 0:
                 if self.score > self.high_score:
-                    save_high_score(self.score)
+                    self.score_manager.save_high_score(self.score)
                     self.is_new_record = True
                     self.high_score = self.score
 
@@ -237,7 +252,7 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                    save_high_score(self.high_score)
+                    self.score_manager.save_high_score(self.score)
                     running = False
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -284,9 +299,8 @@ class Game:
             if self.dragging and self.start_pos:
                 current_mouse_pos = pygame.mouse.get_pos()
                 player_pos = self.player.get_position()
-                self.arrow.draw(self.screen, player_pos, self.start_pos, current_mouse_pos)
                 if self.preview_angle is not None and self.preview_power is not None:
-                    draw_trajectory(self.screen, player_pos, self.preview_angle, self.preview_power)
+                    self.arrow.draw_trajectory(self.screen, player_pos, self.preview_angle, self.preview_power)
 
 
             backboard_rect, basket_rect, hoop_center_rect = self.panier.get_rects()
@@ -305,13 +319,13 @@ class Game:
             self.ball_list = [b for b in self.ball_list if b.active]
 
             if self.challenge_mode:
-                if time.time() - self.challenge_timer >2:
+                if time.time() - self.challenge_timer > 2:
                     self.panier.repositionner()
                     self.challenge_timer = time.time()
 
             # Score & record
             self.screen.blit(self.menu.font.render(f"Score: {self.score}", True, TEXT_COLOR), (20, 20))
-            record = load_high_scores()
+            record = self.score_manager.load_high_score()
             self.screen.blit(self.menu.font.render(f"Record: {record}", True, TEXT_COLOR), (20, 50))
             self.screen.blit(self.menu.font.render(f"Total: {self.total_score + self.score}", True, TEXT_COLOR),(20, 80))
 

@@ -22,8 +22,8 @@ ARCEAU_COLOR = (204, 0, 204)        # Rouge vif
 PANNEAU_COLOR = (46, 46, 184)
 
 
-POINT_SCORE = 1
-TEMPS_JEU = 45
+POINT_SCORE = 10
+TEMPS_JEU = 30
 
 
 
@@ -33,6 +33,14 @@ font_huge = pygame.font.SysFont(None, 120)    #
 
 # Police style pixel art (ex: pour le score affiché dans le menu)
 pixel_font = pygame.font.Font(None, 48)  # Remplace None par le chemin si tu utilises une .ttf custom
+
+
+base_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+image_path = os.path.join(base_path, "assets", "image", "Ball.png")
+
+ball_image = pygame.image.load(image_path)
+ball_image = pygame.transform.scale(ball_image, (50, 50))  # Adjust size to match original ball
+BALL_RADIUS = ball_image.get_width() // 2
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))

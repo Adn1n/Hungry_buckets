@@ -47,24 +47,6 @@ def load_combined_frames(sprite_sheet, rows, num_frames_per_row, width, height):
     return frames
 
 
-def load_high_scores(path="high_scores.txt"):
-    if not os.path.exists(path):
-        return 0
-    with open(path, "r") as f:
-        line = f.readline().strip()
-        return int(line) if line.isdigit() else 0
-
-
-
-def save_high_score(score, path="high_scores.txt"):
-    if os.path.exists(path):
-        with open(path, "r") as f:
-            line = f.readline().strip()
-            if line.isdigit() and int(line) >= score:
-                return  # pas un nouveau record
-
-    with open(path, "w") as f:
-        f.write(f"{score}\n")
 
 def detect_colored_rect(image, target_color):
     """Renvoie un pygame.Rect englobant tous les pixels ayant la couleur spécifiée."""
@@ -73,42 +55,4 @@ def detect_colored_rect(image, target_color):
         return None
     return mask.get_bounding_rects()[0]
 
-def draw_trajectory(surface, start_pos, angle, power, steps=20):
-    # Clone exact de la logique de Ball.__init__
-    x = float(start_pos[0])
-    y = float(start_pos[1])
-    vel_x = math.cos(angle) * power
-    vel_y = math.sin(angle) * power
-    radius = BALL_RADIUS
-
-    for _ in range(steps):
-        # Mise à jour position
-        x += vel_x
-        y += vel_y
-
-        # Affichage du point
-        if 0 <= x <= SCREEN_WIDTH and 0 <= y <= SCREEN_HEIGHT:
-            pygame.draw.circle(surface, (200, 0, 200), (int(x), int(y)), 4)
-        else:
-            break
-
-        # Gravité identique à Ball.update()
-        vel_y += GRAVITY
-
-        # Rebond identique au sol
-        if y + radius >= SCREEN_HEIGHT:
-            y = SCREEN_HEIGHT - radius
-            if abs(vel_y) > 1:
-                vel_y *= -0.5
-                vel_x *= 0.95
-            else:
-                break  # balle au sol, arrêt
-
-        # Rebond gauche/droite identique
-        if x - radius <= 0:
-            x = radius
-            vel_x *= -0.8
-        elif x + radius >= SCREEN_WIDTH:
-            x = SCREEN_WIDTH - radius
-            vel_x *= -0.8
 
