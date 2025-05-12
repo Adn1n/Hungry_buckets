@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="Tout carre normalement" />
+    <list default="true" id="3f9c94da-8ffd-49b0-ad99-2d5c8ba20d2b" name="Changes" comment="equation de la balle a faire" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -425,7 +425,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746995794754</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="equation de la balle a faire">
+      <option name="closed" value="true" />
+      <created>1747063138211</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1747063138211</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -452,12 +460,12 @@
     <MESSAGE value="Ball coder mais il reste a mettre a jour ces equation apres chaque spawn" />
     <MESSAGE value="class Ball:&#10;    def __init__(self):&#10;        self.vy = 0&#10;        self.gravity = 8&#10;&#10;    def update(self):&#10;        self.vy += self.gravity&#10;        print(&quot;gravité appliquée&quot;, self.vy)&#10;&#10;        # Corrige les blocages de la vitesse en tenant compte de la direction&#10;        if abs(self.vy) &lt; 0.1 and self.vy &gt; 0:&#10;            self.vy = 0&#10;&#10;        # Arrêt automatique si la balle est presque immobile&#10;        if abs(self.vy) &lt; 0.05 and abs(self.vx) &lt; 0.05:&#10;            self.vy = 0&#10;            self.vx = 0&#10;            self.tir = False" />
     <MESSAGE value="read me" />
-    <MESSAGE value="equation de la balle a faire" />
     <MESSAGE value="code_omar_update" />
     <MESSAGE value="Soignneeeee" />
     <MESSAGE value="Commenté" />
     <MESSAGE value="Tout carre normalement" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tout carre normalement" />
+    <MESSAGE value="equation de la balle a faire" />
+    <option name="LAST_COMMIT_MESSAGE" value="equation de la balle a faire" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Projet_jeu_animation$entrainement.coverage" NAME="entrainement Coverage Results" MODIFIED="1744630161112" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
