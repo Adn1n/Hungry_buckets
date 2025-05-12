@@ -46,7 +46,7 @@ Fonctionnalités principales :
 Ce jeu est un jeu de basketball, "Dans lequel le joueur choisit son personnage et doit marquer le plus de paniers possible en un temps défini."
 
 Technologies utilisées :
-Nous avons utilisé C comme langage de programmation. Comme bibliothèque nous avons utilisé Pygame. "Nous avons également utilisé des images au format PNG que nous avons nous-mêmes générées."
+Nous avons utilisé python comme langage de programmation. Comme bibliothèque nous avons utilisé Pygame. "Nous avons également utilisé des images au format PNG que nous avons nous-mêmes générées."
 
 Installation :
 Il faut copier l'URL du Git et rentrer dans notre projet PyCharm, aller dans "File" puis "Project from Version Control" et coller l'URL.
