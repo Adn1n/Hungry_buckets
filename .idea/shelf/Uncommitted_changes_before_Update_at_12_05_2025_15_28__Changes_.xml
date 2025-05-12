@@ -1,0 +1,81 @@
+<changelist name="Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]" date="1747056520832" recycled="false" toDelete="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 12/05/2025 15:28 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="assets/image/choix_joueur.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/Character.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/game_over.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/chargement.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/Character2.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="assets/sounds/musique.mp3" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/musique.mp3" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="assets/image/niveau_finale.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/niveau_finale.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/options.png" />
+    <option name="AFTER_PATH" value="assets/image/options.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/options.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/Ball.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/terrain.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/image/terrain.png" />
+    <option name="AFTER_PATH" value="assets/image/background.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/background.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="assets/image/bonus.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/bonus.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/image/Court.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/image/option_screen.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="assets/image/rules.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/rules.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="assets/sounds/musique2.mp3" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/musique2.mp3" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/choix_joueur.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="assets/image/filet.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/filet.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/menu.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/logo.png" />
+  </binary>
+  <binary>
+    <option name="AFTER_PATH" value="assets/sounds/musique1.mp3" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12_05_2025_15_28_[Changes]/musique1.mp3" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="code_omar/assets/image/you_win.png" />
+  </binary>
+</changelist>
