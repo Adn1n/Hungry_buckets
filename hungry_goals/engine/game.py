@@ -96,7 +96,7 @@ class Game:
 
 
 
-        music_path = os.path.join("assets", "sounds", "musique1.mp3")
+        music_path = os.path.join("assets", "sounds", "musique2.mp3")
         # Crée un objet qui va gérer la musique du jeu
         self.music = MusicManager(music_path)
         self.music.play()

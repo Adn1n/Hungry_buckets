@@ -72,9 +72,9 @@ class MenuScreen:
             self.score_manager.save_high_score(score)
 
         # --- Choix du fond selon le score ---
-        if score < 10:
+        if score < 12:
             bg_path = os.path.join("assets", "image", "game_over.png")
-        elif score >= 10:
+        elif score >= 12:
             bg_path = os.path.join("assets", "image", "game_win.png")
 
         # --- Affichage du fond si disponible ---
@@ -84,7 +84,7 @@ class MenuScreen:
             screen.blit(bg, (0, 0))
 
         # --- Affichage des boutons et du score (selon succès ou échec) ---
-        if score >= 10:
+        if score >= 12:
             btn_menu = pygame.Rect(380, 330, 240, 55)
             btn_rejouer = pygame.Rect(380, 430, 240, 50)
             text = self.big_font.render(f"Score : {score}", True, TEXT_COLOR)
